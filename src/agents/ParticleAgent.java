@@ -17,20 +17,54 @@ public class ParticleAgent extends Agent {
         this.setPasY(pasY);
     }
 
+    private boolean isCollideX(Agent[][] moore) {
+        return moore[pasX + 1][1] instanceof FrontierAgent;
+    }
+
+    private boolean isCollideY(Agent[][] moore) {
+        return moore[1][pasY + 1] instanceof FrontierAgent;
+    }
+
+    private void checkCollideAndAct(Agent[][] moore) {
+        if(this.isCollideX(moore)) {
+            this.setPasX(- this.getPasX());
+        }
+
+        if(this.isCollideY(moore)) {
+            this.setPasY(- this.getPasY());
+        }
+    }
+
     @Override
     public void decide() {
         Agent[][] moore = environment.getMoore(this);
+        this.setColor(Color.GRAY);
 
-        for(int x = 0 ; x < moore.length ; x++) {
-            for(int y = 0 ; y < moore[x].length ; y++) {
-                System.out.println("x : " + x + " - y : " + y + " - val:" + moore[x][y]);
-            }
+        if(pasX == 0 && pasY == 0) {
+            // Do nothing
+            return;
+        } else if (moore[pasX + 1][pasY + 1] instanceof ParticleAgent) {
+            this.setColor(Color.RED);
+            ParticleAgent otherAgent = (ParticleAgent) moore[pasX + 1][pasY + 1];
+            otherAgent.setColor(Color.RED);
+            this.sendPas(otherAgent);
         }
 
-        environment.moveAgent(this, pasX, pasY);
-        System.out.println("-----------------------------");
-
+        this.checkCollideAndAct(moore);
+        this.environment.moveAgent(this, pasX, pasY);
     }
+
+    private void sendPas(ParticleAgent other) {
+        int lastPasX = other.getPasX();
+        int lastPasY = other.getPasY();
+
+        other.setPasX(this.getPasX());
+        other.setPasY(this.getPasY());
+
+        this.setPasX(lastPasX);
+        this.setPasY(lastPasY);
+    }
+
 
     public int getPasX() {
         return pasX;

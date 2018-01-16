@@ -16,8 +16,10 @@ public class View implements Observer {
         frame = new JFrame();
         grid = new Grid(env);
 
-        frame.add(grid);
+        frame.setLayout(new BorderLayout());
+        frame.add(new JScrollPane(grid), BorderLayout.CENTER);
 
+        frame.setPreferredSize(new Dimension(800, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);

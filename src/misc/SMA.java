@@ -4,19 +4,23 @@ import agents.Agent;
 import agents.ParticleAgent;
 import view.View;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Random;
 
 public class SMA extends Observable {
 
     private Environment environment;
+    private Random random;
+    private ArrayList<Point> availableCoord = new ArrayList<>();
 
     public static void main(String[] args) {
-        Environment env = new Environment(5, 5, true);
-        env.addAgent(new ParticleAgent(env, 0, 0, 1, 1));
-        env.addAgent(new ParticleAgent(env, 1, 1, 1, 1));
-
+        Environment env = new Environment(1000, 1000, true);
 
         SMA sma = new SMA(env);
+
+        sma.populate(env, (int) (200000));
 
 
         View view = new View(env);
@@ -25,8 +29,31 @@ public class SMA extends Observable {
         sma.run();
     }
 
+    private void populate(Environment env, int nbAgent) {
+        for(int x = 0 ; x < env.getCols() ; x++) {
+            for(int y = 0 ; y < env.getRows() ; y++) {
+                availableCoord.add(new Point(x, y));
+            }
+        }
+
+        for(int i = 0 ; i < nbAgent ; i++) {
+            ParticleAgent agent = createParticleAgent(env);
+            env.addAgent(agent);
+        }
+
+    }
+
+    private ParticleAgent createParticleAgent(Environment env) {
+        Point coord = availableCoord.remove(random.nextInt(availableCoord.size()));
+
+        int pasX = random.nextInt(3) - 1;
+        int pasY = random.nextInt(3) - 1;
+        return new ParticleAgent(env, coord.x, coord.y, pasX, pasY);
+    }
+
     public SMA(Environment env) {
         this.environment = env;
+        this.random = new Random();
     }
 
     public void run() {
@@ -35,13 +62,14 @@ public class SMA extends Observable {
             runOnce();
             setChanged();
             notifyObservers(environment);
+            long endTime = System.currentTimeMillis();
+
+            System.out.println(endTime - startTime);
             try {
-                Thread.sleep(1000l);
+                Thread.sleep(0l);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            long endTime = System.currentTimeMillis();
-            System.out.println(endTime - startTime);
         }
     }
 

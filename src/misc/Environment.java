@@ -43,10 +43,25 @@ public class Environment {
         }
     }
 
+    private boolean isValidPosition(int pos, int size) {
+        return pos >= 0 && pos < size;
+    }
+
     private Agent[][] getMooreClassic(Agent agent) {
         Agent[][] moore = new Agent[3][3]; // 8 voisins + agent
 
-        // TODO
+        for(int x = -1 ; x < 2 ; x++) {
+            for(int y = -1 ; y < 2 ; y++) {
+                int gridX = agent.getPosX() + x;
+                int gridY = agent.getPosY() + y;
+
+                if(isValidPosition(gridX, cols) && isValidPosition(gridY, rows)) {
+                    moore[x + 1][y + 1] = grid[gridX][gridY];
+                } else {
+                    moore[x + 1][y + 1] = frontier;
+                }
+            }
+        }
 
         return moore;
     }

@@ -16,20 +16,23 @@ public class Grid extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(600, 600);
+        int rows = environment.getRows();
+        int columns = environment.getCols();
+
+        int width = columns * 3;
+        int height = rows * 3;
+
+        return new Dimension(width, height);
     }
 
 
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
+    private void printGrid(Graphics g) {
         int rows = environment.getRows();
         int columns = environment.getCols();
 
-        int width = getSize().width;
-        int height = getSize().height;
+        int width = columns * 3;
+        int height = rows * 3;
 
         int htOfRow = height / (rows);
         for (int k = 0; k < rows; k++)
@@ -38,10 +41,29 @@ public class Grid extends JPanel {
         int wdOfRow = width / (columns);
         for (int k = 0; k < columns; k++)
             g.drawLine(k*wdOfRow , 0, k*wdOfRow , height);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.BLACK);
+
+        int rows = environment.getRows();
+        int columns = environment.getCols();
+
+        int width = columns * 3;
+        int height = rows * 3;
+
+        int htOfRow = height / (rows);
+        int wdOfRow = width / (columns);
+
+        //printGrid(g);
 
         for(Agent agent : environment.getAgents()) {
             int x = agent.getPosX();
             int y = agent.getPosY();
+            Color color = agent.getColor();
+            g.setColor(color);
             g.fillOval(x * wdOfRow, y * htOfRow, wdOfRow, htOfRow);
         }
     }
