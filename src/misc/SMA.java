@@ -11,8 +11,9 @@ public class SMA extends Observable {
     private Environment environment;
 
     public static void main(String[] args) {
-        Environment env = new Environment(100, 100, true);
-        env.addAgent(new ParticleAgent(env, 0, 0, -1, -1));
+        Environment env = new Environment(5, 5, true);
+        env.addAgent(new ParticleAgent(env, 0, 0, 1, 1));
+        env.addAgent(new ParticleAgent(env, 1, 1, 1, 1));
 
 
         SMA sma = new SMA(env);
@@ -35,7 +36,7 @@ public class SMA extends Observable {
             setChanged();
             notifyObservers(environment);
             try {
-                Thread.sleep(50l);
+                Thread.sleep(1000l);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

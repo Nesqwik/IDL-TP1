@@ -1,6 +1,7 @@
 package misc;
 
 import agents.Agent;
+import agents.FrontierAgent;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +11,7 @@ public class Environment {
     private boolean isToric;
 
     private List<Agent> agents = new LinkedList<>();
+    private FrontierAgent frontier = new FrontierAgent(this);
 
     private Agent[][] grid;
     private int cols;
@@ -33,8 +35,34 @@ public class Environment {
         return agents;
     }
 
-    public Agent[][] getMoore(int range) {
-        return grid;
+    public Agent[][] getMoore(Agent agent) {
+        if(isToric) {
+            return getMooreToric(agent);
+        } else {
+            return getMooreClassic(agent);
+        }
+    }
+
+    private Agent[][] getMooreClassic(Agent agent) {
+        Agent[][] moore = new Agent[3][3]; // 8 voisins + agent
+
+        // TODO
+
+        return moore;
+    }
+
+    private Agent[][] getMooreToric(Agent agent) {
+        Agent[][] moore = new Agent[3][3]; // 8 voisins + agent
+
+        for(int x = -1 ; x < 2 ; x++) {
+            for(int y = -1 ; y < 2 ; y++) {
+                int gridX = getNewPosToric(agent.getPosX(), x, cols);
+                int gridY = getNewPosToric(agent.getPosY(), y, rows);
+                moore[x + 1][y + 1] = grid[gridX][gridY];
+            }
+        }
+
+        return moore;
     }
 
     public int getCols() {

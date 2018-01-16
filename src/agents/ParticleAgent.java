@@ -19,7 +19,17 @@ public class ParticleAgent extends Agent {
 
     @Override
     public void decide() {
+        Agent[][] moore = environment.getMoore(this);
+
+        for(int x = 0 ; x < moore.length ; x++) {
+            for(int y = 0 ; y < moore[x].length ; y++) {
+                System.out.println("x : " + x + " - y : " + y + " - val:" + moore[x][y]);
+            }
+        }
+
         environment.moveAgent(this, pasX, pasY);
+        System.out.println("-----------------------------");
+
     }
 
     public int getPasX() {
