@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="aspectjrt">
+    <archive path="/local/guilbertl/aspectj/lib/aspectjrt.jar" />
+  </library>
+  <library name="scala-sdk-2.12.2">
+    <archive path="/home/m2iagl/guilbertl/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.12.2.jar" />
+    <archive path="/home/m2iagl/guilbertl/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.2.jar" />
+    <archive path="/home/m2iagl/guilbertl/.ivy2/cache/org.scala-lang/scala-reflect/srcs/scala-reflect-2.12.2-sources.jar" />
+    <archive path="/home/m2iagl/guilbertl/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.2-sources.jar" />
+  </library>
+</eclipse-userlibraries>
+
