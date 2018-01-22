@@ -22,7 +22,7 @@ public class View implements Observer {
         sma.populate(env, Config.getNbParticles());
 
         frame = new JFrame();
-        grid = new Grid(env);
+        grid = new Grid(env, sma);
 
         frame.setLayout(new BorderLayout());
         frame.add(new JScrollPane(grid), BorderLayout.CENTER);
@@ -44,8 +44,8 @@ public class View implements Observer {
         if (sma.getTickNumber() % Config.getRefresh() == 0) {
             Environment env = (Environment) obj;
             grid.setEnvironment(env);
-            grid.invalidate();
-            grid.repaint();
+            frame.invalidate();
+            frame.repaint();
             Toolkit.getDefaultToolkit().sync();
         }
     }

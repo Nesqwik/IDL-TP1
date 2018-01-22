@@ -3,25 +3,86 @@ package view;
 import agents.Agent;
 import misc.Config;
 import misc.Environment;
+import misc.SMA;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class Grid extends JPanel {
 
     private Environment environment;
+    private SMA sma;
 
-    public Grid(Environment environment) {
+    private float zoomLevel = 1f;
+    private boolean showGrid = false;
+
+    public Grid(Environment environment, SMA sma) {
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                int gridPosX = mouseEvent.getX() / getZoomedBoxSize();
+                int gridPosY = mouseEvent.getY() / getZoomedBoxSize();
+                Agent a = environment.getAgent(gridPosX, gridPosY);
+                if(a == null)return;
+                a.setSelected(!a.isSelected());
+                Grid.this.getParent().revalidate();
+                Grid.this.getParent().repaint();
+            }
+        });
+
+
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+                if(keyEvent.getKeyChar() == '-') {
+                    zoomLevel -= 0.1;
+                    Grid.this.getParent().revalidate();
+                    Grid.this.getParent().repaint();
+                }
+
+                if(keyEvent.getKeyChar() == '+') {
+                    zoomLevel += 0.1;
+                    Grid.this.getParent().revalidate();
+                    Grid.this.getParent().repaint();
+                }
+
+                if(keyEvent.getKeyChar() == 'g') {
+                    showGrid = !showGrid;
+                    Grid.this.getParent().revalidate();
+                    Grid.this.getParent().repaint();
+                }
+
+                if(keyEvent.getKeyChar() == ' ') {
+                    sma.setRunning(!sma.isRunning());
+                }
+
+                if(keyEvent.getKeyChar() == 'n') {
+                    sma.runOnce();
+                }
+            }
+        });
+        this.setFocusable(true);
+        this.requestFocusInWindow();
+        this.showGrid = Config.isGrid();
         this.environment = environment;
+        this.sma = sma;
     }
+
+
+    private int getZoomedBoxSize() {
+        return (int) (Config.getBoxSize() * zoomLevel);
+    }
+
+
 
     @Override
     public Dimension getPreferredSize() {
         int rows = environment.getRows();
         int columns = environment.getCols();
 
-        int width = columns * Config.getBoxSize();
-        int height = rows * Config.getBoxSize();
+        int width = columns * getZoomedBoxSize();
+        int height = rows * getZoomedBoxSize();
 
         return new Dimension(width, height);
     }
@@ -56,13 +117,13 @@ public class Grid extends JPanel {
         int rows = environment.getRows();
         int columns = environment.getCols();
 
-        int width = columns * Config.getBoxSize();
-        int height = rows * Config.getBoxSize();
+        int width = columns * getZoomedBoxSize();
+        int height = rows * getZoomedBoxSize();
 
         int wdOfRow = width / (columns);
         int htOfRow = height / (rows);
 
-        if (Config.isGrid()) {
+        if (this.showGrid) {
             printGrid(g, width, height, wdOfRow, htOfRow);
         }
 

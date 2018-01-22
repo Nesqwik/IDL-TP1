@@ -31,6 +31,10 @@ public class Environment {
         grid[agent.getPosX()][agent.getPosY()] = agent;
     }
 
+    public Agent getAgent(int gridX, int gridY) {
+        return grid[gridX][gridY];
+    }
+
     public List<Agent> getAgents() {
         return agents;
     }
@@ -125,5 +129,4 @@ public class Environment {
 
         grid[agent.getPosX()][agent.getPosY()] = agent;
     }
-
 }

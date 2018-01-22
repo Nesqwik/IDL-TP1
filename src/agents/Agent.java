@@ -11,6 +11,7 @@ public abstract class Agent {
     private int posY;
     private Color color;
     private boolean hasChanged;
+    private boolean isSelected = false;
 
     protected Environment environment;
 
@@ -49,6 +50,9 @@ public abstract class Agent {
     }
 
     public Color getColor() {
+        if (isSelected) {
+            return Color.BLUE;
+        }
         return color;
     }
 
@@ -65,5 +69,13 @@ public abstract class Agent {
     @Override
     public String toString() {
         return "Agent;" + posY + ";" + posY;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

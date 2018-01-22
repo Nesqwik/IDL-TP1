@@ -5,7 +5,6 @@ import agents.ParticleAgent;
 import view.View;
 
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
 
@@ -15,6 +14,7 @@ public class SMA extends Observable {
     private Random random;
     private List<Point> availableCoord = new ArrayList<>();
     private int tickNumber = 1;
+    private boolean isRunning = true;
 
     public static void main(String[] args) {
         new View();
@@ -26,26 +26,17 @@ public class SMA extends Observable {
     }
 
     public void populate(Environment env, int nbAgent) {
-        long startTime = System.currentTimeMillis();
         for (int x = 0; x < env.getCols(); x++) {
             for (int y = 0; y < env.getRows(); y++) {
                 availableCoord.add(new Point(x, y));
             }
         }
         Collections.shuffle(availableCoord, this.random);
-        long endTime = System.currentTimeMillis();
-        long elapsedTime = endTime - startTime;
-        System.out.println(elapsedTime);
 
-
-        startTime = System.currentTimeMillis();
         for (int i = 0; i < nbAgent; i++) {
             ParticleAgent agent = createParticleAgent(environment, availableCoord.get(i));
             env.addAgent(agent);
         }
-        endTime = System.currentTimeMillis();
-        elapsedTime = endTime - startTime;
-        System.out.println(elapsedTime);
     }
 
     private ParticleAgent createParticleAgent(Environment env, Point coord) {
@@ -60,23 +51,25 @@ public class SMA extends Observable {
         return null;
     }
 
+    private void sleep(long ms) {
+        try {
+            Thread.sleep(ms);
+            tickNumber++;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void run() {
 
         int nbTicks = Config.getNbTicks();
         long beginTime = System.currentTimeMillis();
         while (nbTicks == 0 || tickNumber <= nbTicks) {
-            long startTime = System.currentTimeMillis();
-            runOnce();
-            setChanged();
-            notifyObservers(environment);
-            Logger.log("Tick;" + tickNumber);
-            long endTime = System.currentTimeMillis();
-            long elapsedTime = endTime - startTime;
-            try {
-                Thread.sleep(Math.max(0, Config.getDelay() - elapsedTime));
-                tickNumber++;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (this.isRunning()) {
+                runOnce();
+            } else {
+                sleep(20);
             }
         }
 
@@ -85,7 +78,8 @@ public class SMA extends Observable {
         System.out.println("moyenne par tick : " + (float) elapsedTime / (float) nbTicks);
     }
 
-    private void runOnce() {
+    public void runOnce() {
+        long startTime = System.currentTimeMillis();
         switch (Config.getScheduling()) {
             case "equitable":
                 runOnceFairRandom();
@@ -102,6 +96,13 @@ public class SMA extends Observable {
                 System.out.println("Mode de scheduling incorrect. Le mode sequentiel a été choisi.");
                 runOnceSequencial();
         }
+
+        setChanged();
+        notifyObservers(environment);
+        Logger.log("Tick;" + tickNumber);
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+        sleep(Math.max(0, Config.getDelay() - elapsedTime));
     }
 
     private void runOnceFairRandom() {
@@ -127,5 +128,13 @@ public class SMA extends Observable {
 
     public int getTickNumber() {
         return tickNumber;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(boolean running) {
+        isRunning = running;
     }
 }
