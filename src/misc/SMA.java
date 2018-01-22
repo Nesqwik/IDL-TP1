@@ -5,68 +5,75 @@ import agents.ParticleAgent;
 import view.View;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Random;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.List;
 
 public class SMA extends Observable {
 
     private Environment environment;
     private Random random;
-    private ArrayList<Point> availableCoord = new ArrayList<>();
+    private List<Point> availableCoord = new ArrayList<>();
+    private int tickNumber = 1;
 
     public static void main(String[] args) {
-        Environment env = new Environment(1000, 1000, true);
-
-        SMA sma = new SMA(env);
-
-        sma.populate(env, (int) (200000));
-
-
-        View view = new View(env);
-
-        sma.addObserver(view);
-        sma.run();
-    }
-
-    private void populate(Environment env, int nbAgent) {
-        for(int x = 0 ; x < env.getCols() ; x++) {
-            for(int y = 0 ; y < env.getRows() ; y++) {
-                availableCoord.add(new Point(x, y));
-            }
-        }
-
-        for(int i = 0 ; i < nbAgent ; i++) {
-            ParticleAgent agent = createParticleAgent(env);
-            env.addAgent(agent);
-        }
-
-    }
-
-    private ParticleAgent createParticleAgent(Environment env) {
-        Point coord = availableCoord.remove(random.nextInt(availableCoord.size()));
-
-        int pasX = random.nextInt(3) - 1;
-        int pasY = random.nextInt(3) - 1;
-        return new ParticleAgent(env, coord.x, coord.y, pasX, pasY);
+        new View();
     }
 
     public SMA(Environment env) {
         this.environment = env;
-        this.random = new Random();
+        this.random = new Random(Config.getSeed());
+    }
+
+    public void populate(Environment env, int nbAgent) {
+        long startTime = System.currentTimeMillis();
+        for (int x = 0; x < env.getCols(); x++) {
+            for (int y = 0; y < env.getRows(); y++) {
+                availableCoord.add(new Point(x, y));
+            }
+        }
+        Collections.shuffle(availableCoord, this.random);
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+        System.out.println(elapsedTime);
+
+
+        startTime = System.currentTimeMillis();
+        for (int i = 0; i < nbAgent; i++) {
+            ParticleAgent agent = createParticleAgent(environment, availableCoord.get(i));
+            env.addAgent(agent);
+        }
+        endTime = System.currentTimeMillis();
+        elapsedTime = endTime - startTime;
+        System.out.println(elapsedTime);
+    }
+
+    private ParticleAgent createParticleAgent(Environment env, Point coord) {
+        int pasX = random.nextInt(3) - 1;
+        int pasY = random.nextInt(3) - 1;
+
+        try {
+            return (ParticleAgent) Class.forName(Config.getParticleType()).getConstructor(Environment.class, Integer.class, Integer.class, Integer.class, Integer.class).newInstance(env, coord.x, coord.y, pasX, pasY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void run() {
-        while(true) {
+
+        int nbTicks = Config.getNbTicks();
+        while (nbTicks == 0 || tickNumber <= nbTicks) {
             long startTime = System.currentTimeMillis();
             runOnce();
             setChanged();
             notifyObservers(environment);
+            Logger.log("Tick;" + tickNumber);
             long endTime = System.currentTimeMillis();
-
-            System.out.println(endTime - startTime);
+            long elapsedTime = endTime - startTime;
             try {
-                Thread.sleep(0l);
+                Thread.sleep(Math.max(0, Config.getDelay() - elapsedTime));
+                tickNumber++;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -74,8 +81,46 @@ public class SMA extends Observable {
     }
 
     private void runOnce() {
-        for(Agent agent : environment.getAgents()) {
+        switch (Config.getScheduling()) {
+            case "equitable":
+                runOnceFairRandom();
+                break;
+            case "sequentiel":
+                runOnceSequencial();
+                break;
+
+            case "aleatoire":
+                runOnceRandom();
+                break;
+
+            default:
+                System.out.println("Mode de scheduling incorrect. Le mode sequentiel a été choisi.");
+                runOnceSequencial();
+        }
+    }
+
+    private void runOnceFairRandom() {
+        List<Agent> agents = environment.getAgents();
+        Collections.shuffle(agents, this.random);
+        for (Agent agent : agents) {
             agent.decide();
         }
+    }
+
+    private void runOnceRandom() {
+        int size = environment.getAgents().size();
+        for (int i = 0; i < size; i++) {
+            environment.getAgents().get(random.nextInt(size)).decide();
+        }
+    }
+
+    private void runOnceSequencial() {
+        for (Agent agent : environment.getAgents()) {
+            agent.decide();
+        }
+    }
+
+    public int getTickNumber() {
+        return tickNumber;
     }
 }

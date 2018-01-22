@@ -1,6 +1,7 @@
 package view;
 
 import agents.Agent;
+import misc.Config;
 import misc.Environment;
 
 import javax.swing.*;
@@ -19,28 +20,32 @@ public class Grid extends JPanel {
         int rows = environment.getRows();
         int columns = environment.getCols();
 
-        int width = columns * 3;
-        int height = rows * 3;
+        int width = columns * Config.getBoxSize();
+        int height = rows * Config.getBoxSize();
 
         return new Dimension(width, height);
     }
 
 
-
-    private void printGrid(Graphics g) {
+    private void printGrid(Graphics g, int width, int height, int wdOfRow, int htOfRow) {
         int rows = environment.getRows();
         int columns = environment.getCols();
 
-        int width = columns * 3;
-        int height = rows * 3;
-
-        int htOfRow = height / (rows);
         for (int k = 0; k < rows; k++)
-            g.drawLine(0, k * htOfRow , width, k * htOfRow );
+            g.drawLine(0, k * htOfRow, width, k * htOfRow);
 
-        int wdOfRow = width / (columns);
         for (int k = 0; k < columns; k++)
-            g.drawLine(k*wdOfRow , 0, k*wdOfRow , height);
+            g.drawLine(k * wdOfRow, 0, k * wdOfRow, height);
+    }
+
+    private void printAgents(Graphics g, Environment environment, int wdOfRow, int htOfRow) {
+        for (Agent agent : environment.getAgents()) {
+            int x = agent.getPosX();
+            int y = agent.getPosY();
+            Color color = agent.getColor();
+            g.setColor(color);
+            g.fillOval(x * wdOfRow, y * htOfRow, wdOfRow, htOfRow);
+        }
     }
 
     @Override
@@ -51,21 +56,17 @@ public class Grid extends JPanel {
         int rows = environment.getRows();
         int columns = environment.getCols();
 
-        int width = columns * 3;
-        int height = rows * 3;
+        int width = columns * Config.getBoxSize();
+        int height = rows * Config.getBoxSize();
 
-        int htOfRow = height / (rows);
         int wdOfRow = width / (columns);
+        int htOfRow = height / (rows);
 
-        //printGrid(g);
-
-        for(Agent agent : environment.getAgents()) {
-            int x = agent.getPosX();
-            int y = agent.getPosY();
-            Color color = agent.getColor();
-            g.setColor(color);
-            g.fillOval(x * wdOfRow, y * htOfRow, wdOfRow, htOfRow);
+        if (Config.isGrid()) {
+            printGrid(g, width, height, wdOfRow, htOfRow);
         }
+
+        printAgents(g, environment, wdOfRow, htOfRow);
     }
 
     public void setEnvironment(Environment env) {
