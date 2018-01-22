@@ -63,6 +63,7 @@ public class SMA extends Observable {
     public void run() {
 
         int nbTicks = Config.getNbTicks();
+        long beginTime = System.currentTimeMillis();
         while (nbTicks == 0 || tickNumber <= nbTicks) {
             long startTime = System.currentTimeMillis();
             runOnce();
@@ -78,6 +79,10 @@ public class SMA extends Observable {
                 e.printStackTrace();
             }
         }
+
+        long elapsedTime = System.currentTimeMillis() - beginTime;
+        System.out.println("temps passé : " + elapsedTime);
+        System.out.println("moyenne par tick : " + (float) elapsedTime / (float) nbTicks);
     }
 
     private void runOnce() {

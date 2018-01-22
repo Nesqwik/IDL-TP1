@@ -37,6 +37,10 @@ public class ParticleAgent extends Agent {
         Agent[][] moore = environment.getMoore(this);
         this.setColor(Color.GRAY);
 
+        if(pasX == 0 && pasY == 0) {
+            return;
+        }
+
         if (moore[pasX + 1][pasY + 1] instanceof ParticleAgent) {
             ParticleAgent otherAgent = (ParticleAgent) moore[pasX + 1][pasY + 1];
             this.onCollide(otherAgent, moore);
