@@ -1,8 +1,8 @@
-package agents;
+package core.agents;
 
 
-import misc.Environment;
-import misc.Logger;
+import core.misc.Environment;
+import core.misc.Logger;
 
 import java.awt.*;
 
@@ -53,6 +53,10 @@ public abstract class Agent {
         if (isSelected) {
             return Color.BLUE;
         }
+        if(color == null) {
+            return Color.GRAY;
+        }
+
         return color;
     }
 

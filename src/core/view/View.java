@@ -1,8 +1,8 @@
-package view;
+package core.view;
 
-import misc.Config;
-import misc.Environment;
-import misc.SMA;
+import core.misc.Config;
+import core.misc.Environment;
+import core.misc.SMA;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,17 +15,19 @@ public class View implements Observer {
     private Grid grid;
     private SMA sma;
 
-    public View() {
-        Config.load();
-        Environment env = new Environment(Config.getGridSizeX(), Config.getGridSizeY(), Config.isTorus());
-        this.sma = new SMA(env);
-        sma.populate(env, Config.getNbParticles());
+    public View(SMA sma) {
+        this.sma = sma;
+        sma.populate();
 
         frame = new JFrame();
-        grid = new Grid(env, sma);
+        grid = new Grid(sma.getEnvironment(), sma);
 
         frame.setLayout(new BorderLayout());
         frame.add(new JScrollPane(grid), BorderLayout.CENTER);
+
+        JPanel tuto = new JPanel();
+        tuto.add(new JLabel("SPACE : pause/play -- N : next step -- G : show/hide grid -- Click : select agent -- +/- : zoom/unzoom"));
+        frame.add(tuto, BorderLayout.NORTH);
 
         frame.setPreferredSize(new Dimension(Config.getCanvasSizeX(), Config.getCanvasSizeY()));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,17 +35,13 @@ public class View implements Observer {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-
         sma.addObserver(this);
         sma.run();
     }
 
     @Override
     public void update(Observable observable, Object obj) {
-
         if (sma.getTickNumber() % Config.getRefresh() == 0) {
-            Environment env = (Environment) obj;
-            grid.setEnvironment(env);
             frame.invalidate();
             frame.repaint();
             Toolkit.getDefaultToolkit().sync();

@@ -1,6 +1,8 @@
-package agents;
+package particle;
 
-import misc.Environment;
+import core.agents.Agent;
+import core.agents.FrontierAgent;
+import core.misc.Environment;
 
 import java.awt.*;
 
@@ -35,9 +37,8 @@ public class ParticleAgent extends Agent {
     public void decide() {
         super.decide();
         Agent[][] moore = environment.getMoore(this);
-        this.setColor(Color.GRAY);
 
-        if(pasX == 0 && pasY == 0) {
+        if (pasX == 0 && pasY == 0) {
             return;
         }
 

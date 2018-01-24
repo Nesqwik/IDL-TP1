@@ -1,8 +1,7 @@
-package agents;
+package particle;
 
-import misc.Environment;
-
-import java.awt.*;
+import core.agents.Agent;
+import core.misc.Environment;
 
 public class ExchangeParticleAgent extends ParticleAgent {
 

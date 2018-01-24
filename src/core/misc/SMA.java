@@ -1,55 +1,38 @@
-package misc;
+package core.misc;
 
-import agents.Agent;
-import agents.ParticleAgent;
-import view.View;
+import core.agents.Agent;
+import core.view.View;
+import particle.ParticleAgent;
+import particle.sma.ParticleSMA;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class SMA extends Observable {
+public abstract class SMA extends Observable {
 
-    private Environment environment;
-    private Random random;
+    protected Environment environment;
+    protected static Random random;
     private List<Point> availableCoord = new ArrayList<>();
     private int tickNumber = 1;
     private boolean isRunning = true;
 
-    public static void main(String[] args) {
-        new View();
-    }
-
     public SMA(Environment env) {
         this.environment = env;
-        this.random = new Random(Config.getSeed());
+        random = new Random(Config.getSeed());
     }
 
-    public void populate(Environment env, int nbAgent) {
-        for (int x = 0; x < env.getCols(); x++) {
-            for (int y = 0; y < env.getRows(); y++) {
+    public void populate() {
+        for (int x = 0; x < this.environment.getCols(); x++) {
+            for (int y = 0; y < this.environment.getRows(); y++) {
                 availableCoord.add(new Point(x, y));
             }
         }
-        Collections.shuffle(availableCoord, this.random);
-
-        for (int i = 0; i < nbAgent; i++) {
-            ParticleAgent agent = createParticleAgent(environment, availableCoord.get(i));
-            env.addAgent(agent);
-        }
+        Collections.shuffle(availableCoord, random);
+        this.addAgents(availableCoord);
     }
 
-    private ParticleAgent createParticleAgent(Environment env, Point coord) {
-        int pasX = random.nextInt(3) - 1;
-        int pasY = random.nextInt(3) - 1;
-
-        try {
-            return (ParticleAgent) Class.forName(Config.getParticleType()).getConstructor(Environment.class, Integer.class, Integer.class, Integer.class, Integer.class).newInstance(env, coord.x, coord.y, pasX, pasY);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    protected abstract void addAgents(List<Point> availableCoord);
 
     private void sleep(long ms) {
         try {
@@ -102,12 +85,15 @@ public class SMA extends Observable {
         Logger.log("Tick;" + tickNumber);
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
-        sleep(Math.max(0, Config.getDelay() - elapsedTime));
+
+        long delay = 0;
+        if (this.isRunning) delay = Config.getDelay() - elapsedTime;
+        sleep(Math.max(0, delay));
     }
 
     private void runOnceFairRandom() {
         List<Agent> agents = environment.getAgents();
-        Collections.shuffle(agents, this.random);
+        Collections.shuffle(agents, random);
         for (Agent agent : agents) {
             agent.decide();
         }
@@ -136,5 +122,13 @@ public class SMA extends Observable {
 
     public void setRunning(boolean running) {
         isRunning = running;
+    }
+
+    public Environment getEnvironment() {
+        return this.environment;
+    }
+
+    public static Random getRandom() {
+        return random;
     }
 }

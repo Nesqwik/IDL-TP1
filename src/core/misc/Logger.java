@@ -1,4 +1,4 @@
-package misc;
+package core.misc;
 
 public class Logger {
 

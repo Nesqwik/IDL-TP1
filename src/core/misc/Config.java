@@ -1,4 +1,4 @@
-package misc;
+package core.misc;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,6 +21,9 @@ public class Config {
     static private int refresh;
     static private int nbParticles;
     static private String particleType;
+
+    static private int nbFish;
+    static private int nbShark;
 
     static public void load() {
         Properties prop = new Properties();
@@ -46,6 +49,9 @@ public class Config {
             refresh = Integer.parseInt(prop.getProperty("refresh"));
             nbParticles = Integer.parseInt(prop.getProperty("nbParticles"));
             particleType = prop.getProperty("particleType");
+
+            nbFish = Integer.parseInt(prop.getProperty("nbFish"));
+            nbShark = Integer.parseInt(prop.getProperty("nbShark"));
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -178,5 +184,21 @@ public class Config {
 
     public static void setParticleType(String particleType) {
         Config.particleType = particleType;
+    }
+
+    public static int getNbFish() {
+        return nbFish;
+    }
+
+    public static void setNbFish(int nbFish) {
+        Config.nbFish = nbFish;
+    }
+
+    public static int getNbShark() {
+        return nbShark;
+    }
+
+    public static void setNbShark(int nbShark) {
+        Config.nbShark = nbShark;
     }
 }

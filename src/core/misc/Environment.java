@@ -1,8 +1,9 @@
-package misc;
+package core.misc;
 
-import agents.Agent;
-import agents.FrontierAgent;
+import core.agents.Agent;
+import core.agents.FrontierAgent;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,27 +12,39 @@ public class Environment {
     private boolean isToric;
 
     private List<Agent> agents = new LinkedList<>();
+    private List<Agent> agentsToAdd = new LinkedList<>();
+
     private FrontierAgent frontier = new FrontierAgent(this);
 
     private Agent[][] grid;
     private int cols;
     private int rows;
 
-    public Environment(int cols, int rows, boolean isToric) {
+    public Environment() {
+
+        this.cols = Config.getGridSizeX();
+        this.rows = Config.getGridSizeY();
+
         grid = new Agent[cols][rows];
 
-        this.cols = cols;
-        this.rows = rows;
-        this.isToric = isToric;
+        this.isToric = Config.isTorus();
     }
 
     public void addAgent(Agent agent) {
-        agents.add(agent);
+        agentsToAdd.add(agent);
 
         grid[agent.getPosX()][agent.getPosY()] = agent;
     }
 
+    public void actuallyAddAgents() {
+        agents.addAll(agentsToAdd);
+        agentsToAdd.clear();
+    }
+
     public Agent getAgent(int gridX, int gridY) {
+        if (gridX >= grid.length) return null;
+        if (gridY >= grid[0].length) return null;
+
         return grid[gridX][gridY];
     }
 
@@ -40,7 +53,7 @@ public class Environment {
     }
 
     public Agent[][] getMoore(Agent agent) {
-        if(isToric) {
+        if (isToric) {
             return getMooreToric(agent);
         } else {
             return getMooreClassic(agent);
@@ -54,12 +67,12 @@ public class Environment {
     private Agent[][] getMooreClassic(Agent agent) {
         Agent[][] moore = new Agent[3][3]; // 8 voisins + agent
 
-        for(int x = -1 ; x < 2 ; x++) {
-            for(int y = -1 ; y < 2 ; y++) {
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
                 int gridX = agent.getPosX() + x;
                 int gridY = agent.getPosY() + y;
 
-                if(isValidPosition(gridX, cols) && isValidPosition(gridY, rows)) {
+                if (isValidPosition(gridX, cols) && isValidPosition(gridY, rows)) {
                     moore[x + 1][y + 1] = grid[gridX][gridY];
                 } else {
                     moore[x + 1][y + 1] = frontier;
@@ -73,8 +86,8 @@ public class Environment {
     private Agent[][] getMooreToric(Agent agent) {
         Agent[][] moore = new Agent[3][3]; // 8 voisins + agent
 
-        for(int x = -1 ; x < 2 ; x++) {
-            for(int y = -1 ; y < 2 ; y++) {
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
                 int gridX = getNewPosToric(agent.getPosX(), x, cols);
                 int gridY = getNewPosToric(agent.getPosY(), y, rows);
                 moore[x + 1][y + 1] = grid[gridX][gridY];
@@ -99,7 +112,7 @@ public class Environment {
         x = x % cols;
         y = y % rows;
 
-        if(this.isToric) {
+        if (this.isToric) {
             this.moveAgentToric(agent, x, y);
         } else {
             this.moveAgentClassic(agent, x, y);
@@ -113,14 +126,7 @@ public class Environment {
     }
 
     private int getNewPosToric(int pos, int dir, int size) {
-        if(pos + dir > size - 1) {
-            pos = (pos + dir) % size;
-        } else if(pos + dir < 0) {
-            pos = size + pos + dir;
-        } else {
-            pos = pos + dir;
-        }
-        return pos;
+        return (size + pos + dir) % size;
     }
 
     private void moveAgentToric(Agent agent, int x, int y) {

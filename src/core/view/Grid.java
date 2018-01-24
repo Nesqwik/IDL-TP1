@@ -1,13 +1,16 @@
-package view;
+package core.view;
 
-import agents.Agent;
-import misc.Config;
-import misc.Environment;
-import misc.SMA;
+import core.agents.Agent;
+import core.misc.Config;
+import core.misc.Environment;
+import core.misc.SMA;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Grid extends JPanel {
 
@@ -24,7 +27,7 @@ public class Grid extends JPanel {
                 int gridPosX = mouseEvent.getX() / getZoomedBoxSize();
                 int gridPosY = mouseEvent.getY() / getZoomedBoxSize();
                 Agent a = environment.getAgent(gridPosX, gridPosY);
-                if(a == null)return;
+                if (a == null) return;
                 a.setSelected(!a.isSelected());
                 Grid.this.getParent().revalidate();
                 Grid.this.getParent().repaint();
@@ -35,29 +38,29 @@ public class Grid extends JPanel {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent keyEvent) {
-                if(keyEvent.getKeyChar() == '-') {
+                if (keyEvent.getKeyChar() == '-') {
                     zoomLevel -= 0.1;
                     Grid.this.getParent().revalidate();
                     Grid.this.getParent().repaint();
                 }
 
-                if(keyEvent.getKeyChar() == '+') {
+                if (keyEvent.getKeyChar() == '+') {
                     zoomLevel += 0.1;
                     Grid.this.getParent().revalidate();
                     Grid.this.getParent().repaint();
                 }
 
-                if(keyEvent.getKeyChar() == 'g') {
+                if (keyEvent.getKeyChar() == 'g') {
                     showGrid = !showGrid;
                     Grid.this.getParent().revalidate();
                     Grid.this.getParent().repaint();
                 }
 
-                if(keyEvent.getKeyChar() == ' ') {
+                if (keyEvent.getKeyChar() == ' ') {
                     sma.setRunning(!sma.isRunning());
                 }
 
-                if(keyEvent.getKeyChar() == 'n') {
+                if (keyEvent.getKeyChar() == 'n') {
                     sma.runOnce();
                 }
             }
@@ -73,7 +76,6 @@ public class Grid extends JPanel {
     private int getZoomedBoxSize() {
         return (int) (Config.getBoxSize() * zoomLevel);
     }
-
 
 
     @Override
@@ -112,6 +114,9 @@ public class Grid extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        environment.actuallyAddAgents();
+
         g.setColor(Color.BLACK);
 
         int rows = environment.getRows();

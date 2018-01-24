@@ -1,6 +1,7 @@
-package agents;
+package particle;
 
-import misc.Environment;
+import core.agents.Agent;
+import core.misc.Environment;
 
 public class InvertParticleAgent extends ParticleAgent {
 
