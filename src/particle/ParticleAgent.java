@@ -11,9 +11,17 @@ public class ParticleAgent extends Agent {
     protected int pasX;
     protected int pasY;
 
-    public ParticleAgent(Environment environment, int posX, int posY, int pasX, int pasY) {
-        super(environment, posX, posY);
+    public ParticleAgent(Environment environment) {
+        super(environment);
+    }
 
+    @Override
+    public int getShape() {
+        return Agent.ROUND;
+    }
+
+    public void init(int posX, int posY, int pasX, int pasY) {
+        super.init(posX, posY);
         this.setColor(Color.GRAY);
         this.setPasX(pasX);
         this.setPasY(pasY);
@@ -45,7 +53,7 @@ public class ParticleAgent extends Agent {
         if (moore[pasX + 1][pasY + 1] instanceof ParticleAgent) {
             ParticleAgent otherAgent = (ParticleAgent) moore[pasX + 1][pasY + 1];
             this.onCollide(otherAgent, moore);
-        } else if (pasX != 0 || pasY != 0) {
+        } else {
             if (this.isCollideX(moore)) {
                 this.setPasX(-this.getPasX());
                 this.hasChanged();

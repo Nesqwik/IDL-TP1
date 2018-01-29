@@ -1,29 +1,41 @@
 package wator;
 
 import core.agents.Agent;
+import core.misc.Config;
 import core.misc.Environment;
+import core.misc.Logger;
 
 public class FishAgent extends SeaAgent {
 
-    public FishAgent(Environment env, int x, int y, int breedTime) {
-        super(env, x, y, breedTime);
+    public FishAgent(Environment env) {
+        super(env);
     }
 
     @Override
-    protected void reproduct() {
-        System.out.println("naissance");
-        environment.addAgent(WatorFactory.newFish(environment, lastX, lastY));
+    public int getShape() {
+        return Agent.ROUND;
+    }
+
+    public void init(int x, int y, int breedTime) {
+        super.init(x, y, breedTime);
+        this.setColor(Config.yellow);
+    }
+
+    @Override
+    public void newBorn(int x, int y) {
+        //Logger.log("fishAgent;born");
+        environment.addAgent(WatorFactory.newFish(environment, x, y));
+    }
+
+    public void kill() {
+        //Logger.log("fishAgent;die");
+        environment.removeAgent(this);
+        WatorFactory.addDiedFish(this);
     }
 
     @Override
     public void decide() {
         super.decide();
-
-        Agent[][] moore = environment.getMoore(this);
-
-        boolean hasMoved = moveIfCan(moore);
-        if(hasMoved) {
-            this.updateBreed();
-        }
+        this.setColor(Config.green);
     }
 }

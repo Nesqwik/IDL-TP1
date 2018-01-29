@@ -35,7 +35,8 @@ public class ParticleSMA extends SMA {
         int pasY = random.nextInt(3) - 1;
 
         try {
-            return (ParticleAgent) Class.forName(Config.getParticleType()).getConstructor(Environment.class, Integer.class, Integer.class, Integer.class, Integer.class).newInstance(env, coord.x, coord.y, pasX, pasY);
+            ParticleAgent agent = (ParticleAgent) Class.forName(Config.getParticleType()).getConstructor(Environment.class).newInstance(env);
+            agent.init(coord.x, coord.y, pasX, pasY);
         } catch (Exception e) {
             e.printStackTrace();
         }

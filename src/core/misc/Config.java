@@ -1,5 +1,6 @@
 package core.misc;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +25,17 @@ public class Config {
 
     static private int nbFish;
     static private int nbShark;
+    static private int fishBreedTime;
+    static private int sharkBreedTime;
+    static private int sharkFeedTime;
+    static private String fishType;
+    static private String sharkType;
+
+    static public Color blue = new Color(106, 149, 179);
+    static public Color yellow = new Color(255, 251, 82);
+    static public Color green = new Color(52, 164, 14);
+    static public Color red = new Color(179, 37, 27);
+    static public Color pink = new Color(255, 107, 237);
 
     static public void load() {
         Properties prop = new Properties();
@@ -53,6 +65,13 @@ public class Config {
             nbFish = Integer.parseInt(prop.getProperty("nbFish"));
             nbShark = Integer.parseInt(prop.getProperty("nbShark"));
 
+            fishBreedTime = Integer.parseInt(prop.getProperty("fishBreedTime"));
+            sharkBreedTime = Integer.parseInt(prop.getProperty("sharkBreedTime"));
+
+            sharkFeedTime = Integer.parseInt(prop.getProperty("sharkFeedTime"));
+
+            fishType = prop.getProperty("fishType");
+            sharkType = prop.getProperty("sharkType");
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -200,5 +219,45 @@ public class Config {
 
     public static void setNbShark(int nbShark) {
         Config.nbShark = nbShark;
+    }
+
+    public static int getFishBreedTime() {
+        return fishBreedTime;
+    }
+
+    public static void setFishBreedTime(int fishBreedTime) {
+        Config.fishBreedTime = fishBreedTime;
+    }
+
+    public static int getSharkBreedTime() {
+        return sharkBreedTime;
+    }
+
+    public static void setSharkBreedTime(int sharkBreedTime) {
+        Config.sharkBreedTime = sharkBreedTime;
+    }
+
+    public static int getSharkFeedTime() {
+        return sharkFeedTime;
+    }
+
+    public static void setSharkFeedTime(int sharkFeedTime) {
+        Config.sharkFeedTime = sharkFeedTime;
+    }
+
+    public static String getFishType() {
+        return fishType;
+    }
+
+    public static void setFishType(String fishType) {
+        Config.fishType = fishType;
+    }
+
+    public static String getSharkType() {
+        return sharkType;
+    }
+
+    public static void setSharkType(String sharkType) {
+        Config.sharkType = sharkType;
     }
 }

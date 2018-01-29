@@ -6,8 +6,8 @@ import core.misc.Environment;
 public class ExchangeParticleAgent extends ParticleAgent {
 
 
-    public ExchangeParticleAgent(Environment environment, Integer posX, Integer posY, Integer pasX, Integer pasY) {
-        super(environment, posX, posY, pasX, pasY);
+    public ExchangeParticleAgent(Environment environment) {
+        super(environment);
     }
 
     @Override

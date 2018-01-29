@@ -24,10 +24,18 @@ public class WatorSMA extends SMA {
     @Override
     protected void addAgents(List<Point> availableCoord) {
         int nbFish = Config.getNbFish();
+        int nbShark = Config.getNbShark();
 
-        for (int i = 0; i < nbFish; i++) {
+        for (int i = 0; i < nbFish + nbShark; i++) {
             Point c = availableCoord.get(i);
-            this.environment.addAgent(WatorFactory.newFish(environment, c.x, c.y));
+
+            if(i < nbFish) {
+                this.environment.addAgent(WatorFactory.newFish(environment, c.x, c.y));
+            } else {
+                this.environment.addAgent(WatorFactory.newShark(environment, c.x, c.y));
+            }
         }
+
+        this.environment.actuallyAddAgents();
     }
 }

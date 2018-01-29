@@ -41,6 +41,7 @@ public class View implements Observer {
 
     @Override
     public void update(Observable observable, Object obj) {
+        grid.setRefresh(((Boolean) obj).booleanValue());
         if (sma.getTickNumber() % Config.getRefresh() == 0) {
             frame.invalidate();
             frame.repaint();

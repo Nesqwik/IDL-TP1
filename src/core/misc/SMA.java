@@ -1,9 +1,6 @@
 package core.misc;
 
 import core.agents.Agent;
-import core.view.View;
-import particle.ParticleAgent;
-import particle.sma.ParticleSMA;
 
 import java.awt.*;
 import java.util.*;
@@ -30,6 +27,8 @@ public abstract class SMA extends Observable {
         }
         Collections.shuffle(availableCoord, random);
         this.addAgents(availableCoord);
+        // Shuffle agents to equilibrate the speak turn
+        Collections.shuffle(environment.getAgents());
     }
 
     protected abstract void addAgents(List<Point> availableCoord);
@@ -37,12 +36,16 @@ public abstract class SMA extends Observable {
     private void sleep(long ms) {
         try {
             Thread.sleep(ms);
-            tickNumber++;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+
+    public void update() {
+        setChanged();
+        notifyObservers(true);
+    }
 
     public void run() {
 
@@ -50,7 +53,7 @@ public abstract class SMA extends Observable {
         long beginTime = System.currentTimeMillis();
         while (nbTicks == 0 || tickNumber <= nbTicks) {
             if (this.isRunning()) {
-                runOnce();
+                update();
             } else {
                 sleep(20);
             }
@@ -80,14 +83,13 @@ public abstract class SMA extends Observable {
                 runOnceSequencial();
         }
 
-        setChanged();
-        notifyObservers(environment);
         Logger.log("Tick;" + tickNumber);
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
 
         long delay = 0;
         if (this.isRunning) delay = Config.getDelay() - elapsedTime;
+        tickNumber++;
         sleep(Math.max(0, delay));
     }
 
@@ -95,20 +97,27 @@ public abstract class SMA extends Observable {
         List<Agent> agents = environment.getAgents();
         Collections.shuffle(agents, random);
         for (Agent agent : agents) {
-            agent.decide();
+            if(agent.isAlive()) {
+                agent.decide();
+            }
         }
     }
 
     private void runOnceRandom() {
         int size = environment.getAgents().size();
         for (int i = 0; i < size; i++) {
-            environment.getAgents().get(random.nextInt(size)).decide();
+            Agent agent = environment.getAgents().get(random.nextInt(size));
+            if(agent.isAlive()) {
+                agent.decide();
+            }
         }
     }
 
     private void runOnceSequencial() {
         for (Agent agent : environment.getAgents()) {
-            agent.decide();
+            if(agent.isAlive()) {
+                agent.decide();
+            }
         }
     }
 

@@ -2,17 +2,20 @@ package core.misc;
 
 import core.agents.Agent;
 import core.agents.FrontierAgent;
+import wator.WatorFactory;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Environment {
 
     private boolean isToric;
 
-    private List<Agent> agents = new LinkedList<>();
+    protected List<Agent> agents = new LinkedList<>();
     private List<Agent> agentsToAdd = new LinkedList<>();
+    protected List<Agent> agentsToRemove = new LinkedList<>();
 
     private FrontierAgent frontier = new FrontierAgent(this);
 
@@ -36,9 +39,47 @@ public class Environment {
         grid[agent.getPosX()][agent.getPosY()] = agent;
     }
 
+    public void removeAgent(Agent agent) {
+        agentsToRemove.add(agent);
+        agent.setAlive(false);
+
+        grid[agent.getPosX()][agent.getPosY()] = null;
+    }
+
     public void actuallyAddAgents() {
+        System.out.println("Actually add");
         agents.addAll(agentsToAdd);
         agentsToAdd.clear();
+    }
+
+    public void actuallyRemoveAgents() {
+        System.out.println("Actually remove");
+        int expected = agents.size() - agentsToRemove.size();
+        agents.removeAll(agentsToRemove);
+        /*for (Agent a : agentsToRemove) {
+            System.out.println(a.hashCode());
+            int size = agents.size();
+            agents = agents.stream().filter(agent -> !agent.equals(a)).collect(Collectors.toList());
+            if (size - 1 != agents.size()) {
+                System.out.println(a.id);
+            }
+        }
+        agents.stream().forEach(agent -> {
+            int nbEquals = 0;
+            for (Agent a2 : agents) {
+                if (a2.equals(agent)) {
+                    nbEquals++;
+                }
+            }
+
+            if(nbEquals > 1) System.out.println("DOUBLON");
+        });*/
+
+
+        int actual = agents.size();
+
+        //System.out.println(expected + ":" + actual + "--" + agentsToRemove.size());
+        agentsToRemove.clear();
     }
 
     public Agent getAgent(int gridX, int gridY) {
@@ -127,6 +168,14 @@ public class Environment {
 
     private int getNewPosToric(int pos, int dir, int size) {
         return (size + pos + dir) % size;
+    }
+
+    public int getToricPosX(int posX) {
+        return (cols + posX) % cols;
+    }
+
+    public int getToricPosY(int posY) {
+        return (rows + posY) % rows;
     }
 
     private void moveAgentToric(Agent agent, int x, int y) {

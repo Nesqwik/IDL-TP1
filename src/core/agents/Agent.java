@@ -7,19 +7,50 @@ import core.misc.Logger;
 import java.awt.*;
 
 public abstract class Agent {
+    public static int SQUARE = 1;
+    public static int TRIANGLE = 2;
+    public static int ROUND = 3;
+
+    private static int currentId = 0;
+    public int id;
+
     private int posX;
     private int posY;
     private Color color;
     private boolean hasChanged;
     private boolean isSelected = false;
+    private boolean isAlive = true;
 
     protected Environment environment;
 
-    public Agent(Environment environment, int posX, int posY) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Agent agent = (Agent) o;
+
+        return id == agent.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    public Agent(Environment environment) {
         this.environment = environment;
+        this.id = currentId;
+        currentId++;
+    }
+
+    public void init(int posX, int posY) {
+        this.isAlive = true;
         this.posX = posX;
         this.posY = posY;
     }
+
+    public abstract int getShape();
 
     public void decide() {
         hasChanged = false;
@@ -53,7 +84,7 @@ public abstract class Agent {
         if (isSelected) {
             return Color.BLUE;
         }
-        if(color == null) {
+        if (color == null) {
             return Color.GRAY;
         }
 
@@ -81,5 +112,13 @@ public abstract class Agent {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 }

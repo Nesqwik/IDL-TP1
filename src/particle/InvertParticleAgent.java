@@ -5,8 +5,8 @@ import core.misc.Environment;
 
 public class InvertParticleAgent extends ParticleAgent {
 
-    public InvertParticleAgent(Environment environment, Integer posX, Integer posY, Integer pasX, Integer pasY) {
-        super(environment, posX, posY, pasX, pasY);
+    public InvertParticleAgent(Environment environment) {
+        super(environment);
     }
 
     @Override

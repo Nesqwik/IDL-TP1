@@ -6,7 +6,13 @@ public class FrontierAgent extends Agent {
 
 
     public FrontierAgent(Environment environment) {
-        super(environment, -1, -1);
+        super(environment);
+        super.init(-1, -1);
+    }
+
+    @Override
+    public int getShape() {
+        return Agent.ROUND;
     }
 
     @Override

@@ -11,16 +11,22 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.font.TextHitInfo;
+import java.util.ArrayList;
 
 public class Grid extends JPanel {
 
     private Environment environment;
     private SMA sma;
 
-    private float zoomLevel = 1f;
+    private int zoomLevel = 0;
     private boolean showGrid = false;
+    private boolean needRefresh = true;
+
 
     public Grid(Environment environment, SMA sma) {
+
+
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
@@ -29,8 +35,6 @@ public class Grid extends JPanel {
                 Agent a = environment.getAgent(gridPosX, gridPosY);
                 if (a == null) return;
                 a.setSelected(!a.isSelected());
-                Grid.this.getParent().revalidate();
-                Grid.this.getParent().repaint();
             }
         });
 
@@ -39,21 +43,18 @@ public class Grid extends JPanel {
             @Override
             public void keyPressed(KeyEvent keyEvent) {
                 if (keyEvent.getKeyChar() == '-') {
-                    zoomLevel -= 0.1;
-                    Grid.this.getParent().revalidate();
-                    Grid.this.getParent().repaint();
+                    zoomLevel -= 1;
+                    Grid.this.repaintView();
                 }
 
                 if (keyEvent.getKeyChar() == '+') {
-                    zoomLevel += 0.1;
-                    Grid.this.getParent().revalidate();
-                    Grid.this.getParent().repaint();
+                    zoomLevel += 1;
+                    Grid.this.repaintView();
                 }
 
                 if (keyEvent.getKeyChar() == 'g') {
                     showGrid = !showGrid;
-                    Grid.this.getParent().revalidate();
-                    Grid.this.getParent().repaint();
+                    Grid.this.repaintView();
                 }
 
                 if (keyEvent.getKeyChar() == ' ') {
@@ -61,7 +62,7 @@ public class Grid extends JPanel {
                 }
 
                 if (keyEvent.getKeyChar() == 'n') {
-                    sma.runOnce();
+                    sma.update();
                 }
             }
         });
@@ -74,9 +75,15 @@ public class Grid extends JPanel {
 
 
     private int getZoomedBoxSize() {
-        return (int) (Config.getBoxSize() * zoomLevel);
+        return Config.getBoxSize() + zoomLevel;
     }
 
+
+    public void repaintView() {
+        this.needRefresh = false;
+        this.revalidate();
+        this.repaint();
+    }
 
     @Override
     public Dimension getPreferredSize() {
@@ -103,11 +110,26 @@ public class Grid extends JPanel {
 
     private void printAgents(Graphics g, Environment environment, int wdOfRow, int htOfRow) {
         for (Agent agent : environment.getAgents()) {
+            /*if(!agent.isAlive()) {
+                return;
+            }*/
+
             int x = agent.getPosX();
             int y = agent.getPosY();
             Color color = agent.getColor();
             g.setColor(color);
-            g.fillOval(x * wdOfRow, y * htOfRow, wdOfRow, htOfRow);
+
+            if (agent.getShape() == Agent.ROUND) {
+                g.fillOval(x * wdOfRow, y * htOfRow, wdOfRow, htOfRow);
+            } else if (agent.getShape() == Agent.SQUARE) {
+                g.fillRect(x * wdOfRow, y * htOfRow, wdOfRow, htOfRow);
+            } else if (agent.getShape() == Agent.TRIANGLE) {
+                g.fillPolygon(
+                        new int[]{x * wdOfRow + wdOfRow / 2, x * wdOfRow, x * wdOfRow + wdOfRow},
+                        new int[]{y * htOfRow, y * htOfRow + htOfRow, y * htOfRow + htOfRow},
+                        3
+                );
+            }
         }
     }
 
@@ -115,15 +137,24 @@ public class Grid extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        environment.actuallyAddAgents();
-
-        g.setColor(Color.BLACK);
+        if (needRefresh) {
+            sma.runOnce();
+            environment.actuallyAddAgents();
+            environment.actuallyRemoveAgents();
+        }
 
         int rows = environment.getRows();
         int columns = environment.getCols();
 
         int width = columns * getZoomedBoxSize();
         int height = rows * getZoomedBoxSize();
+
+        g.setColor(Config.blue);
+
+        g.fillRect(0, 0, width, height);
+
+        g.setColor(Color.BLACK);
+
 
         int wdOfRow = width / (columns);
         int htOfRow = height / (rows);
@@ -137,5 +168,9 @@ public class Grid extends JPanel {
 
     public void setEnvironment(Environment env) {
         this.environment = env;
+    }
+
+    public void setRefresh(Boolean refresh) {
+        this.needRefresh = refresh;
     }
 }
