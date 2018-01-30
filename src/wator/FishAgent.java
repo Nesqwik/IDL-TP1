@@ -38,4 +38,9 @@ public class FishAgent extends SeaAgent {
         super.decide();
         this.setColor(Config.green);
     }
+
+    @Override
+    public void onDestroyed() {
+        WatorFactory.addDiedFish(this);
+    }
 }

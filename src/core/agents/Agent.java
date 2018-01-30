@@ -107,4 +107,6 @@ public abstract class Agent {
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
+
+    public abstract void onDestroyed();
 }

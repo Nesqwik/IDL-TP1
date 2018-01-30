@@ -99,4 +99,11 @@ public class ParticleAgent extends Agent {
     public String toString() {
         return "ParticleAgent;" + this.hashCode() + ";" + this.getPosX() + ";" + this.getPosY() + ";" + this.getPasX() + ";" + this.getPasY();
     }
+
+    @Override
+    public void onDestroyed() {
+
+    }
+
+
 }

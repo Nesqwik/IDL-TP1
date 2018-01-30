@@ -2,6 +2,8 @@ package core.misc;
 
 import core.agents.Agent;
 import core.agents.FrontierAgent;
+import wator.FishAgent;
+import wator.SharkAgent;
 import wator.WatorFactory;
 
 import java.util.ArrayList;
@@ -47,38 +49,22 @@ public class Environment {
     }
 
     public void actuallyAddAgents() {
-        System.out.println("Actually add");
         agents.addAll(agentsToAdd);
         agentsToAdd.clear();
     }
 
     public void actuallyRemoveAgents() {
-        System.out.println("Actually remove");
         int expected = agents.size() - agentsToRemove.size();
-        agents.removeAll(agentsToRemove);
-        /*for (Agent a : agentsToRemove) {
-            System.out.println(a.hashCode());
-            int size = agents.size();
-            agents = agents.stream().filter(agent -> !agent.equals(a)).collect(Collectors.toList());
-            if (size - 1 != agents.size()) {
-                System.out.println(a.id);
-            }
+        for(Agent a : agentsToRemove) {
+            agents.remove(a);
+            a.onDestroyed();
         }
-        agents.stream().forEach(agent -> {
-            int nbEquals = 0;
-            for (Agent a2 : agents) {
-                if (a2.equals(agent)) {
-                    nbEquals++;
-                }
-            }
-
-            if(nbEquals > 1) System.out.println("DOUBLON");
-        });*/
-
 
         int actual = agents.size();
 
-        System.out.println(expected + ":" + actual + "--" + agentsToRemove.size());
+        if(expected != actual) {
+            System.out.println(expected + ":" + actual);
+        }
         agentsToRemove.clear();
     }
 

@@ -53,6 +53,11 @@ public class SharkAgent extends SeaAgent {
         feedTime--;
     }
 
+    @Override
+    public void onDestroyed() {
+        WatorFactory.addDiedShark(this);
+    }
+
     protected void killFish(FishAgent fish) {
         fish.kill();
         feedTime = initialFeedTime;

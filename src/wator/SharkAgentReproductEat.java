@@ -3,9 +3,9 @@ package wator;
 import core.agents.Agent;
 import core.misc.Environment;
 
-public class SharkAgentReproductMove extends SharkAgent {
+public class SharkAgentReproductEat extends SharkAgent {
 
-    public SharkAgentReproductMove(Environment env, Integer x, Integer y, Integer breedTime, Integer feedTime) {
+    public SharkAgentReproductEat(Environment env, Integer x, Integer y, Integer breedTime, Integer feedTime) {
         super(env, x, y, breedTime, feedTime);
     }
 
@@ -15,13 +15,13 @@ public class SharkAgentReproductMove extends SharkAgent {
         Agent[][] moore = environment.getMoore(this);
 
 
-        boolean hasMoved = moveIfCan(moore);
+        boolean hasMoved = eatAndMoveIfCan(moore);
         if (hasMoved) {
             if(this.canReproduct()) {
                 reproduct(this.lastX, this.lastY);
             }
         } else {
-            eatAndMoveIfCan(moore);
+            moveIfCan(moore);
         }
 
         if (feedTime == 0) {

@@ -7,7 +7,6 @@ public class FrontierAgent extends Agent {
 
     public FrontierAgent(Environment environment) {
         super(environment, -1, -1);
-        //super.init(-1, -1);
     }
 
     @Override
@@ -16,5 +15,10 @@ public class FrontierAgent extends Agent {
     }
 
     @Override
-    public void decide() {}
+    public void decide() {
+    }
+
+    @Override
+    public void onDestroyed() {
+    }
 }
