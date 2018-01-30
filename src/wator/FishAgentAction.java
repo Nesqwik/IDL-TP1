@@ -8,8 +8,8 @@ import core.misc.SMA;
 
 public class FishAgentAction extends FishAgent {
 
-    public FishAgentAction(Environment env) {
-        super(env);
+    public FishAgentAction(Environment env, Integer posX, Integer posY, Integer breedTime) {
+        super(env, posX, posY, breedTime);
     }
 
 

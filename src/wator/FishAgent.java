@@ -7,8 +7,8 @@ import core.misc.Logger;
 
 public class FishAgent extends SeaAgent {
 
-    public FishAgent(Environment env) {
-        super(env);
+    public FishAgent(Environment env, int posX, int posY, int breedTime) {
+        super(env, posX, posY, breedTime);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class FishAgent extends SeaAgent {
     public void kill() {
         //Logger.log("fishAgent;die");
         environment.removeAgent(this);
-        WatorFactory.addDiedFish(this);
+        //WatorFactory.addDiedFish(this);
     }
 
     @Override

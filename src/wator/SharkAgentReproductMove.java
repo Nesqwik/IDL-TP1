@@ -5,8 +5,8 @@ import core.misc.Environment;
 
 public class SharkAgentReproductMove extends SharkAgent {
 
-    public SharkAgentReproductMove(Environment env) {
-        super(env);
+    public SharkAgentReproductMove(Environment env, Integer x, Integer y, Integer breedTime, Integer feedTime) {
+        super(env, x, y, breedTime, feedTime);
     }
 
     @Override

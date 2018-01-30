@@ -78,7 +78,7 @@ public class Environment {
 
         int actual = agents.size();
 
-        //System.out.println(expected + ":" + actual + "--" + agentsToRemove.size());
+        System.out.println(expected + ":" + actual + "--" + agentsToRemove.size());
         agentsToRemove.clear();
     }
 

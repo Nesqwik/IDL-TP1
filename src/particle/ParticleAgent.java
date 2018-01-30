@@ -11,8 +11,11 @@ public class ParticleAgent extends Agent {
     protected int pasX;
     protected int pasY;
 
-    public ParticleAgent(Environment environment) {
-        super(environment);
+    public ParticleAgent(Environment environment, int posX, int posY, int pasX, int pasY) {
+        super(environment, posX, posY);
+        this.setColor(Color.GRAY);
+        this.setPasX(pasX);
+        this.setPasY(pasY);
     }
 
     @Override

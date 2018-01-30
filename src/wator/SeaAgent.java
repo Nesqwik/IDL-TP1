@@ -15,8 +15,10 @@ public abstract class SeaAgent extends Agent {
     private int yPossiblePos[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 
-    public SeaAgent(Environment env) {
-        super(env);
+    public SeaAgent(Environment env, int x, int y, int breedTime) {
+        super(env, x, y);
+        this.breedTime = breedTime;
+        this.initialBreedTime = breedTime;
     }
 
     public void init(int x, int y, int breedTime) {

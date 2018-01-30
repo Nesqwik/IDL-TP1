@@ -14,8 +14,11 @@ public class SharkAgent extends SeaAgent {
 
     private FishAgent[] possibleFish = {null, null, null, null, null, null, null, null};
 
-    public SharkAgent(Environment env) {
-        super(env);
+    public SharkAgent(Environment env, int x, int y, int breedTime, int feedTime) {
+        super(env, x, y, breedTime);
+        this.feedTime = feedTime;
+        this.initialFeedTime = feedTime;
+        this.setColor(Config.pink);
     }
 
     public void init(int x, int y, int breedTime, int feedTime) {
@@ -39,7 +42,7 @@ public class SharkAgent extends SeaAgent {
     protected void die() {
         //Logger.log("sharkAgent;die");
         environment.removeAgent(this);
-        WatorFactory.addDiedShark(this);
+        //WatorFactory.addDiedShark(this);
     }
 
 

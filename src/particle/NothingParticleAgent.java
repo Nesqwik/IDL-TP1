@@ -5,8 +5,8 @@ import core.misc.Environment;
 
 public class NothingParticleAgent extends ParticleAgent {
 
-    public NothingParticleAgent(Environment environment) {
-        super(environment);
+    public NothingParticleAgent(Environment environment, Integer posX, Integer posY, Integer pasX, Integer pasY) {
+        super(environment, posX, posY, pasX, pasY);
     }
 
     @Override

@@ -23,25 +23,11 @@ public abstract class Agent {
 
     protected Environment environment;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Agent agent = (Agent) o;
-
-        return id == agent.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
-
-    public Agent(Environment environment) {
+    public Agent(Environment environment, int posX, int posY) {
         this.environment = environment;
-        this.id = currentId;
-        currentId++;
+        this.isAlive = true;
+        this.posX = posX;
+        this.posY = posY;
     }
 
     public void init(int posX, int posY) {

@@ -7,8 +7,8 @@ import core.misc.SMA;
 public class SharkAgentAction extends SharkAgent {
 
 
-    public SharkAgentAction(Environment env) {
-        super(env);
+    public SharkAgentAction(Environment env, Integer x, Integer y, Integer breedTime, Integer feedTime) {
+        super(env, x, y, breedTime, feedTime);
     }
 
     @Override
