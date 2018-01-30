@@ -1,10 +1,6 @@
 package wator;
 
-import core.agents.Agent;
-import core.misc.Config;
 import core.misc.Environment;
-import core.misc.Logger;
-import core.misc.SMA;
 
 public class SharkAgentClassic extends SharkAgent {
 
@@ -15,15 +11,14 @@ public class SharkAgentClassic extends SharkAgent {
     @Override
     public void decide() {
         super.decide();
-        Agent[][] moore = environment.getMoore(this);
 
-        boolean hasEatenAndMoved = eatAndMoveIfCan(moore);
+        boolean hasEatenAndMoved = eatAndMoveIfCan();
         if (hasEatenAndMoved) {
             if (this.canReproduct()) {
                 reproduct(this.lastX, this.lastY);
             }
         } else {
-            boolean hasMoved = moveIfCan(moore);
+            boolean hasMoved = moveIfCan();
             if (hasMoved && this.canReproduct()) {
                 reproduct(this.lastX, this.lastY);
             }

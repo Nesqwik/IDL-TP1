@@ -3,7 +3,6 @@ package wator;
 import core.agents.Agent;
 import core.misc.Config;
 import core.misc.Environment;
-import core.misc.Logger;
 import core.misc.SMA;
 
 public class SharkAgent extends SeaAgent {
@@ -13,6 +12,7 @@ public class SharkAgent extends SeaAgent {
     private int initialFeedTime;
 
     private FishAgent[] possibleFish = {null, null, null, null, null, null, null, null};
+    private int nbFish = 0;
 
     public SharkAgent(Environment env, int x, int y, int breedTime, int feedTime) {
         super(env, x, y, breedTime);
@@ -64,37 +64,37 @@ public class SharkAgent extends SeaAgent {
     }
 
 
-    protected boolean eatIfCan(Agent[][] moore) {
-        int cpt = getPossibleFishesNumber(moore);
-
-        if (cpt != 0) {
-            int randInt = SMA.getRandom().nextInt(cpt);
+    protected boolean eatIfCan() {
+        
+        if (nbFish != 0) {
+            int randInt = SMA.getRandom().nextInt(nbFish);
             this.killFish(possibleFish[randInt]);
             return true;
         }
 
         return false;
     }
+    
+    @Override
+    protected void initCpt() {
+    	super.initCpt();
+    	nbFish=0;
+    }
+    
+    @Override
+    protected void insertInArray(Agent agent, int x, int y) {
+    	super.insertInArray(agent, x, y);
 
-
-    private int getPossibleFishesNumber(Agent[][] moore) {
-        int cpt = 0;
-        for (int x = 0; x < moore.length; x++) {
-            for (int y = 0; y < moore[x].length; y++) {
-                if (moore[x][y] instanceof FishAgent) {
-                    possibleFish[cpt] = (FishAgent) moore[x][y];
-                    cpt++;
-                }
-            }
+    	if (agent instanceof FishAgent) {
+            possibleFish[nbFish] = (FishAgent) agent;
+            nbFish++;
         }
-        return cpt;
     }
 
-    protected boolean eatAndMoveIfCan(Agent[][] moore) {
-        int cpt = getPossibleFishesNumber(moore);
-
-        if (cpt != 0) {
-            int randInt = SMA.getRandom().nextInt(cpt);
+    protected boolean eatAndMoveIfCan() {
+       
+        if (nbFish != 0) {
+            int randInt = SMA.getRandom().nextInt(nbFish);
             int x = possibleFish[randInt].getPosX();
             int y = possibleFish[randInt].getPosY();
             this.killFish(possibleFish[randInt]);

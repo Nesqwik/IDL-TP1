@@ -14,13 +14,12 @@ public class SharkAgentAction extends SharkAgent {
     @Override
     public void decide() {
         super.decide();
-        Agent[][] moore = environment.getMoore(this);
 
-        boolean hasEaten = eatIfCan(moore);
+        boolean hasEaten = eatIfCan();
         if (!hasEaten) {
-            boolean hasReproduct = reproductIfCan(moore);
+            boolean hasReproduct = reproductIfCan();
             if (!hasReproduct) {
-                moveIfCan(moore);
+                moveIfCan();
             }
         }
 

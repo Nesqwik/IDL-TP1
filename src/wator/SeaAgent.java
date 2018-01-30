@@ -13,6 +13,7 @@ public abstract class SeaAgent extends Agent {
 
     private int xPossiblePos[] = {0, 0, 0, 0, 0, 0, 0, 0};
     private int yPossiblePos[] = {0, 0, 0, 0, 0, 0, 0, 0};
+    protected int cptPos = 0;
 
 
     public SeaAgent(Environment env, int x, int y, int breedTime) {
@@ -37,27 +38,36 @@ public abstract class SeaAgent extends Agent {
         this.lastX = this.getPosX();
         this.lastY = this.getPosY();
         this.updateBreed();
+        
+        Agent[][] moore = environment.getMoore(this);
+        browseNeighbors(moore);
     }
 
-    private int getXAndYPossibleCount(Agent[][] moore) {
-        int cpt = 0;
+    public void browseNeighbors(Agent[][] moore) {
+        initCpt();
+        
         for (int x = 0; x < moore.length; x++) {
             for (int y = 0; y < moore[x].length; y++) {
-                if (moore[x][y] == null) {
-                    xPossiblePos[cpt] = x - 1;
-                    yPossiblePos[cpt] = y - 1;
-                    cpt++;
-                }
+                insertInArray(moore[x][y], x, y);
             }
         }
-        return cpt;
     }
 
-    protected boolean moveIfCan(Agent[][] moore) {
-        int cpt = getXAndYPossibleCount(moore);
+    protected void initCpt() {
+        cptPos = 0;
+    }
+    
+	protected void insertInArray(Agent agent, int x, int y) {
+		if (agent == null) {
+		    xPossiblePos[cptPos] = x - 1;
+		    yPossiblePos[cptPos] = y - 1;
+		    cptPos++;
+		}
+	}
 
-        if (cpt != 0) {
-            int randInt = SMA.getRandom().nextInt(cpt);
+	protected boolean moveIfCan() {
+       if (cptPos != 0) {
+            int randInt = SMA.getRandom().nextInt(cptPos);
             environment.moveAgent(this, xPossiblePos[randInt], yPossiblePos[randInt]);
             return true;
         }
@@ -77,15 +87,13 @@ public abstract class SeaAgent extends Agent {
     public abstract void newBorn(int x, int y);
 
 
-    protected boolean reproductIfCan(Agent[][] moore) {
+    protected boolean reproductIfCan() {
         if (!this.canReproduct()) {
             return false;
         }
 
-        int cpt = getXAndYPossibleCount(moore);
-
-        if (cpt != 0) {
-            int randInt = SMA.getRandom().nextInt(cpt);
+        if (cptPos != 0) {
+            int randInt = SMA.getRandom().nextInt(cptPos);
             this.reproduct(this.getPosX() + xPossiblePos[randInt], this.getPosY() + yPossiblePos[randInt]);
             return true;
         }
