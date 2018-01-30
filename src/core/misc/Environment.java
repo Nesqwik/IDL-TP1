@@ -54,16 +54,9 @@ public class Environment {
     }
 
     public void actuallyRemoveAgents() {
-        int expected = agents.size() - agentsToRemove.size();
         for(Agent a : agentsToRemove) {
             agents.remove(a);
             a.onDestroyed();
-        }
-
-        int actual = agents.size();
-
-        if(expected != actual) {
-            System.out.println(expected + ":" + actual);
         }
         agentsToRemove.clear();
     }
