@@ -141,6 +141,7 @@ public class Grid extends JPanel {
             sma.runOnce();
             environment.actuallyAddAgents();
             environment.actuallyRemoveAgents();
+            this.needRefresh = false;
         }
 
         int rows = environment.getRows();

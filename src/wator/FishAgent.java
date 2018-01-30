@@ -5,6 +5,8 @@ import core.misc.Config;
 import core.misc.Environment;
 import core.misc.Logger;
 
+import java.awt.*;
+
 public class FishAgent extends SeaAgent {
 
     public FishAgent(Environment env, int posX, int posY, int breedTime) {
@@ -18,7 +20,11 @@ public class FishAgent extends SeaAgent {
 
     public void init(int x, int y, int breedTime) {
         super.init(x, y, breedTime);
-        this.setColor(Config.yellow);
+    }
+
+    @Override
+    public Color getColor() {
+        return super.getGradientColor(Config.green, Config.yellow);
     }
 
     @Override

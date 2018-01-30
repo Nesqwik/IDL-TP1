@@ -4,9 +4,13 @@ import core.agents.Agent;
 import core.misc.Environment;
 import core.misc.SMA;
 
+import java.awt.*;
+
 public abstract class SeaAgent extends Agent {
     protected int breedTime;
     protected int initialBreedTime;
+    protected int age;
+    private final int MAX_AGE = 20;
 
     protected int lastX;
     protected int lastY;
@@ -26,6 +30,7 @@ public abstract class SeaAgent extends Agent {
         super.init(x, y);
         this.breedTime = breedTime;
         this.initialBreedTime = breedTime;
+        this.age = 0;
     }
 
     protected void updateBreed() {
@@ -38,7 +43,8 @@ public abstract class SeaAgent extends Agent {
         this.lastX = this.getPosX();
         this.lastY = this.getPosY();
         this.updateBreed();
-        
+        this.age = Math.min(this.age + 1, MAX_AGE);
+
         Agent[][] moore = environment.getMoore(this);
         browseNeighbors(moore);
     }
@@ -51,6 +57,13 @@ public abstract class SeaAgent extends Agent {
                 insertInArray(moore[x][y], x, y);
             }
         }
+    }
+
+    public Color getGradientColor(Color c1, Color c2) {
+        int red = (int) ((age/(float) MAX_AGE) * c1.getRed() + (1-(age/(float) MAX_AGE)) * c2.getRed());
+        int green = (int) ((age/(float) MAX_AGE) * c1.getGreen() + (1-(age/(float) MAX_AGE)) * c2.getGreen());
+        int blue = (int) ((age/(float) MAX_AGE) * c1.getBlue() + (1-(age/(float) MAX_AGE)) * c2.getBlue());
+        return new Color(red, green, blue);
     }
 
     protected void initCpt() {

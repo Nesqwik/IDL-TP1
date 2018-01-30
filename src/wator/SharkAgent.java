@@ -5,6 +5,8 @@ import core.misc.Config;
 import core.misc.Environment;
 import core.misc.SMA;
 
+import java.awt.*;
+
 public class SharkAgent extends SeaAgent {
 
 
@@ -26,6 +28,11 @@ public class SharkAgent extends SeaAgent {
         this.feedTime = feedTime;
         this.initialFeedTime = feedTime;
         this.setColor(Config.pink);
+    }
+
+    @Override
+    public Color getColor() {
+        return super.getGradientColor(Config.red, Config.pink);
     }
 
     @Override
