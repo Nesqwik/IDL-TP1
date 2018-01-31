@@ -21,6 +21,7 @@ public class Environment {
 
     private FrontierAgent frontier = new FrontierAgent(this);
 
+    private int[][] dijkstraResult;
     private Agent[][] grid;
     private int cols;
     private int rows;
@@ -162,5 +163,27 @@ public class Environment {
         agent.setPosY(getNewPosToric(agent.getPosY(), y, rows));
 
         grid[agent.getPosX()][agent.getPosY()] = agent;
+    }
+
+    public void dijkstra(Agent agent) {
+        int gridX = agent.getPosX();
+        int gridY = agent.getPosY();
+
+        for(int x = 0 ; x < dijkstraResult.length; x++) {
+            for(int y = 0 ; y < dijkstraResult[x].length; y++) {
+                dijkstraResult[x][y] = -2;
+            }
+        }
+
+        dijkstraRecursive(gridX, gridY, 0);
+    }
+
+    public void dijkstraRecursive(int x, int y, int value) {
+        dijkstraResult[x][y] = value;
+        // TODO
+    }
+
+    public int[][] getDijkstraResult() {
+        return dijkstraResult;
     }
 }

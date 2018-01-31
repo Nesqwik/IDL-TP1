@@ -11,13 +11,29 @@ import java.util.Observer;
 
 public class View implements Observer {
 
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public void setFrame(JFrame frame) {
+        this.frame = frame;
+    }
+
     private JFrame frame;
+
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Grid grid) {
+        this.grid = grid;
+    }
+
     private Grid grid;
     private SMA sma;
 
     public View(SMA sma) {
         this.sma = sma;
-        sma.populate();
 
         frame = new JFrame();
         grid = new Grid(sma.getEnvironment(), sma);
@@ -34,6 +50,8 @@ public class View implements Observer {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        sma.populate(this);
 
         sma.addObserver(this);
         sma.run();

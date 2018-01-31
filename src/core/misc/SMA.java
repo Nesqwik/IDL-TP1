@@ -1,6 +1,7 @@
 package core.misc;
 
 import core.agents.Agent;
+import core.view.View;
 
 import java.awt.*;
 import java.util.*;
@@ -14,12 +15,16 @@ public abstract class SMA extends Observable {
     private int tickNumber = 1;
     private boolean isRunning = true;
 
+    protected View view;
+
     public SMA(Environment env) {
         this.environment = env;
         random = new Random(Config.getSeed());
     }
 
-    public void populate() {
+    public void populate(View view) {
+        this.view = view;
+
         for (int x = 0; x < this.environment.getCols(); x++) {
             for (int y = 0; y < this.environment.getRows(); y++) {
                 availableCoord.add(new Point(x, y));

@@ -29,14 +29,11 @@ public class FishAgent extends SeaAgent {
 
     @Override
     public void newBorn(int x, int y) {
-        //Logger.log("fishAgent;born");
         environment.addAgent(WatorFactory.newFish(environment, x, y));
     }
 
     public void kill() {
-        //Logger.log("fishAgent;die");
         environment.removeAgent(this);
-        //WatorFactory.addDiedFish(this);
     }
 
     @Override

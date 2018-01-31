@@ -4,6 +4,7 @@ import core.agents.Agent;
 import core.misc.Config;
 import core.misc.Environment;
 import core.misc.SMA;
+import pacman.WallAgent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -110,9 +111,6 @@ public class Grid extends JPanel {
 
     private void printAgents(Graphics g, Environment environment, int wdOfRow, int htOfRow) {
         for (Agent agent : environment.getAgents()) {
-            /*if(!agent.isAlive()) {
-                return;
-            }*/
 
             int x = agent.getPosX();
             int y = agent.getPosY();
