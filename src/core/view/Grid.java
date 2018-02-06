@@ -131,6 +131,15 @@ public class Grid extends JPanel {
         }
     }
 
+    private void printDijkstra(Graphics g) {
+        int[][] dijkstra = environment.getDijkstraResult();
+        for(int x = 0 ; x < dijkstra.length ; x++) {
+            for(int y = 0 ; y < dijkstra[x].length ; y++) {
+                g.drawString(dijkstra[x][y] + "", x * getZoomedBoxSize(), (y + 1) * getZoomedBoxSize());
+            }
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -163,6 +172,7 @@ public class Grid extends JPanel {
         }
 
         printAgents(g, environment, wdOfRow, htOfRow);
+        printDijkstra(g);
     }
 
     public void setEnvironment(Environment env) {

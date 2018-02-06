@@ -13,6 +13,9 @@ public abstract class SMA extends Observable {
     protected static Random random;
     private List<Point> availableCoord = new ArrayList<>();
     private int tickNumber = 1;
+
+    private int sleepTime = 0;
+
     private boolean isRunning = true;
 
     protected View view;
@@ -33,7 +36,7 @@ public abstract class SMA extends Observable {
         Collections.shuffle(availableCoord, random);
         this.addAgents(availableCoord);
         // Shuffle agents to equilibrate the speak turn
-        Collections.shuffle(environment.getAgents());
+        Collections.shuffle(environment.getAgents(), random);
     }
 
     protected abstract void addAgents(List<Point> availableCoord);
@@ -55,18 +58,20 @@ public abstract class SMA extends Observable {
     public void run() {
 
         int nbTicks = Config.getNbTicks();
-        long beginTime = System.currentTimeMillis();
+
+        long elapsedTime;
+        long lastTime;
         while (nbTicks == 0 || tickNumber <= nbTicks) {
-            if (this.isRunning()) {
+            lastTime = System.currentTimeMillis();
+            if (this.isRunning() && sleepTime <= 0) {
                 update();
+                sleepTime = Config.getDelay();
             } else {
                 sleep(20);
             }
+            elapsedTime = System.currentTimeMillis() - lastTime;
+            sleepTime -= elapsedTime;
         }
-
-        long elapsedTime = System.currentTimeMillis() - beginTime;
-        System.out.println("temps passé : " + elapsedTime);
-        System.out.println("moyenne par tick : " + (float) elapsedTime / (float) nbTicks);
     }
 
     public void runOnce() {
@@ -92,10 +97,10 @@ public abstract class SMA extends Observable {
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
 
-        long delay = 0;
+        /*long delay = 0;
         if (this.isRunning) delay = Config.getDelay() - elapsedTime;
         tickNumber++;
-        sleep(Math.max(0, delay));
+        this.sleepTime =*/
     }
 
     private void runOnceFairRandom() {

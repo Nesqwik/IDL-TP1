@@ -37,6 +37,9 @@ public class Config {
     static public Color red = new Color(179, 37, 27);
     static public Color pink = new Color(255, 107, 237);
 
+    static private int speedHunter;
+    static private int speedAvatar;
+
     static public void load() {
         Properties prop = new Properties();
         InputStream input = null;
@@ -72,6 +75,10 @@ public class Config {
 
             fishType = prop.getProperty("fishType");
             sharkType = prop.getProperty("sharkType");
+
+
+            speedAvatar = Integer.parseInt(prop.getProperty("speedAvatar"));
+            speedHunter = Integer.parseInt(prop.getProperty("speedHunter"));
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -259,5 +266,21 @@ public class Config {
 
     public static void setSharkType(String sharkType) {
         Config.sharkType = sharkType;
+    }
+
+    public static int getSpeedHunter() {
+        return speedHunter;
+    }
+
+    public static void setSpeedHunter(int speedHunter) {
+        Config.speedHunter = speedHunter;
+    }
+
+    public static int getSpeedAvatar() {
+        return speedAvatar;
+    }
+
+    public static void setSpeedAvatar(int speedAvatar) {
+        Config.speedAvatar = speedAvatar;
     }
 }

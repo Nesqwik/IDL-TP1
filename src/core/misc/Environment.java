@@ -2,11 +2,14 @@ package core.misc;
 
 import core.agents.Agent;
 import core.agents.FrontierAgent;
+import pacman.WallAgent;
 import wator.FishAgent;
 import wator.SharkAgent;
 import wator.WatorFactory;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +35,7 @@ public class Environment {
         this.rows = Config.getGridSizeY();
 
         grid = new Agent[cols][rows];
+        dijkstraResult = new int[cols][rows];
 
         this.isToric = Config.isTorus();
     }
@@ -55,7 +59,7 @@ public class Environment {
     }
 
     public void actuallyRemoveAgents() {
-        for(Agent a : agentsToRemove) {
+        for (Agent a : agentsToRemove) {
             agents.remove(a);
             a.onDestroyed();
         }
@@ -80,6 +84,21 @@ public class Environment {
             return getMooreClassic(agent);
         }
     }
+
+    /*public Agent[][] getVonNeumann(Agent agent) {
+        if (isToric) {
+            return getVonNeumannToric(agent);
+        } else {
+            return getVonNeumannClassic(agent);
+        }
+    }
+
+    private Agent[][] getVonNeumannClassic(Agent agent) {
+
+    }
+
+    private Agent[][] getVonNeumannToric(Agent agent) {
+    }*/
 
     private boolean isValidPosition(int pos, int size) {
         return pos >= 0 && pos < size;
@@ -169,21 +188,63 @@ public class Environment {
         int gridX = agent.getPosX();
         int gridY = agent.getPosY();
 
-        for(int x = 0 ; x < dijkstraResult.length; x++) {
-            for(int y = 0 ; y < dijkstraResult[x].length; y++) {
+        for (int x = 0; x < dijkstraResult.length; x++) {
+            for (int y = 0; y < dijkstraResult[x].length; y++) {
                 dijkstraResult[x][y] = -2;
             }
         }
 
-        dijkstraRecursive(gridX, gridY, 0);
+
+        dijkstraRecursive(Arrays.asList(new Point(gridX, gridY)), 0);
     }
 
-    public void dijkstraRecursive(int x, int y, int value) {
-        dijkstraResult[x][y] = value;
-        // TODO
+    private boolean markValue(int x, int y, int value) {
+        if (!(grid[x][y] instanceof WallAgent)) {
+            dijkstraResult[x][y] = value;
+            return true;
+        } else {
+            dijkstraResult[x][y] = -1;
+            return false;
+        }
+    }
+
+    public void dijkstraRecursive(List<Point> voisins, int value) {
+        List<Point> vVoisins = new ArrayList<>();
+        for (Point p : voisins) {
+            if(!markValue(p.x, p.y, value) && value != 0) {
+                continue;
+            }
+
+            if (p.x > 0 && dijkstraResult[p.x - 1][p.y] == -2) {
+                vVoisins.add(new Point(p.x - 1, p.y));
+            }
+
+            if (p.x < dijkstraResult.length - 1 && dijkstraResult[p.x + 1][p.y] == -2) {
+                vVoisins.add(new Point(p.x + 1, p.y));
+            }
+
+            if (p.y > 0 && dijkstraResult[p.x][p.y - 1] == -2) {
+                vVoisins.add(new Point(p.x, p.y - 1));
+            }
+
+            if (p.y < dijkstraResult[p.x].length - 1 && dijkstraResult[p.x][p.y + 1] == -2) {
+                vVoisins.add(new Point(p.x, p.y + 1));
+            }
+        }
+
+        if(vVoisins.size() != 0) {
+            dijkstraRecursive(vVoisins, value + 1);
+        }
     }
 
     public int[][] getDijkstraResult() {
         return dijkstraResult;
+    }
+
+    public int getDijkstraPos(int x, int y) {
+        if (x < 0 || y < 0 || x > dijkstraResult.length - 1 || y > dijkstraResult[0].length - 1) {
+            return -1;
+        }
+        return dijkstraResult[x][y];
     }
 }
