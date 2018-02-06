@@ -1,13 +1,13 @@
 package pacman;
 
-import core.agents.Agent;
-import core.misc.Environment;
-import core.misc.SMA;
-
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
+
+import core.agents.Agent;
+import core.agents.FrontierAgent;
+import core.misc.Config;
+import core.misc.Environment;
 
 public class AvatarAgent extends Agent implements KeyListener {
     final static int UP = 0;
@@ -15,15 +15,20 @@ public class AvatarAgent extends Agent implements KeyListener {
     final static int LEFT = 2;
     final static int RIGHT = 3;
 
-    private int speed;
     private int tickNumber = 0;
+    
+    private int invinsibleTime;
+    private int nbDefender;
 
     private int pasX;
     private int pasY;
+    private WinnerAgent winner;
 
-    public AvatarAgent(Environment environment, int posX, int posY, int speed) {
+    public AvatarAgent(Environment environment, int posX, int posY, WinnerAgent winner) {
         super(environment, posX, posY);
-        this.speed = speed;
+        this.invinsibleTime = Config.getInvinsibleTime();
+        this.nbDefender = 0;
+        this.winner = winner;
     }
 
     @Override
@@ -48,18 +53,62 @@ public class AvatarAgent extends Agent implements KeyListener {
 
     @Override
     public void decide() {
+    	if (this.environment.isEndedGame()) {
+    		return;
+    	}
+    	
         tickNumber++;
-        if (tickNumber % speed != 0) {
+        
+        if (tickNumber % Config.getSpeedAvatar() != 0) {
             return;
+        }
+        invinsibleTime--;
+        if (invinsibleTime == 0) {
+        	vinsible();
         }
 
         Agent[][] moore = environment.getMoore(this);
+        Agent agent = moore[pasX + 1][pasY + 1];
+        
+        if (agent instanceof DefenderAgent) {
+        	DefenderAgent defender = (DefenderAgent)moore[pasX + 1][pasY + 1];
+        	invinsible(defender);
+        }
+        
+        if (winnerIsActivate() && agent instanceof WinnerAgent) {
+        	this.environment.endGame();
+        	return;
+        }
 
-        if (moore[pasX + 1][pasY + 1] == null) {
-            environment.moveAgent(this, pasX, pasY);
-            environment.dijkstra(this);
+        if (!(agent instanceof WallAgent) && !(agent instanceof FrontierAgent)) {
+            moveAvatar();
         }
     }
+
+	private void moveAvatar() {
+		environment.moveAgent(this, pasX, pasY);
+		environment.dijkstra(this);
+	}
+    
+	private void vinsible() {
+		this.setColor(Color.RED);
+		this.environment.setPacmanInvinsible(false);
+	}
+	
+    public void invinsible(DefenderAgent agent){
+    	this.nbDefender++;
+    	this.invinsibleTime = Config.getInvinsibleTime();
+    	agent.setActive(false);
+    	this.setColor(Color.PINK);
+    	this.environment.setPacmanInvinsible(true);
+    	if (winnerIsActivate()) {
+    		winner.activate();
+    	}
+    }
+
+	private boolean winnerIsActivate() {
+		return this.nbDefender >= 4;
+	}
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
@@ -87,6 +136,10 @@ public class AvatarAgent extends Agent implements KeyListener {
                 pasX = 1;
                 pasY = 0;
                 break;
+        }
+        
+        if (!environment.isStartedGame()) {
+        	environment.startGame();
         }
     }
 

@@ -4,7 +4,9 @@ import core.agents.Agent;
 import core.misc.Config;
 import core.misc.Environment;
 import core.misc.SMA;
+import pacman.DefenderAgent;
 import pacman.WallAgent;
+import pacman.WinnerAgent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,6 +67,30 @@ public class Grid extends JPanel {
                 if (keyEvent.getKeyChar() == 'n') {
                     sma.update();
                 }
+                
+                if (keyEvent.getKeyChar() == 'a') {
+                	Config.setSpeedHunter(Config.getSpeedHunter()-1);
+                }
+                
+                if (keyEvent.getKeyChar() == 'z') {
+                	Config.setSpeedHunter(Config.getSpeedHunter()+1);
+                }
+                
+                if (keyEvent.getKeyChar() == 'o') {
+                	Config.setSpeedAvatar(Config.getSpeedAvatar()-1);
+                }
+                
+                if (keyEvent.getKeyChar() == 'p') {
+                	Config.setSpeedAvatar(Config.getSpeedAvatar()+1);
+                }
+                
+                if (keyEvent.getKeyChar() == 'w') {
+                	Config.setDelay(Config.getDelay()-1000);
+                }
+                
+                if (keyEvent.getKeyChar() == 'x') {
+                	Config.setDelay(Config.getDelay()+1000);
+                }
             }
         });
         this.setFocusable(true);
@@ -112,6 +138,20 @@ public class Grid extends JPanel {
     private void printAgents(Graphics g, Environment environment, int wdOfRow, int htOfRow) {
         for (Agent agent : environment.getAgents()) {
 
+        	if (agent instanceof DefenderAgent) {
+        		DefenderAgent defender = ((DefenderAgent)agent);
+        		if (! defender.isActive()){
+        			continue;
+        		}
+        	}
+        	
+        	if (agent instanceof WinnerAgent) {
+        		WinnerAgent winner = ((WinnerAgent)agent);
+        		if (! winner.isActive()){
+        			continue;
+        		}
+        	}
+        	
             int x = agent.getPosX();
             int y = agent.getPosY();
             Color color = agent.getColor();
@@ -135,6 +175,7 @@ public class Grid extends JPanel {
         int[][] dijkstra = environment.getDijkstraResult();
         for(int x = 0 ; x < dijkstra.length ; x++) {
             for(int y = 0 ; y < dijkstra[x].length ; y++) {
+            	g.setColor(Color.WHITE);
                 g.drawString(dijkstra[x][y] + "", x * getZoomedBoxSize(), (y + 1) * getZoomedBoxSize());
             }
         }

@@ -39,6 +39,9 @@ public class Config {
 
     static private int speedHunter;
     static private int speedAvatar;
+    static private int lifeDefender;
+    static private int timeAppearDefender;
+    static private int invinsibleTime;
 
     static public void load() {
         Properties prop = new Properties();
@@ -79,6 +82,9 @@ public class Config {
 
             speedAvatar = Integer.parseInt(prop.getProperty("speedAvatar"));
             speedHunter = Integer.parseInt(prop.getProperty("speedHunter"));
+            lifeDefender = Integer.parseInt(prop.getProperty("lifeDefender"));
+            timeAppearDefender = Integer.parseInt(prop.getProperty("timeAppearDefender"));
+            invinsibleTime = Integer.parseInt(prop.getProperty("invinsibleTime"));
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -283,4 +289,30 @@ public class Config {
     public static void setSpeedAvatar(int speedAvatar) {
         Config.speedAvatar = speedAvatar;
     }
+
+	public static int getLifeDefender() {
+		return lifeDefender;
+	}
+
+	public static void setLifeDefender(int lifeDefender) {
+		Config.lifeDefender = lifeDefender;
+	}
+
+	public static int getTimeAppear() {
+		return timeAppearDefender;
+	}
+
+	public static void setTimeAppear(int timeAppear) {
+		Config.timeAppearDefender = timeAppear;
+	}
+
+	public static int getInvinsibleTime() {
+		return invinsibleTime;
+	}
+
+	public static void setInvinsibleTime(int invinsibleTime) {
+		Config.invinsibleTime = invinsibleTime;
+	}
+    
+    
 }

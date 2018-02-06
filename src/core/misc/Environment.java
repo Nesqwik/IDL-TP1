@@ -1,18 +1,14 @@
 package core.misc;
 
-import core.agents.Agent;
-import core.agents.FrontierAgent;
-import pacman.WallAgent;
-import wator.FishAgent;
-import wator.SharkAgent;
-import wator.WatorFactory;
-
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import core.agents.Agent;
+import core.agents.FrontierAgent;
+import pacman.WallAgent;
 
 public class Environment {
 
@@ -21,6 +17,9 @@ public class Environment {
     protected List<Agent> agents = new LinkedList<>();
     private List<Agent> agentsToAdd = new LinkedList<>();
     protected List<Agent> agentsToRemove = new LinkedList<>();
+    protected boolean startGame;
+    protected boolean endGame;
+    protected boolean pacmanInvinsible;
 
     private FrontierAgent frontier = new FrontierAgent(this);
 
@@ -33,6 +32,8 @@ public class Environment {
 
         this.cols = Config.getGridSizeX();
         this.rows = Config.getGridSizeY();
+        this.startGame = false;
+        this.endGame = false;
 
         grid = new Agent[cols][rows];
         dijkstraResult = new int[cols][rows];
@@ -158,6 +159,13 @@ public class Environment {
             this.moveAgentClassic(agent, x, y);
         }
     }
+    
+    public void moveAgentWithNewPos(Agent agent, int posX, int posY) {
+    	grid[agent.getPosX()][agent.getPosY()] = null;
+    	agent.setPosX(posX);
+        agent.setPosY(posY);
+        grid[posX][posY] = agent;
+    }
 
     private void moveAgentClassic(Agent agent, int x, int y) {
         agent.setPosX(agent.getPosX() + x);
@@ -247,4 +255,29 @@ public class Environment {
         }
         return dijkstraResult[x][y];
     }
+    
+    public void startGame() {
+    	this.startGame = true;
+    }
+    
+    public void endGame() {
+    	this.endGame = true;
+    }
+    
+    public boolean isStartedGame() {
+    	return this.startGame;
+    }
+    
+    public boolean isEndedGame() {
+    	return this.endGame;
+    }
+ 
+    public void setPacmanInvinsible(boolean invinsible) {
+    	this.pacmanInvinsible = invinsible;
+    }
+    
+    public boolean isPacmanInvinsible(){
+    	return this.pacmanInvinsible;
+    }
+    
 }
