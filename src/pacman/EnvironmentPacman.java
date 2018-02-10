@@ -30,6 +30,11 @@ public class EnvironmentPacman extends Environment {
     private int[][] dijkstraResult;
     
     /**
+     * winner
+     */
+    private WinnerAgent winner;
+    
+    /**
      * Constructeur de l'environnement Pacman
      */
     public EnvironmentPacman() {
@@ -214,6 +219,42 @@ public class EnvironmentPacman extends Environment {
      */
     public boolean isPacmanInvinsible(){
     	return this.pacmanInvinsible;
+    }
+
+	/**
+	 * getter winner
+	 * 
+	 * @return winner
+	 */
+	public WinnerAgent getWinner() {
+		return winner;
+	}
+
+	/**
+	 * setter winner
+	 * 
+	 * @param winner
+	 */
+	public void setWinner(WinnerAgent winner) {
+		this.winner = winner;
+	}
+    
+    /**
+     * Activate winner
+     */
+    public void activateWinner() {
+    	this.winner.activate();
+    }
+    
+    /**
+     * Affirme si l'agent peut gagner
+     * 
+     * @param posX
+     * @param posY
+     * @return vrai si l'argent peut gagner
+     */
+    public boolean canWin(int posX, int posY) {
+    	return (winner.isActive() && winner.getPosX() == posX && winner.getPosY() == posY);
     }
     
 }

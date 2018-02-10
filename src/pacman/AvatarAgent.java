@@ -53,10 +53,6 @@ public class AvatarAgent extends Agent implements KeyListener {
      */
     private int pasY;
     /**
-     * agent gagnant
-     */
-    private WinnerAgent winner;
-    /**
      * environnement
      */
     private EnvironmentPacman environment;
@@ -67,13 +63,11 @@ public class AvatarAgent extends Agent implements KeyListener {
      * @param environment
      * @param posX
      * @param posY
-     * @param winner
      */
-    public AvatarAgent(Environment environment, int posX, int posY, WinnerAgent winner) {
+    public AvatarAgent(Environment environment, int posX, int posY) {
         super(environment, posX, posY);
         this.invinsibleTime = Config.getInvinsibleTime();
         this.nbDefender = 0;
-        this.winner = winner;
         this.environment = (EnvironmentPacman) environment;
     }
 
@@ -121,8 +115,7 @@ public class AvatarAgent extends Agent implements KeyListener {
         	invinsible(defender);
         }
         
-        if (winnerIsActivate() && agent instanceof WinnerAgent) {
-        	this.environment.endGame();
+        if (verifyWin()) {
         	return;
         }
 
@@ -130,6 +123,21 @@ public class AvatarAgent extends Agent implements KeyListener {
             moveAvatar();
         }
     }
+
+	/**
+	 * Verifie si l'avatar a gagné
+	 * 
+	 * @return vrai si l'avatar a gagné
+	 */
+	private boolean verifyWin() {
+		int nextX = environment.isToric() ? (this.getPosX() + environment.getCols() + pasX) % environment.getCols() : this.getPosX() + pasX;
+        int nextY = environment.isToric() ? (this.getPosY() + environment.getRows() + pasY) % environment.getRows() : this.getPosY() + pasY;
+        if (nextX >= 0 && nextX < this.environment.getCols() && nextY >= 0 && nextY < this.environment.getRows() && this.environment.canWin(nextX, nextY)) {
+        	this.environment.endGame();
+        	return true;
+        }
+        return false;
+	}
 
 	/**
 	 * Déplace l'avatar
@@ -159,7 +167,7 @@ public class AvatarAgent extends Agent implements KeyListener {
     	this.setColor(Color.PINK);
     	this.environment.setPacmanInvinsible(true);
     	if (winnerIsActivate()) {
-    		winner.activate();
+    		this.environment.activateWinner();
     	}
     }
 

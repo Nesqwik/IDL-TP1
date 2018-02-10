@@ -17,6 +17,8 @@ public class GridPacman extends Grid{
 	 * serial
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private EnvironmentPacman environment;
 
 	/**
 	 * Constructeur de la grille pacman
@@ -26,6 +28,8 @@ public class GridPacman extends Grid{
 	 */
 	public GridPacman(Environment environment, SMA sma) {
 		super(environment, sma);
+		
+		this.environment = (EnvironmentPacman)environment;
 	}
 	
 	@Override
@@ -58,7 +62,7 @@ public class GridPacman extends Grid{
      * @param agent cible
      * @return vrai si on l'arrête sinon faux
      */
-    protected boolean contitionToStop(Agent agent) {
+    protected boolean conditionToStop(Agent agent) {
     	if (agent instanceof DefenderAgent) {
     		DefenderAgent defender = ((DefenderAgent)agent);
     		if (! defender.isActive()){
@@ -74,6 +78,16 @@ public class GridPacman extends Grid{
     	}
     	
     	return false;
+    }
+    
+    @Override
+    protected void printAgents(Graphics g, Environment environment, int wdOfRow, int htOfRow) {
+        super.printAgents(g, environment, wdOfRow, htOfRow);
+
+        WinnerAgent winner = this.environment.getWinner();
+        if (winner.isActive()) {
+        	printAgent(winner, g, wdOfRow, htOfRow);
+        }
     }
 
 }

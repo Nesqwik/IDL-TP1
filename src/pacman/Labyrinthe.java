@@ -129,7 +129,7 @@ public class Labyrinthe {
 				map.put(y * this.labyX + x, lst);
 			}
 		}
-		print();
+
 		Collections.shuffle(points, this.random);
 		
 		int nb_cloison = (this.labyX * this.labyY) - 1;
@@ -207,7 +207,7 @@ public class Labyrinthe {
 			
 			colision_ajoutee++;
 		}
-		print();
+
 	}
 
 	/**

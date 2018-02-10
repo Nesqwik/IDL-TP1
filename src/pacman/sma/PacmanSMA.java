@@ -23,6 +23,8 @@ import pacman.WinnerAgent;
  */
 public class PacmanSMA extends SMA {
 
+	private EnvironmentPacman environment;
+	
     /**
      * Constructeur pacman sma
      * 
@@ -30,6 +32,8 @@ public class PacmanSMA extends SMA {
      */
     public PacmanSMA(Environment env) {
         super(env);
+        
+        this.environment = (EnvironmentPacman) env;
     }
 
     /**
@@ -63,10 +67,10 @@ public class PacmanSMA extends SMA {
     	
     	c = availableCoord.get(0);
         WinnerAgent winner = new WinnerAgent(environment, c.x, c.y);
-        environment.addAgent(winner);
+        this.environment.setWinner(winner);
         
         c = availableCoord.get(1);
-        AvatarAgent avatarAgent = new AvatarAgent(environment, c.x, c.y, winner);
+        AvatarAgent avatarAgent = new AvatarAgent(environment, c.x, c.y);
         view.getGrid().addKeyListener(avatarAgent);
         environment.addAgent(avatarAgent);
 

@@ -191,22 +191,34 @@ public class Grid extends JPanel {
         		continue;
         	}
         	
-            int x = agent.getPosX();
-            int y = agent.getPosY();
-            Color color = agent.getColor();
-            g.setColor(color);
+            printAgent(agent, g, wdOfRow, htOfRow);
+        }
+    }
+    
+    /**
+     * Imprime un seul agent
+     * 
+     * @param agent
+     * @param g
+     * @param wdOfRow
+     * @param htOfRow
+     */
+    protected void printAgent(Agent agent, Graphics g, int wdOfRow, int htOfRow) {
+    	int x = agent.getPosX();
+        int y = agent.getPosY();
+        Color color = agent.getColor();
+        g.setColor(color);
 
-            if (agent.getShape() == Agent.ROUND) {
-                g.fillOval(x * wdOfRow, y * htOfRow, wdOfRow, htOfRow);
-            } else if (agent.getShape() == Agent.SQUARE) {
-                g.fillRect(x * wdOfRow, y * htOfRow, wdOfRow, htOfRow);
-            } else if (agent.getShape() == Agent.TRIANGLE) {
-                g.fillPolygon(
-                        new int[]{x * wdOfRow + wdOfRow / 2, x * wdOfRow, x * wdOfRow + wdOfRow},
-                        new int[]{y * htOfRow, y * htOfRow + htOfRow, y * htOfRow + htOfRow},
-                        3
-                );
-            }
+        if (agent.getShape() == Agent.ROUND) {
+            g.fillOval(x * wdOfRow, y * htOfRow, wdOfRow, htOfRow);
+        } else if (agent.getShape() == Agent.SQUARE) {
+            g.fillRect(x * wdOfRow, y * htOfRow, wdOfRow, htOfRow);
+        } else if (agent.getShape() == Agent.TRIANGLE) {
+            g.fillPolygon(
+                    new int[]{x * wdOfRow + wdOfRow / 2, x * wdOfRow, x * wdOfRow + wdOfRow},
+                    new int[]{y * htOfRow, y * htOfRow + htOfRow, y * htOfRow + htOfRow},
+                    3
+            );
         }
     }
     
