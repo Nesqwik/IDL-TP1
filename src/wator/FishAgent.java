@@ -6,8 +6,19 @@ import core.agents.Agent;
 import core.misc.Config;
 import core.misc.Environment;
 
+/**
+ * Agent poisson
+ */
 public class FishAgent extends SeaAgent {
 
+    /**
+     * Constructeur de l'agent poisson
+     * 
+     * @param env
+     * @param posX
+     * @param posY
+     * @param breedTime
+     */
     public FishAgent(Environment env, int posX, int posY, int breedTime) {
         super(env, posX, posY, breedTime);
     }
@@ -31,6 +42,9 @@ public class FishAgent extends SeaAgent {
         environment.addAgent(WatorFactory.newFish(environment, x, y));
     }
 
+    /**
+     * action lors de la suppression de l'agent poisson
+     */
     public void kill() {
         environment.removeAgent(this);
     }

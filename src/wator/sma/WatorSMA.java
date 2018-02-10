@@ -10,12 +10,25 @@ import core.view.Grid;
 import core.view.View;
 import wator.WatorFactory;
 
+/**
+ * SMA Wator
+ */
 public class WatorSMA extends SMA {
 
+    /**
+     * Constructeur du Wator SMA
+     * 
+     * @param env
+     */
     public WatorSMA(Environment env) {
         super(env);
     }
 
+    /**
+     * Lancer Wator SMA
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         Config.load();
 

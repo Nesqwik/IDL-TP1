@@ -11,12 +11,25 @@ import core.view.View;
 import particle.ParticleAgent;
 
 
+/**
+ * SMA Particule
+ */
 public class ParticleSMA extends SMA {
 
+    /**
+     * Constructeur de la particule SMA
+     * 
+     * @param env
+     */
     public ParticleSMA(Environment env) {
         super(env);
     }
 
+    /**
+     * Lancer les particules
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         Config.load();
 
@@ -35,6 +48,13 @@ public class ParticleSMA extends SMA {
         }
     }
 
+    /**
+     * Crée un agent particule
+     * 
+     * @param env
+     * @param coord
+     * @return l'agent Particule
+     */
     private ParticleAgent createParticleAgent(Environment env, Point coord) {
         int pasX = random.nextInt(3) - 1;
         int pasY = random.nextInt(3) - 1;

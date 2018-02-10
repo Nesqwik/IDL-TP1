@@ -7,15 +7,39 @@ import core.misc.SMA;
 
 import java.awt.*;
 
+/**
+ * Agent requin
+ */
 public class SharkAgent extends SeaAgent {
 
 
+    /**
+     * temps de manger
+     */
     protected int feedTime;
+    /**
+     * initial temps de manger
+     */
     private int initialFeedTime;
 
+    /**
+     * poisson possible à manger
+     */
     private FishAgent[] possibleFish = {null, null, null, null, null, null, null, null};
+    /**
+     * nombre de poisson
+     */
     private int nbFish = 0;
 
+    /**
+     * Constructeur du requin
+     * 
+     * @param env
+     * @param x
+     * @param y
+     * @param breedTime
+     * @param feedTime
+     */
     public SharkAgent(Environment env, int x, int y, int breedTime, int feedTime) {
         super(env, x, y, breedTime);
         this.feedTime = feedTime;
@@ -23,6 +47,14 @@ public class SharkAgent extends SeaAgent {
         this.setColor(Config.pink);
     }
 
+    /**
+     * initialise le requin
+     * 
+     * @param x
+     * @param y
+     * @param breedTime
+     * @param feedTime
+     */
     public void init(int x, int y, int breedTime, int feedTime) {
         super.init(x, y, breedTime);
         this.feedTime = feedTime;
@@ -46,6 +78,9 @@ public class SharkAgent extends SeaAgent {
         environment.addAgent(WatorFactory.newShark(environment, x, y));
     }
 
+    /**
+     * mort du requin
+     */
     protected void die() {
         //Logger.log("sharkAgent;die");
         environment.removeAgent(this);
@@ -65,12 +100,22 @@ public class SharkAgent extends SeaAgent {
         WatorFactory.addDiedShark(this);
     }
 
+    /**
+     * tue le poisson
+     * 
+     * @param fish
+     */
     protected void killFish(FishAgent fish) {
         fish.kill();
         feedTime = initialFeedTime;
     }
 
 
+    /**
+     * mange s'il peut
+     * 
+     * @return
+     */
     protected boolean eatIfCan() {
         
         if (nbFish != 0) {
@@ -98,6 +143,11 @@ public class SharkAgent extends SeaAgent {
         }
     }
 
+    /**
+     * mange et bouge s'il peut
+     * 
+     * @return vrai s'il a bougé
+     */
     protected boolean eatAndMoveIfCan() {
        
         if (nbFish != 0) {

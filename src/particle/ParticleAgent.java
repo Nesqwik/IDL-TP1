@@ -6,11 +6,29 @@ import core.misc.Environment;
 
 import java.awt.*;
 
+/**
+ * Agent particule
+ */
 public class ParticleAgent extends Agent {
 
+    /**
+     * pas x
+     */
     protected int pasX;
+    /**
+     * pas y
+     */
     protected int pasY;
 
+    /**
+     * Constructeur de l'agent particule
+     * 
+     * @param environment
+     * @param posX
+     * @param posY
+     * @param pasX
+     * @param pasY
+     */
     public ParticleAgent(Environment environment, int posX, int posY, int pasX, int pasY) {
         super(environment, posX, posY);
         this.setColor(Color.GRAY);
@@ -23,6 +41,14 @@ public class ParticleAgent extends Agent {
         return Agent.ROUND;
     }
 
+    /**
+     * initialise l'agent de particule
+     * 
+     * @param posX
+     * @param posY
+     * @param pasX
+     * @param pasY
+     */
     public void init(int posX, int posY, int pasX, int pasY) {
         super.init(posX, posY);
         this.setColor(Color.GRAY);
@@ -30,14 +56,33 @@ public class ParticleAgent extends Agent {
         this.setPasY(pasY);
     }
 
+    /**
+     * Vérifie s'il y a une collision avec l'agent Frontière x + 1
+     * 
+     * @param moore les voisins
+     * @return vrai si il y a collision avec un voisin
+     */
     private boolean isCollideX(Agent[][] moore) {
         return moore[pasX + 1][1] instanceof FrontierAgent;
     }
 
+    /**
+     * Vérifie s'il y a une collision avec l'agent Frontière y + 0
+     * 
+     * @param moore les voisins
+     * @return vrai si il y a une collision avec la frontière
+     */
     private boolean isCollideY(Agent[][] moore) {
         return moore[1][pasY + 1] instanceof FrontierAgent;
     }
 
+    
+    /**
+     * traitement lors d'une collision
+     * 
+     * @param otherAgent
+     * @param moore voisins
+     */
     protected void onCollide(ParticleAgent otherAgent, Agent[][] moore) {
         this.setColor(Color.RED);
         otherAgent.setColor(Color.RED);
@@ -79,18 +124,38 @@ public class ParticleAgent extends Agent {
     }
 
 
+    /**
+     * getter pasX
+     * 
+     * @return pasX
+     */
     public int getPasX() {
         return pasX;
     }
 
+    /**
+     * setter pas X
+     * 
+     * @param pasX
+     */
     public void setPasX(int pasX) {
         this.pasX = pasX;
     }
 
+    /**
+     * getter pasY
+     * 
+     * @return pasY
+     */
     public int getPasY() {
         return pasY;
     }
 
+    /**
+     * setter pasY
+     * 
+     * @param pasY
+     */
     public void setPasY(int pasY) {
         this.pasY = pasY;
     }
