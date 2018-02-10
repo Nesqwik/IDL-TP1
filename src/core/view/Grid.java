@@ -69,11 +69,11 @@ public class Grid extends JPanel {
                 }
                 
                 if (keyEvent.getKeyChar() == 'a') {
-                	Config.setSpeedHunter(Config.getSpeedHunter()-1);
+                	Config.setSpeedHunter(Config.getSpeedHunter()+1);
                 }
                 
                 if (keyEvent.getKeyChar() == 'z') {
-                	Config.setSpeedHunter(Config.getSpeedHunter()+1);
+                	Config.setSpeedHunter(Config.getSpeedHunter()-1);
                 }
                 
                 if (keyEvent.getKeyChar() == 'o') {

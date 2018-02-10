@@ -1,10 +1,7 @@
 package core.misc;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import core.agents.Agent;
 import core.agents.FrontierAgent;
@@ -192,6 +189,18 @@ public class Environment {
         grid[agent.getPosX()][agent.getPosY()] = agent;
     }
 
+
+    private class DijkstraVoisin {
+        public int x;
+        public int y;
+        public int val;
+        public DijkstraVoisin(int x, int y, int val) {
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }
+    }
+
     public void dijkstra(Agent agent) {
         int gridX = agent.getPosX();
         int gridY = agent.getPosY();
@@ -202,8 +211,11 @@ public class Environment {
             }
         }
 
+        Queue<DijkstraVoisin> queue = new LinkedList<>();
+        markValue(gridX, gridY, 0);
+        queue.add(new DijkstraVoisin(gridX, gridY, 1));
 
-        dijkstraRecursive(Arrays.asList(new Point(gridX, gridY)), 0);
+        dijkstraRecursive(queue);
     }
 
     private boolean markValue(int x, int y, int value) {
@@ -216,32 +228,33 @@ public class Environment {
         }
     }
 
-    public void dijkstraRecursive(List<Point> voisins, int value) {
-        List<Point> vVoisins = new ArrayList<>();
-        for (Point p : voisins) {
-            if(!markValue(p.x, p.y, value) && value != 0) {
+    public void dijkstraRecursive(Queue<DijkstraVoisin> voisins) {
+        while(voisins.size() != 0) {
+            DijkstraVoisin p = voisins.poll();
+
+            /*if (!markValue(p.x, p.y, value) && value != 0) {
                 continue;
-            }
+            }*/
 
             if (p.x > 0 && dijkstraResult[p.x - 1][p.y] == -2) {
-                vVoisins.add(new Point(p.x - 1, p.y));
+                voisins.add(new DijkstraVoisin(p.x - 1, p.y, p.val + 1));
+                markValue(p.x - 1, p.y, p.val);
             }
 
             if (p.x < dijkstraResult.length - 1 && dijkstraResult[p.x + 1][p.y] == -2) {
-                vVoisins.add(new Point(p.x + 1, p.y));
+                voisins.add(new DijkstraVoisin(p.x + 1, p.y, p.val + 1));
+                markValue(p.x + 1, p.y, p.val);
             }
 
             if (p.y > 0 && dijkstraResult[p.x][p.y - 1] == -2) {
-                vVoisins.add(new Point(p.x, p.y - 1));
+                voisins.add(new DijkstraVoisin(p.x, p.y - 1, p.val + 1));
+                markValue(p.x, p.y - 1, p.val);
             }
 
             if (p.y < dijkstraResult[p.x].length - 1 && dijkstraResult[p.x][p.y + 1] == -2) {
-                vVoisins.add(new Point(p.x, p.y + 1));
+                voisins.add(new DijkstraVoisin(p.x, p.y + 1, p.val + 1));
+                markValue(p.x, p.y + 1, p.val);
             }
-        }
-
-        if(vVoisins.size() != 0) {
-            dijkstraRecursive(vVoisins, value + 1);
         }
     }
 

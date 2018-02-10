@@ -281,7 +281,7 @@ public class Config {
     }
 
     public static void setSpeedHunter(int speedHunter) {
-        Config.speedHunter = speedHunter;
+        Config.speedHunter = Math.max(1, speedHunter);
     }
 
     public static int getSpeedAvatar() {
@@ -289,7 +289,7 @@ public class Config {
     }
 
     public static void setSpeedAvatar(int speedAvatar) {
-        Config.speedAvatar = speedAvatar;
+        Config.speedAvatar = Math.max(1, speedAvatar);
     }
 
 	public static int getLifeDefender() {
