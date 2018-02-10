@@ -1,17 +1,16 @@
 package core.agents;
 
 
+import java.awt.Color;
+
 import core.misc.Environment;
 import core.misc.Logger;
-
-import java.awt.*;
 
 public abstract class Agent {
     public static int SQUARE = 1;
     public static int TRIANGLE = 2;
     public static int ROUND = 3;
 
-    private static int currentId = 0;
     public int id;
 
     private int posX;

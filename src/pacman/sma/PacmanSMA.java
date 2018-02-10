@@ -12,6 +12,7 @@ import pacman.AvatarAgent;
 import pacman.DefenderAgent;
 import pacman.Element;
 import pacman.EnvironmentPacman;
+import pacman.GridPacman;
 import pacman.HunterAgent;
 import pacman.Labyrinthe;
 import pacman.WallAgent;
@@ -25,8 +26,11 @@ public class PacmanSMA extends SMA {
 
     public static void main(String[] args) {
         Config.load();
+        EnvironmentPacman environmentPacman = new EnvironmentPacman();
+        PacmanSMA pacmanSMA = new PacmanSMA(environmentPacman);
+        GridPacman grid = new GridPacman(environmentPacman, pacmanSMA);
 
-        new View(new PacmanSMA(new EnvironmentPacman()));
+        new View(pacmanSMA, grid);
     }
 
     @Override

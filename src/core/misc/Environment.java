@@ -75,21 +75,6 @@ public class Environment {
         }
     }
 
-    /*public Agent[][] getVonNeumann(Agent agent) {
-        if (isToric) {
-            return getVonNeumannToric(agent);
-        } else {
-            return getVonNeumannClassic(agent);
-        }
-    }
-
-    private Agent[][] getVonNeumannClassic(Agent agent) {
-
-    }
-
-    private Agent[][] getVonNeumannToric(Agent agent) {
-    }*/
-
     private boolean isValidPosition(int pos, int size) {
         return pos >= 0 && pos < size;
     }

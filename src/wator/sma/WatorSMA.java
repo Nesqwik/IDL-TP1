@@ -1,13 +1,14 @@
 package wator.sma;
 
+import java.awt.Point;
+import java.util.List;
+
 import core.misc.Config;
 import core.misc.Environment;
 import core.misc.SMA;
+import core.view.Grid;
 import core.view.View;
 import wator.WatorFactory;
-
-import java.awt.*;
-import java.util.List;
 
 public class WatorSMA extends SMA {
 
@@ -18,7 +19,11 @@ public class WatorSMA extends SMA {
     public static void main(String[] args) {
         Config.load();
 
-        new View(new WatorSMA(new Environment()));
+        Environment environment = new Environment();
+        WatorSMA SMA = new WatorSMA(environment);
+        Grid grid = new Grid(environment, SMA);
+
+        new View(SMA, grid);
     }
 
     @Override

@@ -37,11 +37,11 @@ public class View implements Observer {
     private Grid grid;
     private SMA sma;
 
-    public View(SMA sma) {
+    public View(SMA sma, Grid grid) {
         this.sma = sma;
 
         frame = new JFrame();
-        grid = new Grid(sma.getEnvironment(), sma);
+        this.grid = grid;
 
         frame.setLayout(new BorderLayout());
         frame.add(new JScrollPane(grid), BorderLayout.CENTER);
@@ -64,7 +64,7 @@ public class View implements Observer {
 
     @Override
     public void update(Observable observable, Object obj) {
-        grid.setRefresh(((Boolean) obj).booleanValue());
+        this.grid.setRefresh(((Boolean) obj).booleanValue());
         if (sma.getTickNumber() % Config.getRefresh() == 0) {
             frame.invalidate();
             frame.repaint();

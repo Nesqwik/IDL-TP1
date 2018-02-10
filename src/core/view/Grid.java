@@ -14,23 +14,19 @@ import core.agents.Agent;
 import core.misc.Config;
 import core.misc.Environment;
 import core.misc.SMA;
-import pacman.DefenderAgent;
-import pacman.EnvironmentPacman;
-import pacman.WinnerAgent;
 
 public class Grid extends JPanel {
 
-    private Environment environment;
-    private SMA sma;
+	private static final long serialVersionUID = 1L;
+	protected Environment environment;
+    protected SMA sma;
 
-    private int zoomLevel = 0;
-    private boolean showGrid = false;
-    private boolean needRefresh = true;
+    protected int zoomLevel = 0;
+    protected boolean showGrid = false;
+    protected boolean needRefresh = true;
 
 
     public Grid(Environment environment, SMA sma) {
-
-
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
@@ -41,7 +37,6 @@ public class Grid extends JPanel {
                 a.setSelected(!a.isSelected());
             }
         });
-
 
         this.addKeyListener(new KeyAdapter() {
             @Override
@@ -102,7 +97,7 @@ public class Grid extends JPanel {
     }
 
 
-    private int getZoomedBoxSize() {
+    protected int getZoomedBoxSize() {
         return Config.getBoxSize() + zoomLevel;
     }
 
@@ -125,7 +120,7 @@ public class Grid extends JPanel {
     }
 
 
-    private void printGrid(Graphics g, int width, int height, int wdOfRow, int htOfRow) {
+    protected void printGrid(Graphics g, int width, int height, int wdOfRow, int htOfRow) {
         int rows = environment.getRows();
         int columns = environment.getCols();
 
@@ -136,21 +131,11 @@ public class Grid extends JPanel {
             g.drawLine(k * wdOfRow, 0, k * wdOfRow, height);
     }
 
-    private void printAgents(Graphics g, Environment environment, int wdOfRow, int htOfRow) {
+    protected void printAgents(Graphics g, Environment environment, int wdOfRow, int htOfRow) {
         for (Agent agent : environment.getAgents()) {
 
-        	if (agent instanceof DefenderAgent) {
-        		DefenderAgent defender = ((DefenderAgent)agent);
-        		if (! defender.isActive()){
-        			continue;
-        		}
-        	}
-        	
-        	if (agent instanceof WinnerAgent) {
-        		WinnerAgent winner = ((WinnerAgent)agent);
-        		if (! winner.isActive()){
-        			continue;
-        		}
+        	if (conditionToStop(agent)) {
+        		continue;
         	}
         	
             int x = agent.getPosX();
@@ -171,15 +156,9 @@ public class Grid extends JPanel {
             }
         }
     }
-
-    private void printDijkstra(Graphics g) {
-        int[][] dijkstra = ((EnvironmentPacman)environment).getDijkstraResult();
-        for(int x = 0 ; x < dijkstra.length ; x++) {
-            for(int y = 0 ; y < dijkstra[x].length ; y++) {
-            	g.setColor(Color.WHITE);
-                g.drawString(dijkstra[x][y] + "", x * getZoomedBoxSize(), (y + 1) * getZoomedBoxSize());
-            }
-        }
+    
+    protected boolean conditionToStop(Agent agent) {
+    	return false;
     }
 
     @Override
@@ -214,7 +193,6 @@ public class Grid extends JPanel {
         }
 
         printAgents(g, environment, wdOfRow, htOfRow);
-        printDijkstra(g);
     }
 
     public void setEnvironment(Environment env) {

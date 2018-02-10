@@ -2,8 +2,6 @@ package core.agents;
 
 import core.misc.Environment;
 
-import java.awt.*;
-
 public class FrontierAgent extends Agent {
 
 

@@ -1,11 +1,14 @@
 package core.misc;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Observable;
+import java.util.Random;
+
 import core.agents.Agent;
 import core.view.View;
-
-import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 public abstract class SMA extends Observable {
 
@@ -96,11 +99,7 @@ public abstract class SMA extends Observable {
         Logger.log("Tick;" + tickNumber);
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
-
-        /*long delay = 0;
-        if (this.isRunning) delay = Config.getDelay() - elapsedTime;
-        tickNumber++;
-        this.sleepTime =*/
+        Logger.log("Time;" + elapsedTime);
     }
 
     private void runOnceFairRandom() {

@@ -1,11 +1,10 @@
 package wator;
 
+import java.awt.Color;
+
 import core.agents.Agent;
 import core.misc.Config;
 import core.misc.Environment;
-import core.misc.Logger;
-
-import java.awt.*;
 
 public class FishAgent extends SeaAgent {
 

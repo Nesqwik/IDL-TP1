@@ -1,15 +1,15 @@
 package expWator.sma;
 
+import java.awt.Point;
+import java.util.List;
+
 import core.misc.Config;
 import core.misc.Environment;
 import core.misc.SMA;
+import core.view.Grid;
 import core.view.View;
 import expWator.SymbolAgent;
 import expWator.WatorExpFactory;
-import wator.WatorFactory;
-
-import java.awt.*;
-import java.util.List;
 
 public class ExpWatorSMA extends SMA {
 
@@ -19,8 +19,12 @@ public class ExpWatorSMA extends SMA {
 
     public static void main(String[] args) {
         Config.load();
+        
+        Environment environment = new Environment();
+        ExpWatorSMA SMA = new ExpWatorSMA(environment);
+        Grid grid = new Grid(environment, SMA);
 
-        new View(new ExpWatorSMA(new Environment()));
+        new View(SMA, grid);
     }
 
     @Override

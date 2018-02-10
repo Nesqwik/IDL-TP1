@@ -43,6 +43,7 @@ public class Config {
     static private int timeAppearDefender;
     static private int invinsibleTime;
     static private boolean generateLabyrinthe;
+    static private boolean printDijkstra;
 
     static public void load() {
         Properties prop = new Properties();
@@ -87,6 +88,7 @@ public class Config {
             timeAppearDefender = Integer.parseInt(prop.getProperty("timeAppearDefender"));
             invinsibleTime = Integer.parseInt(prop.getProperty("invinsibleTime"));
             generateLabyrinthe = Boolean.parseBoolean(prop.getProperty("generateLabyrinthe"));
+            printDijkstra = Boolean.parseBoolean(prop.getProperty("printDijkstra"));
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -322,6 +324,14 @@ public class Config {
 
 	public static void setGenerateLabyrinthe(boolean generateLabyrinthe) {
 		Config.generateLabyrinthe = generateLabyrinthe;
+	}
+
+	public static boolean isPrintDijkstra() {
+		return printDijkstra;
+	}
+
+	public static void setPrintDijkstra(boolean printDijkstra) {
+		Config.printDijkstra = printDijkstra;
 	}
     
 	
