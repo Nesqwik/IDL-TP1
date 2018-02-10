@@ -10,9 +10,9 @@ import core.misc.SMA;
 import core.view.View;
 import pacman.AvatarAgent;
 import pacman.DefenderAgent;
+import pacman.Element;
 import pacman.HunterAgent;
 import pacman.Labyrinthe;
-import pacman.Labyrinthe.Element;
 import pacman.WallAgent;
 import pacman.WinnerAgent;
 

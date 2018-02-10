@@ -8,17 +8,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import core.misc.Config;
+
 public class Labyrinthe {
 
 	private int labyX;
 	private int labyY;
 	private Element[][] labyrinthe;
 	private Random random;
+	private boolean torus;
 
 	public Labyrinthe(int x, int y, Random random) {
-		this.labyX = (int)Math.ceil(x/2 + 0.5);
-		this.labyY = (int)Math.ceil(y/2 + 0.5);
+		this.labyX = (int)Math.ceil(x/2);
+		this.labyY = (int)Math.ceil(y/2);
 		this.random = random;
+		this.torus = Config.isTorus();
 	}
 
 	public int getLabyX() {
@@ -35,18 +39,6 @@ public class Labyrinthe {
 
 	public void setLabyY(int labyY) {
 		this.labyY = labyY;
-	}
-
-	public class Element {
-		public boolean S;
-		public boolean E;
-		public int idx;
-
-		public Element(boolean S, boolean E, int idx) {
-			this.S = S;
-			this.E = E;
-			this.idx = idx;
-		}
 	}
 	
 	public void print(){
@@ -87,7 +79,7 @@ public class Labyrinthe {
 			}
 		}
 		print();
-		Collections.shuffle(points);
+		Collections.shuffle(points, this.random);
 		
 		int nb_cloison = (this.labyX * this.labyY) - 1;
 		
@@ -99,26 +91,35 @@ public class Labyrinthe {
 			
 			int nb_dir = 0;
 			Element current_elmt = null;
+			int xMoinsUn = 0;
+			int xPlusUn = 0;
+			int yMoinsUn = 0;
+			int yPlusUn = 0;
 			
 			while (nb_dir == 0) {
 				pt = points.get(cpt);
 				current_elmt = labyrinthe[pt.x][pt.y];
 				int idx = current_elmt.idx;
+				xMoinsUn = torus ? (pt.x - 1 + this.labyX) % this.labyX : pt.x - 1;
+				xPlusUn = torus ? (pt.x + 1) % this.labyX : pt.x + 1;
+				yMoinsUn = torus ? (pt.y - 1 + this.labyY) % this.labyY : pt.y - 1;
+				yPlusUn = torus ? (pt.y + 1) %this.labyY : pt.y + 1;
+				
 				
 				//voisins
-				if (pt.x > 0 && this.labyrinthe[pt.x - 1][pt.y].idx != idx) {
+				if (xMoinsUn >= 0 && this.labyrinthe[xMoinsUn][pt.y].idx != idx) {
 					directions[nb_dir] = 0;
 					nb_dir++;
 				}
-				if (pt.x < this.labyX - 1 && this.labyrinthe[pt.x + 1][pt.y].idx != idx) {
+				if (xPlusUn < this.labyX && this.labyrinthe[xPlusUn][pt.y].idx != idx) {
 					directions[nb_dir] = 1;
 					nb_dir++;
 				}
-				if (pt.y > 0 && this.labyrinthe[pt.x][pt.y - 1].idx != idx) {
+				if (yMoinsUn >= 0 && this.labyrinthe[pt.x][yMoinsUn].idx != idx) {
 					directions[nb_dir] = 2;
 					nb_dir++;
 				}
-				if (pt.y < this.labyY - 1 && this.labyrinthe[pt.x][pt.y + 1].idx != idx) {
+				if (yPlusUn < this.labyY && this.labyrinthe[pt.x][yPlusUn].idx != idx) {
 					directions[nb_dir] = 3;
 					nb_dir++;
 				}
@@ -135,20 +136,20 @@ public class Labyrinthe {
 			//mettre à jour les éléments
 			switch (dir) {
 			case 0:
-				elmt = updateElement(pt, -1, 0, current_elmt.idx, map);
+				elmt = updateElement(xMoinsUn, pt.y, current_elmt.idx, map);
 				elmt.E = false;
 				break;
 			case 1:
 				current_elmt.E = false;
-				elmt = updateElement(pt, 1, 0, current_elmt.idx, map);
+				elmt = updateElement(xPlusUn, pt.y, current_elmt.idx, map);
 				break;
 			case 2:
-				elmt = updateElement(pt, 0, -1, current_elmt.idx, map);
+				elmt = updateElement(pt.x, yMoinsUn, current_elmt.idx, map);
 				elmt.S = false;
 				break;
 			default:
 				current_elmt.S = false;
-				elmt = updateElement(pt, 0, 1, current_elmt.idx, map);
+				elmt = updateElement(pt.x, yPlusUn, current_elmt.idx, map);
 			}
 			
 			colision_ajoutee++;
@@ -156,8 +157,8 @@ public class Labyrinthe {
 		print();
 	}
 
-	private Element updateElement(Point pt, int x, int y, int idx, Map<Integer, List<Point>> map) {
-		Element elmt = this.labyrinthe[pt.x + x][pt.y + y];
+	private Element updateElement(int x, int y, int idx, Map<Integer, List<Point>> map) {
+		Element elmt = this.labyrinthe[x][y];
 		List<Point> new_points = new ArrayList<>();
 		if (map.containsKey(idx)) {
 			new_points = map.get(idx);
