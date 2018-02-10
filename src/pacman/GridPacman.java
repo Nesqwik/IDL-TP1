@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import core.agents.Agent;
+import core.misc.Config;
 import core.misc.Environment;
 import core.misc.SMA;
 import core.view.Grid;
@@ -36,7 +37,9 @@ public class GridPacman extends Grid{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        printDijkstra(g);
+        if (Config.isPrintDijkstra()) {
+        	printDijkstra(g);
+        }
     }
 	
 
@@ -66,13 +69,6 @@ public class GridPacman extends Grid{
     	if (agent instanceof DefenderAgent) {
     		DefenderAgent defender = ((DefenderAgent)agent);
     		if (! defender.isActive()){
-    			return true;
-    		}
-    	}
-    	
-    	if (agent instanceof WinnerAgent) {
-    		WinnerAgent winner = ((WinnerAgent)agent);
-    		if (! winner.isActive()){
     			return true;
     		}
     	}
