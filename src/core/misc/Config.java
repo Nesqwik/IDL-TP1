@@ -42,6 +42,7 @@ public class Config {
     static private int lifeDefender;
     static private int timeAppearDefender;
     static private int invinsibleTime;
+    static private boolean generateLabyrinthe;
 
     static public void load() {
         Properties prop = new Properties();
@@ -85,6 +86,7 @@ public class Config {
             lifeDefender = Integer.parseInt(prop.getProperty("lifeDefender"));
             timeAppearDefender = Integer.parseInt(prop.getProperty("timeAppearDefender"));
             invinsibleTime = Integer.parseInt(prop.getProperty("invinsibleTime"));
+            generateLabyrinthe = Boolean.parseBoolean(prop.getProperty("generateLabyrinthe"));
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -313,6 +315,15 @@ public class Config {
 	public static void setInvinsibleTime(int invinsibleTime) {
 		Config.invinsibleTime = invinsibleTime;
 	}
+
+	public static boolean isGenerateLabyrinthe() {
+		return generateLabyrinthe;
+	}
+
+	public static void setGenerateLabyrinthe(boolean generateLabyrinthe) {
+		Config.generateLabyrinthe = generateLabyrinthe;
+	}
     
+	
     
 }

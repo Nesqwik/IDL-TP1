@@ -1,21 +1,21 @@
 package core.view;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JPanel;
+
 import core.agents.Agent;
 import core.misc.Config;
 import core.misc.Environment;
 import core.misc.SMA;
 import pacman.DefenderAgent;
-import pacman.WallAgent;
 import pacman.WinnerAgent;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.font.TextHitInfo;
-import java.util.ArrayList;
 
 public class Grid extends JPanel {
 
