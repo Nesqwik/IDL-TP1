@@ -15,18 +15,46 @@ import core.misc.Config;
 import core.misc.Environment;
 import core.misc.SMA;
 
+/**
+ * Grille 
+ */
 public class Grid extends JPanel {
 
+	/**
+	 * serial
+	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * environnement
+	 */
 	protected Environment environment;
+    /**
+     * sma
+     */
     protected SMA sma;
 
+    /**
+     * zoom
+     */
     protected int zoomLevel = 0;
+    /**
+     * affichage de la grille
+     */
     protected boolean showGrid = false;
+    /**
+     * refresh
+     */
     protected boolean needRefresh = true;
 
 
+    /**
+     * Constructeur de la grille
+     * 
+     * @param environment 
+     * @param sma 
+     */
     public Grid(Environment environment, SMA sma) {
+    	//selection d'un agent
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
@@ -37,7 +65,7 @@ public class Grid extends JPanel {
                 a.setSelected(!a.isSelected());
             }
         });
-
+        //action du clavier
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent keyEvent) {
@@ -97,11 +125,19 @@ public class Grid extends JPanel {
     }
 
 
+    /**
+     * getter zoom
+     * 
+     * @return zoom
+     */
     protected int getZoomedBoxSize() {
         return Config.getBoxSize() + zoomLevel;
     }
 
 
+    /**
+     * repaint la vue
+     */
     public void repaintView() {
         this.needRefresh = false;
         this.revalidate();
@@ -120,6 +156,15 @@ public class Grid extends JPanel {
     }
 
 
+    /**
+     * imprime la grille avec les agents
+     * 
+     * @param g 
+     * @param width
+     * @param height
+     * @param wdOfRow
+     * @param htOfRow
+     */
     protected void printGrid(Graphics g, int width, int height, int wdOfRow, int htOfRow) {
         int rows = environment.getRows();
         int columns = environment.getCols();
@@ -131,6 +176,14 @@ public class Grid extends JPanel {
             g.drawLine(k * wdOfRow, 0, k * wdOfRow, height);
     }
 
+    /**
+     * imprime les agents
+     * 
+     * @param g
+     * @param environment
+     * @param wdOfRow
+     * @param htOfRow
+     */
     protected void printAgents(Graphics g, Environment environment, int wdOfRow, int htOfRow) {
         for (Agent agent : environment.getAgents()) {
 
@@ -157,6 +210,12 @@ public class Grid extends JPanel {
         }
     }
     
+    /**
+     * Condition d'arrêt de la boucle d'affichage d'un agent
+     * 
+     * @param agent
+     * @return vrai si on arrête sinon faux
+     */
     protected boolean conditionToStop(Agent agent) {
     	return false;
     }
@@ -195,10 +254,20 @@ public class Grid extends JPanel {
         printAgents(g, environment, wdOfRow, htOfRow);
     }
 
+    /**
+     * setter de l'environnement
+     * 
+     * @param env
+     */
     public void setEnvironment(Environment env) {
         this.environment = env;
     }
 
+    /**
+     * setter du refresh
+     * 
+     * @param refresh
+     */
     public void setRefresh(Boolean refresh) {
         this.needRefresh = refresh;
     }

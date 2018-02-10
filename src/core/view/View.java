@@ -14,29 +14,67 @@ import javax.swing.JScrollPane;
 import core.misc.Config;
 import core.misc.SMA;
 
+/**
+ * Vue
+ */
 public class View implements Observer {
 
+    /**
+     * getter frame
+     * 
+     * @return frame
+     */
     public JFrame getFrame() {
         return frame;
     }
 
+    /**
+     * setter frame
+     * 
+     * @param frame
+     */
     public void setFrame(JFrame frame) {
         this.frame = frame;
     }
 
+    /**
+     * frame
+     */
     private JFrame frame;
 
+    /**
+     * getter de la grille
+     * 
+     * @return la grille
+     */
     public Grid getGrid() {
         return grid;
     }
 
+    /**
+     * setter grid
+     * 
+     * @param grid
+     */
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
 
+    /**
+     * grille
+     */
     private Grid grid;
+    /**
+     * sma
+     */
     private SMA sma;
 
+    /**
+     * Constructeur de la vue
+     * 
+     * @param sma 
+     * @param grid
+     */
     public View(SMA sma, Grid grid) {
         this.sma = sma;
 

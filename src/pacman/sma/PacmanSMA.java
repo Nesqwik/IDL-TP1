@@ -18,12 +18,25 @@ import pacman.Labyrinthe;
 import pacman.WallAgent;
 import pacman.WinnerAgent;
 
+/**
+ * SMA pour le jeu pacman
+ */
 public class PacmanSMA extends SMA {
 
+    /**
+     * Constructeur pacman sma
+     * 
+     * @param env
+     */
     public PacmanSMA(Environment env) {
         super(env);
     }
 
+    /**
+     * Lancement du jeu pacman
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         Config.load();
         EnvironmentPacman environmentPacman = new EnvironmentPacman();
@@ -67,6 +80,11 @@ public class PacmanSMA extends SMA {
         this.environment.actuallyAddAgents();
     }
 
+	/**
+	 * Génère le labyrinthe sur la grille
+	 * 
+	 * @param availableCoord les coordonnées possible
+	 */
 	private void generateLabyrinthe(List<Point> availableCoord) {
 		Labyrinthe labyrinthe = new Labyrinthe(environment.getCols(), environment.getRows(), SMA.getRandom());
         labyrinthe.genererLabyFusion();

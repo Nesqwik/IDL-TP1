@@ -10,24 +10,56 @@ import java.util.Random;
 import core.agents.Agent;
 import core.view.View;
 
+/**
+ * SMA abstrait
+ */
 public abstract class SMA extends Observable {
 
+    /**
+     * environnement
+     */
     protected Environment environment;
+    /**
+     * random
+     */
     protected static Random random;
+    /**
+     * points disponibles
+     */
     private List<Point> availableCoord = new ArrayList<>();
+    /**
+     * nombre de tick
+     */
     private int tickNumber = 1;
-
+    /**
+     * temps d'attente
+     */
     private int sleepTime = 0;
-
+    /**
+     * est en cours
+     */
     private boolean isRunning = true;
 
+    /**
+     * vue
+     */
     protected View view;
 
+    /**
+     * Constructeur de la SMA
+     * 
+     * @param env l'environnement des agents
+     */
     public SMA(Environment env) {
         this.environment = env;
         random = new Random(Config.getSeed());
     }
 
+    /**
+     * intégrer des agents dans l'environnement
+     * 
+     * @param view la vue de l'environnement
+     */
     public void populate(View view) {
         this.view = view;
 
@@ -42,8 +74,18 @@ public abstract class SMA extends Observable {
         Collections.shuffle(environment.getAgents(), random);
     }
 
+    /**
+     * Ajouter des agents dans l'environnement
+     * 
+     * @param availableCoord
+     */
     protected abstract void addAgents(List<Point> availableCoord);
 
+    /**
+     * sleep
+     * 
+     * @param ms
+     */
     private void sleep(long ms) {
         try {
             Thread.sleep(ms);
@@ -53,11 +95,17 @@ public abstract class SMA extends Observable {
     }
 
 
+    /**
+     * mise à jour
+     */
     public void update() {
         setChanged();
         notifyObservers(true);
     }
 
+    /**
+     * traitement
+     */
     public void run() {
 
         int nbTicks = Config.getNbTicks();
@@ -77,6 +125,9 @@ public abstract class SMA extends Observable {
         }
     }
 
+    /**
+     * un seul tour
+     */
     public void runOnce() {
         long startTime = System.currentTimeMillis();
         switch (Config.getScheduling()) {
@@ -102,6 +153,9 @@ public abstract class SMA extends Observable {
         Logger.log("Time;" + elapsedTime);
     }
 
+    /**
+     * tour de parole équilibré
+     */
     private void runOnceFairRandom() {
         List<Agent> agents = environment.getAgents();
         Collections.shuffle(agents, random);
@@ -112,6 +166,9 @@ public abstract class SMA extends Observable {
         }
     }
 
+    /**
+     * tour de parole aléatoire
+     */
     private void runOnceRandom() {
         int size = environment.getAgents().size();
         for (int i = 0; i < size; i++) {
@@ -122,6 +179,9 @@ public abstract class SMA extends Observable {
         }
     }
 
+    /**
+     * tour de parole séquentiel
+     */
     private void runOnceSequencial() {
         for (Agent agent : environment.getAgents()) {
             if(agent.isAlive()) {
@@ -130,22 +190,47 @@ public abstract class SMA extends Observable {
         }
     }
 
+    /**
+     * Getter tickNumber
+     * 
+     * @return tickNumber
+     */
     public int getTickNumber() {
         return tickNumber;
     }
 
+    /**
+     * Getter isRunning
+     * 
+     * @return isRunning
+     */
     public boolean isRunning() {
         return isRunning;
     }
 
+    /**
+     * setter running
+     * 
+     * @param running
+     */
     public void setRunning(boolean running) {
         isRunning = running;
     }
 
+    /**
+     * getter environment
+     * 
+     * @return environment
+     */
     public Environment getEnvironment() {
         return this.environment;
     }
 
+    /**
+     * getter random
+     * 
+     * @return random
+     */
     public static Random getRandom() {
         return random;
     }

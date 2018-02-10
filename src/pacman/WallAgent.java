@@ -5,8 +5,18 @@ import core.misc.Environment;
 
 import java.awt.*;
 
+/**
+ * Agent permettant de délimiter le labyrinthe
+ */
 public class WallAgent extends Agent {
 
+    /**
+     * Constructeur de l'agent mur
+     * 
+     * @param environment
+     * @param posX
+     * @param posY
+     */
     public WallAgent(Environment environment, int posX, int posY) {
         super(environment, posX, posY);
     }

@@ -11,12 +11,25 @@ import core.view.View;
 import expWator.SymbolAgent;
 import expWator.WatorExpFactory;
 
+/**
+ * SMA de l'expérience de pierre-papier-ciseaux
+ */
 public class ExpWatorSMA extends SMA {
 
+    /**
+     * Constructeur de la sma
+     * 
+     * @param env
+     */
     public ExpWatorSMA(Environment env) {
         super(env);
     }
 
+    /**
+     * Lancer l'expérience pierre-papier-ciseaux
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         Config.load();
         

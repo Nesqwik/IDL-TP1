@@ -9,22 +9,66 @@ import core.agents.FrontierAgent;
 import core.misc.Config;
 import core.misc.Environment;
 
+/**
+ * Agent avatar
+ */
 public class AvatarAgent extends Agent implements KeyListener {
+    /**
+     * constante pour monter
+     */
     final static int UP = 0;
+    /**
+     * constante pour descendre
+     */
     final static int DOWN = 1;
+    /**
+     * constante pour aller a gauche
+     */
     final static int LEFT = 2;
+    /**
+     * constante pour aller à droite
+     */
     final static int RIGHT = 3;
 
+    /**
+     * nombre de tick
+     */
     private int tickNumber = 0;
     
+    /**
+     * temps de visibilité
+     */
     private int invinsibleTime;
+    /**
+     * nombre de defender
+     */
     private int nbDefender;
 
+    /**
+     * pas x
+     */
     private int pasX;
+    /**
+     * pas y
+     */
     private int pasY;
+    /**
+     * agent gagnant
+     */
     private WinnerAgent winner;
+    /**
+     * environnement
+     */
     private EnvironmentPacman environment;
 
+    /**
+     * Constructeur de l'agent Avatar
+     * 
+     * @param environment
+     * @param posX
+     * @param posY
+     * @param winner
+     */
     public AvatarAgent(Environment environment, int posX, int posY, WinnerAgent winner) {
         super(environment, posX, posY);
         this.invinsibleTime = Config.getInvinsibleTime();
@@ -87,16 +131,27 @@ public class AvatarAgent extends Agent implements KeyListener {
         }
     }
 
+	/**
+	 * Déplace l'avatar
+	 */
 	private void moveAvatar() {
 		environment.moveAgent(this, pasX, pasY);
 		environment.dijkstra(this);
 	}
     
+	/**
+	 * Rend l'avatar vinsible
+	 */
 	private void vinsible() {
 		this.setColor(Color.RED);
 		this.environment.setPacmanInvinsible(false);
 	}
 	
+    /**
+     * Rend l'avatar invinsible
+     * 
+     * @param agent defender
+     */
     public void invinsible(DefenderAgent agent){
     	this.nbDefender++;
     	this.invinsibleTime = Config.getInvinsibleTime();
@@ -108,6 +163,11 @@ public class AvatarAgent extends Agent implements KeyListener {
     	}
     }
 
+	/**
+	 * Vérifie si l'agent gagnant a été activé
+	 * 
+	 * @return vrai si oui sinon faux
+	 */
 	private boolean winnerIsActivate() {
 		return this.nbDefender >= 4;
 	}
@@ -150,6 +210,9 @@ public class AvatarAgent extends Agent implements KeyListener {
 
     }
 
+    /**
+     * supprime l'agent
+     */
     public void kill() {
         this.setAlive(false);
         this.environment.removeAgent(this);

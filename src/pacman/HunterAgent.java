@@ -6,12 +6,34 @@ import core.misc.Environment;
 
 import java.awt.*;
 
+/**
+ * Acteur chasseur
+ */
 public class HunterAgent extends Agent {
+	/**
+	 * pas x
+	 */
 	private int pasX;
+	/**
+	 * pasY
+	 */
 	private int pasY;
+	/**
+	 * nombre de tick
+	 */
 	private int nbTick = 0;
+	/**
+	 * environnement
+	 */
 	private EnvironmentPacman environment;
 
+	/**
+	 * Constructeur de l'agent
+	 * 
+	 * @param environment
+	 * @param posX
+	 * @param posY
+	 */
 	public HunterAgent(Environment environment, int posX, int posY) {
 		super(environment, posX, posY);
 		
@@ -33,6 +55,9 @@ public class HunterAgent extends Agent {
 
 	}
 
+	/**
+	 * bouge le chasseur
+	 */
 	private void moveHunter() {
 		this.pasX = 0;
 		this.pasY = 0;
@@ -88,6 +113,14 @@ public class HunterAgent extends Agent {
 		environment.moveAgent(this, pasX, pasY);
 	}
 
+	/**
+	 * Récupération de l'avatar
+	 * 
+	 * @param moore les voisins
+	 * @param x
+	 * @param y
+	 * @return l'avatar
+	 */
 	private AvatarAgent getAvatarHere(Agent[][] moore, int x, int y) {
 		if (moore[x][y] instanceof AvatarAgent) {
 			return (AvatarAgent) moore[x][y];
@@ -96,6 +129,12 @@ public class HunterAgent extends Agent {
 		return null;
 	}
 
+	/**
+	 * Retourne l'avatar qui se trouve à côté
+	 * 
+	 * @param moore les voisins
+	 * @return l'avatar
+	 */
 	private AvatarAgent getAvatarAround(Agent[][] moore) {
 		AvatarAgent avatar = getAvatarHere(moore, 0, 1);
 		if (avatar != null) {

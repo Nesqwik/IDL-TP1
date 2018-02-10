@@ -6,14 +6,32 @@ import java.util.Queue;
 import core.agents.Agent;
 import core.misc.Environment;
 
+/**
+ * Environnement pacman
+ */
 public class EnvironmentPacman extends Environment {
 
+    /**
+     * début du jeu
+     */
     protected boolean startGame;
+    /**
+     * fin du jeu
+     */
     protected boolean endGame;
+    /**
+     * pacman invainsible
+     */
     protected boolean pacmanInvinsible;
 
+    /**
+     * résultat du dijkstra
+     */
     private int[][] dijkstraResult;
     
+    /**
+     * Constructeur de l'environnement Pacman
+     */
     public EnvironmentPacman() {
     	super();
         this.startGame = false;
@@ -22,10 +40,29 @@ public class EnvironmentPacman extends Environment {
         dijkstraResult = new int[cols][rows];
     }
 
+    /**
+     * Voisin Dijkstra à traiter
+     */
     private class DijkstraVoisin {
+        /**
+         * position x
+         */
         public int x;
+        /**
+         * position y
+         */
         public int y;
+        /**
+         * valeur
+         */
         public int val;
+        /**
+         * Constructeur du voisin Dijkstra a traiter
+         * 
+         * @param x 
+         * @param y
+         * @param val
+         */
         public DijkstraVoisin(int x, int y, int val) {
             this.x = x;
             this.y = y;
@@ -33,6 +70,11 @@ public class EnvironmentPacman extends Environment {
         }
     }
 
+    /**
+     * Calcule Dijkstra
+     * 
+     * @param agent cible
+     */
     public void dijkstra(Agent agent) {
         int gridX = agent.getPosX();
         int gridY = agent.getPosY();
@@ -49,6 +91,15 @@ public class EnvironmentPacman extends Environment {
         dijkstraRecursive(queue);
     }
 
+    /**
+     * Enregistre la valeur sur la case
+     * 
+     * @param x
+     * @param y
+     * @param value
+     * @param voisins
+     * @return faux s'il s'agit d'un mur sinon vrai
+     */
     private boolean markValue(int x, int y, int value, Queue<DijkstraVoisin> voisins) {
         if (!(grid[x][y] instanceof WallAgent)) {
             dijkstraResult[x][y] = value;
@@ -60,6 +111,11 @@ public class EnvironmentPacman extends Environment {
         }
     }
 
+    /**
+     * traitement du dijkstra
+     * 
+     * @param voisins la file des voisins à traiter
+     */
     public void dijkstraRecursive(Queue<DijkstraVoisin> voisins) {
         while(voisins.size() != 0) {
             DijkstraVoisin p = voisins.poll();
@@ -87,10 +143,22 @@ public class EnvironmentPacman extends Environment {
         }
     }
 
+    /**
+     * récupère les résultats du Dijkstra
+     * 
+     * @return les résultat du Dijkstra
+     */
     public int[][] getDijkstraResult() {
         return dijkstraResult;
     }
 
+    /**
+     * getter de la valeur de dijkstra dans une case
+     * 
+     * @param x
+     * @param y
+     * @return la valeur dans la grille de Dijkstra
+     */
     public int getDijkstraPos(int x, int y) {
         if (x < 0 || y < 0 || x > dijkstraResult.length - 1 || y > dijkstraResult[0].length - 1) {
             return -1;
@@ -98,26 +166,52 @@ public class EnvironmentPacman extends Environment {
         return dijkstraResult[x][y];
     }
     
+    /**
+     * démarrer le jeu
+     */
     public void startGame() {
     	this.startGame = true;
     }
     
+    /**
+     * terminer le jeu
+     */
     public void endGame() {
     	this.endGame = true;
     }
     
+    /**
+     * getter de startGame
+     * 
+     * @return vrai si le jeu a commencé
+     */
     public boolean isStartedGame() {
     	return this.startGame;
     }
     
+    /**
+     * getter de endGame
+     * 
+     * @return vrai si le jeu est terminé
+     */
     public boolean isEndedGame() {
     	return this.endGame;
     }
  
+    /**
+     * setter pacman invinsible
+     * 
+     * @param invinsible
+     */
     public void setPacmanInvinsible(boolean invinsible) {
     	this.pacmanInvinsible = invinsible;
     }
     
+    /**
+     * getter pacman invinsible
+     * 
+     * @return pacman invinsible
+     */
     public boolean isPacmanInvinsible(){
     	return this.pacmanInvinsible;
     }

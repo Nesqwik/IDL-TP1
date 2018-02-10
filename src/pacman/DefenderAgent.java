@@ -8,13 +8,39 @@ import core.misc.SMA;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Agent defender qui donne des bonus
+ */
 public class DefenderAgent extends Agent {
+    /**
+     * tick number
+     */
     private int tickNumber;
+    /**
+     * activation
+     */
     private boolean isActive;
+    /**
+     * temps de vie
+     */
     private int lifetime;
+    /**
+     * coordonnees disponibles
+     */
     private List<Point> availableCoord;
+    /**
+     * environnement
+     */
     private EnvironmentPacman environment;
 
+    /**
+     * Constructeur de l'agent Defender
+     * 
+     * @param environment
+     * @param posX
+     * @param posY
+     * @param availableCoord
+     */
     public DefenderAgent(Environment environment, int posX, int posY, List<Point> availableCoord) {
         super(environment, posX, posY);
         
@@ -58,10 +84,20 @@ public class DefenderAgent extends Agent {
         lifetime++;
     }
 
+    /**
+     * getter activation
+     * 
+     * @return activation
+     */
     public boolean isActive() {
         return isActive;
     }
 
+    /**
+     * setter activation
+     * 
+     * @param active
+     */
     public void setActive(boolean active) {
         isActive = active;
         if (active == false) {

@@ -10,14 +10,39 @@ import java.util.Random;
 
 import core.misc.Config;
 
+/**
+ * Labyrinthe
+ */
 public class Labyrinthe {
 
+	/**
+	 * largeur du labyrinthe
+	 */
 	private int labyX;
+	/**
+	 * hauteur du labyrinthe
+	 */
 	private int labyY;
+	/**
+	 * labyrinthe
+	 */
 	private Element[][] labyrinthe;
+	/**
+	 * random
+	 */
 	private Random random;
+	/**
+	 * toricité
+	 */
 	private boolean torus;
 
+	/**
+	 * Constructeur du labyrinthe
+	 * 
+	 * @param x
+	 * @param y
+	 * @param random
+	 */
 	public Labyrinthe(int x, int y, Random random) {
 		this.labyX = (int)Math.ceil(x/2);
 		this.labyY = (int)Math.ceil(y/2);
@@ -25,22 +50,45 @@ public class Labyrinthe {
 		this.torus = Config.isTorus();
 	}
 
+	/**
+	 * getter labyX
+	 * 
+	 * @return labyX
+	 */
 	public int getLabyX() {
 		return labyX;
 	}
 
+	/**
+	 * setter labyX
+	 * 
+	 * @param labyX
+	 */
 	public void setLabyX(int labyX) {
 		this.labyX = labyX;
 	}
 
+	/**
+	 * getter LabyY
+	 * 
+	 * @return labyY
+	 */
 	public int getLabyY() {
 		return labyY;
 	}
 
+	/**
+	 * setter LabyY
+	 * 
+	 * @param labyY
+	 */
 	public void setLabyY(int labyY) {
 		this.labyY = labyY;
 	}
 	
+	/**
+	 * imprimer le labyrinthe
+	 */
 	public void print(){
 		for (int y = 0; y < this.labyY; y++) {
 			String ligne = "";
@@ -62,12 +110,15 @@ public class Labyrinthe {
 		}
 	}
 
+	/**
+	 * générer le labyrinthe avec la méthode de fusion
+	 */
 	public void genererLabyFusion() {
 		this.labyrinthe = new Element[this.labyX][this.labyY];
 		List<Point> points = new ArrayList<>();
 		Map<Integer, List<Point>> map = new HashMap<>();
 		
-		// initialize labyrinthe avec un indice unique pour chaque
+		// initialize labyrinthe avec un indice unique pour chaque case
 		for (int x = 0; x < this.labyX; x++) {
 			for (int y = 0; y < this.labyY; y++) {
 				this.labyrinthe[x][y] = new Element(true, true, y * this.labyX + x);
@@ -87,6 +138,7 @@ public class Labyrinthe {
 		Point pt = null;
 		int colision_ajoutee = 0;
 		int[] directions = new int[4];
+		// ajouter une cloisin tant que le nombre maximum de cloison n'a pas été atteint
 		while(colision_ajoutee < nb_cloison) {
 			
 			int nb_dir = 0;
@@ -96,6 +148,7 @@ public class Labyrinthe {
 			int yMoinsUn = 0;
 			int yPlusUn = 0;
 			
+			// chercher des voisins
 			while (nb_dir == 0) {
 				pt = points.get(cpt);
 				current_elmt = labyrinthe[pt.x][pt.y];
@@ -157,6 +210,15 @@ public class Labyrinthe {
 		print();
 	}
 
+	/**
+	 * Met à jour l'élément
+	 * 
+	 * @param x position
+	 * @param y position
+	 * @param idx indice
+	 * @param map map
+	 * @return l'élément modifié
+	 */
 	private Element updateElement(int x, int y, int idx, Map<Integer, List<Point>> map) {
 		Element elmt = this.labyrinthe[x][y];
 		List<Point> new_points = new ArrayList<>();
@@ -178,6 +240,11 @@ public class Labyrinthe {
 		return elmt;
 	}
 	
+	/**
+	 * getter labyrinthe
+	 * 
+	 * @return un tableau a deux dimension d'Element
+	 */
 	public Element[][] getLabyrinthe() {
 		return this.labyrinthe;
 	}

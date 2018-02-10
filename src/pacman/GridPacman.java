@@ -8,13 +8,22 @@ import core.misc.Environment;
 import core.misc.SMA;
 import core.view.Grid;
 
+/**
+ * Grille pacman
+ */
 public class GridPacman extends Grid{
 	
 	/**
-	 * 
+	 * serial
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Constructeur de la grille pacman
+	 * 
+	 * @param environment
+	 * @param sma
+	 */
 	public GridPacman(Environment environment, SMA sma) {
 		super(environment, sma);
 	}
@@ -27,6 +36,11 @@ public class GridPacman extends Grid{
     }
 	
 
+    /**
+     * Imprime dijkstra
+     * 
+     * @param g
+     */
     private void printDijkstra(Graphics g) {
         int[][] dijkstra = ((EnvironmentPacman)environment).getDijkstraResult();
         for(int x = 0 ; x < dijkstra.length ; x++) {
@@ -37,6 +51,13 @@ public class GridPacman extends Grid{
         }
     }
     
+    
+    /**
+     * Vérifie si on imprime l'agent
+     * 
+     * @param agent cible
+     * @return vrai si on l'arrête sinon faux
+     */
     protected boolean contitionToStop(Agent agent) {
     	if (agent instanceof DefenderAgent) {
     		DefenderAgent defender = ((DefenderAgent)agent);
