@@ -15,6 +15,7 @@ import core.misc.Config;
 import core.misc.Environment;
 import core.misc.SMA;
 import pacman.DefenderAgent;
+import pacman.EnvironmentPacman;
 import pacman.WinnerAgent;
 
 public class Grid extends JPanel {
@@ -172,7 +173,7 @@ public class Grid extends JPanel {
     }
 
     private void printDijkstra(Graphics g) {
-        int[][] dijkstra = environment.getDijkstraResult();
+        int[][] dijkstra = ((EnvironmentPacman)environment).getDijkstraResult();
         for(int x = 0 ; x < dijkstra.length ; x++) {
             for(int y = 0 ; y < dijkstra[x].length ; y++) {
             	g.setColor(Color.WHITE);

@@ -1,39 +1,31 @@
 package core.misc;
 
-import java.awt.Point;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 import core.agents.Agent;
 import core.agents.FrontierAgent;
-import pacman.WallAgent;
 
 public class Environment {
 
-    private boolean isToric;
+	protected boolean isToric;
 
     protected List<Agent> agents = new LinkedList<>();
-    private List<Agent> agentsToAdd = new LinkedList<>();
+    protected List<Agent> agentsToAdd = new LinkedList<>();
     protected List<Agent> agentsToRemove = new LinkedList<>();
-    protected boolean startGame;
-    protected boolean endGame;
-    protected boolean pacmanInvinsible;
 
-    private FrontierAgent frontier = new FrontierAgent(this);
+    protected FrontierAgent frontier = new FrontierAgent(this);
 
-    private int[][] dijkstraResult;
-    private Agent[][] grid;
-    private int cols;
-    private int rows;
+    protected Agent[][] grid;
+    protected int cols;
+    protected int rows;
 
     public Environment() {
 
         this.cols = Config.getGridSizeX();
         this.rows = Config.getGridSizeY();
-        this.startGame = false;
-        this.endGame = false;
 
         grid = new Agent[cols][rows];
-        dijkstraResult = new int[cols][rows];
 
         this.isToric = Config.isTorus();
     }
@@ -189,108 +181,14 @@ public class Environment {
         grid[agent.getPosX()][agent.getPosY()] = agent;
     }
 
+	public boolean isToric() {
+		return isToric;
+	}
 
-    private class DijkstraVoisin {
-        public int x;
-        public int y;
-        public int val;
-        public DijkstraVoisin(int x, int y, int val) {
-            this.x = x;
-            this.y = y;
-            this.val = val;
-        }
-    }
-
-    public void dijkstra(Agent agent) {
-        int gridX = agent.getPosX();
-        int gridY = agent.getPosY();
-
-        for (int x = 0; x < dijkstraResult.length; x++) {
-            for (int y = 0; y < dijkstraResult[x].length; y++) {
-                dijkstraResult[x][y] = -2;
-            }
-        }
-
-        Queue<DijkstraVoisin> queue = new LinkedList<>();
-        markValue(gridX, gridY, 0);
-        queue.add(new DijkstraVoisin(gridX, gridY, 1));
-
-        dijkstraRecursive(queue);
-    }
-
-    private boolean markValue(int x, int y, int value) {
-        if (!(grid[x][y] instanceof WallAgent)) {
-            dijkstraResult[x][y] = value;
-            return true;
-        } else {
-            dijkstraResult[x][y] = -1;
-            return false;
-        }
-    }
-
-    public void dijkstraRecursive(Queue<DijkstraVoisin> voisins) {
-        while(voisins.size() != 0) {
-            DijkstraVoisin p = voisins.poll();
-
-            /*if (!markValue(p.x, p.y, value) && value != 0) {
-                continue;
-            }*/
-
-            if (p.x > 0 && dijkstraResult[p.x - 1][p.y] == -2) {
-                voisins.add(new DijkstraVoisin(p.x - 1, p.y, p.val + 1));
-                markValue(p.x - 1, p.y, p.val);
-            }
-
-            if (p.x < dijkstraResult.length - 1 && dijkstraResult[p.x + 1][p.y] == -2) {
-                voisins.add(new DijkstraVoisin(p.x + 1, p.y, p.val + 1));
-                markValue(p.x + 1, p.y, p.val);
-            }
-
-            if (p.y > 0 && dijkstraResult[p.x][p.y - 1] == -2) {
-                voisins.add(new DijkstraVoisin(p.x, p.y - 1, p.val + 1));
-                markValue(p.x, p.y - 1, p.val);
-            }
-
-            if (p.y < dijkstraResult[p.x].length - 1 && dijkstraResult[p.x][p.y + 1] == -2) {
-                voisins.add(new DijkstraVoisin(p.x, p.y + 1, p.val + 1));
-                markValue(p.x, p.y + 1, p.val);
-            }
-        }
-    }
-
-    public int[][] getDijkstraResult() {
-        return dijkstraResult;
-    }
-
-    public int getDijkstraPos(int x, int y) {
-        if (x < 0 || y < 0 || x > dijkstraResult.length - 1 || y > dijkstraResult[0].length - 1) {
-            return -1;
-        }
-        return dijkstraResult[x][y];
-    }
+	public void setToric(boolean isToric) {
+		this.isToric = isToric;
+	}
     
-    public void startGame() {
-    	this.startGame = true;
-    }
     
-    public void endGame() {
-    	this.endGame = true;
-    }
-    
-    public boolean isStartedGame() {
-    	return this.startGame;
-    }
-    
-    public boolean isEndedGame() {
-    	return this.endGame;
-    }
- 
-    public void setPacmanInvinsible(boolean invinsible) {
-    	this.pacmanInvinsible = invinsible;
-    }
-    
-    public boolean isPacmanInvinsible(){
-    	return this.pacmanInvinsible;
-    }
     
 }

@@ -23,12 +23,14 @@ public class AvatarAgent extends Agent implements KeyListener {
     private int pasX;
     private int pasY;
     private WinnerAgent winner;
+    private EnvironmentPacman environment;
 
     public AvatarAgent(Environment environment, int posX, int posY, WinnerAgent winner) {
         super(environment, posX, posY);
         this.invinsibleTime = Config.getInvinsibleTime();
         this.nbDefender = 0;
         this.winner = winner;
+        this.environment = (EnvironmentPacman) environment;
     }
 
     @Override

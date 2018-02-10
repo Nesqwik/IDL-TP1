@@ -10,9 +10,12 @@ public class HunterAgent extends Agent {
 	private int pasX;
 	private int pasY;
 	private int nbTick = 0;
+	private EnvironmentPacman environment;
 
 	public HunterAgent(Environment environment, int posX, int posY) {
 		super(environment, posX, posY);
+		
+		this.environment = (EnvironmentPacman) environment;
 	}
 
 	@Override
@@ -37,8 +40,11 @@ public class HunterAgent extends Agent {
 		if (!environment.isStartedGame()) {
 			return;
 		}
-
-		int val = environment.getDijkstraPos(getPosX() - 1, getPosY());
+		
+		int xMoinsUn = environment.isToric() ? (getPosX() - 1 + environment.getCols()) % environment.getCols() : getPosX() - 1;
+		int xPlusUn = environment.isToric() ? (getPosX() + 1) % environment.getCols() : getPosX() + 1;
+		int yMoinsUn = environment.isToric() ? (getPosY() - 1 + environment.getRows()) % environment.getRows() : getPosY() - 1;
+		int yPlusUn = environment.isToric() ? (getPosY() + 1) % environment.getRows() : getPosY() + 1;
 
 		int lastValue;
 
@@ -48,6 +54,7 @@ public class HunterAgent extends Agent {
 			lastValue = 0;
 		}
 
+		int val = environment.getDijkstraPos(xMoinsUn, getPosY());
 		if (val != -1 && ((val < lastValue && !environment.isPacmanInvinsible())
 				|| val > lastValue && environment.isPacmanInvinsible())) {
 			this.pasX = -1;
@@ -55,7 +62,7 @@ public class HunterAgent extends Agent {
 			lastValue = val;
 		}
 
-		val = environment.getDijkstraPos(getPosX() + 1, getPosY());
+		val = environment.getDijkstraPos(xPlusUn, getPosY());
 		if (val != -1 && ((val < lastValue && !environment.isPacmanInvinsible())
 				|| val > lastValue && environment.isPacmanInvinsible())) {
 			this.pasX = 1;
@@ -63,7 +70,7 @@ public class HunterAgent extends Agent {
 			lastValue = val;
 		}
 
-		val = environment.getDijkstraPos(getPosX(), getPosY() - 1);
+		val = environment.getDijkstraPos(getPosX(), yMoinsUn);
 		if (val != -1 && ((val < lastValue && !environment.isPacmanInvinsible())
 				|| val > lastValue && environment.isPacmanInvinsible())) {
 			this.pasX = 0;
@@ -71,7 +78,7 @@ public class HunterAgent extends Agent {
 			lastValue = val;
 		}
 
-		val = environment.getDijkstraPos(getPosX(), getPosY() + 1);
+		val = environment.getDijkstraPos(getPosX(), yPlusUn);
 		if (val != -1 && ((val < lastValue && !environment.isPacmanInvinsible())
 				|| val > lastValue && environment.isPacmanInvinsible())) {
 			this.pasX = 0;

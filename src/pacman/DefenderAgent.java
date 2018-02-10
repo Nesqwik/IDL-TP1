@@ -13,12 +13,14 @@ public class DefenderAgent extends Agent {
     private boolean isActive;
     private int lifetime;
     private List<Point> availableCoord;
+    private EnvironmentPacman environment;
 
     public DefenderAgent(Environment environment, int posX, int posY, List<Point> availableCoord) {
         super(environment, posX, posY);
         
         this.tickNumber=0;
         this.availableCoord = availableCoord;
+        this.environment = (EnvironmentPacman) environment;
     }
 
 

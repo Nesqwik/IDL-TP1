@@ -1,13 +1,18 @@
 package core.view;
 
-import core.misc.Config;
-import core.misc.Environment;
-import core.misc.SMA;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import core.misc.Config;
+import core.misc.SMA;
 
 public class View implements Observer {
 

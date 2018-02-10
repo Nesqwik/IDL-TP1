@@ -11,6 +11,7 @@ import core.view.View;
 import pacman.AvatarAgent;
 import pacman.DefenderAgent;
 import pacman.Element;
+import pacman.EnvironmentPacman;
 import pacman.HunterAgent;
 import pacman.Labyrinthe;
 import pacman.WallAgent;
@@ -25,7 +26,7 @@ public class PacmanSMA extends SMA {
     public static void main(String[] args) {
         Config.load();
 
-        new View(new PacmanSMA(new Environment()));
+        new View(new PacmanSMA(new EnvironmentPacman()));
     }
 
     @Override
