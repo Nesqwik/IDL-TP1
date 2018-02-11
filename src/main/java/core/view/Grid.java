@@ -60,7 +60,7 @@ public class Grid extends JPanel {
             public void mouseClicked(MouseEvent mouseEvent) {
                 int gridPosX = mouseEvent.getX() / getZoomedBoxSize();
                 int gridPosY = mouseEvent.getY() / getZoomedBoxSize();
-                Agent a = environment.getAgent(gridPosX, gridPosY);
+                Agent a = Grid.this.environment.getAgent(gridPosX, gridPosY);
                 if (a == null) return;
                 a.setSelected(!a.isSelected());
             }
@@ -85,11 +85,11 @@ public class Grid extends JPanel {
                 }
 
                 if (keyEvent.getKeyChar() == ' ') {
-                    sma.setRunning(!sma.isRunning());
+                    Grid.this.sma.setRunning(!Grid.this.sma.isRunning());
                 }
 
                 if (keyEvent.getKeyChar() == 'n') {
-                    sma.update();
+                    Grid.this.sma.update();
                 }
                 
                 if (keyEvent.getKeyChar() == 'a') {

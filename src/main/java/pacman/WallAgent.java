@@ -6,7 +6,7 @@ import core.misc.Environment;
 import java.awt.*;
 
 /**
- * Agent permettant de délimiter le labyrinthe
+ * Agent permettant de dï¿½limiter le labyrinthe
  */
 public class WallAgent extends Agent {
 

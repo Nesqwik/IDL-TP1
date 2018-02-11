@@ -12,7 +12,7 @@ import expWator.SymbolAgent;
 import expWator.WatorExpFactory;
 
 /**
- * SMA de l'expérience de pierre-papier-ciseaux
+ * SMA de l'expï¿½rience de pierre-papier-ciseaux
  */
 public class ExpWatorSMA extends SMA {
 
@@ -26,7 +26,7 @@ public class ExpWatorSMA extends SMA {
     }
 
     /**
-     * Lancer l'expérience pierre-papier-ciseaux
+     * Lancer l'expï¿½rience pierre-papier-ciseaux
      * 
      * @param args
      */

@@ -84,9 +84,9 @@ public class PacmanSMA extends SMA {
     }
 
 	/**
-	 * Génère le labyrinthe sur la grille
+	 * Gï¿½nï¿½re le labyrinthe sur la grille
 	 * 
-	 * @param availableCoord les coordonnées possible
+	 * @param availableCoord les coordonnï¿½es possible
 	 */
 	private void generateLabyrinthe(List<Point> availableCoord) {
 		Labyrinthe labyrinthe = new Labyrinthe(environment.getCols(), environment.getRows(), SMA.getRandom());

@@ -3,8 +3,8 @@ package wator;
 import core.misc.Environment;
 
 /**
- * Requin qui mange et bouge s'il peut, et vérifie s'il peut se reproduire
- * Sinon il bouge s'il peut et vérifie s'il peut se reproduire
+ * Requin qui mange et bouge s'il peut, et vï¿½rifie s'il peut se reproduire
+ * Sinon il bouge s'il peut et vï¿½rifie s'il peut se reproduire
  */
 public class SharkAgentClassic extends SharkAgent {
 

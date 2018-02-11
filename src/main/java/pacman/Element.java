@@ -18,10 +18,10 @@ public class Element {
 	public int idx;
 
 	/**
-	 * Constructeur de l'élément
+	 * Constructeur de l'ï¿½lï¿½ment
 	 * 
 	 * @param S mur au sud
-	 * @param E mur à l'est
+	 * @param E mur ï¿½ l'est
 	 * @param idx indice
 	 */
 	public Element(boolean S, boolean E, int idx) {

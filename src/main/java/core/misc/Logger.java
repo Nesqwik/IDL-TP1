@@ -6,9 +6,9 @@ package core.misc;
 public class Logger {
 
     /**
-     * Affiche la trace que si le paramètre trace est à vrai 
+     * Affiche la trace que si le paramï¿½tre trace est ï¿½ vrai 
      * 
-     * @param value le message à afficher
+     * @param value le message ï¿½ afficher
      */
     public static void log(String value) {
         if (Config.isTrace()) {

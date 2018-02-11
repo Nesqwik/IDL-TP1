@@ -3,12 +3,12 @@ package expWator;
 import core.misc.Environment;
 
 /**
- * Création des agents SymbolAgent
+ * Crï¿½ation des agents SymbolAgent
  */
 public class WatorExpFactory {
 
     /**
-     * Crée un objet SymbolAgent
+     * Crï¿½e un objet SymbolAgent
      * 
      * @param env
      * @param x

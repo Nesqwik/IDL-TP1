@@ -3,7 +3,7 @@ package wator;
 import core.misc.Environment;
 
 /**
- * Agent poisson qui bouge et se reproduit s'il a bougé
+ * Agent poisson qui bouge et se reproduit s'il a bougï¿½
  */
 public class FishAgentClassic extends FishAgent {
 

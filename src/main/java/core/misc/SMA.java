@@ -56,7 +56,7 @@ public abstract class SMA extends Observable {
     }
 
     /**
-     * intégrer des agents dans l'environnement
+     * intï¿½grer des agents dans l'environnement
      * 
      * @param view la vue de l'environnement
      */
@@ -96,7 +96,7 @@ public abstract class SMA extends Observable {
 
 
     /**
-     * mise à jour
+     * mise ï¿½ jour
      */
     public void update() {
         setChanged();
@@ -154,7 +154,7 @@ public abstract class SMA extends Observable {
     }
 
     /**
-     * tour de parole équilibré
+     * tour de parole ï¿½quilibrï¿½
      */
     private void runOnceFairRandom() {
         List<Agent> agents = environment.getAgents();
@@ -167,7 +167,7 @@ public abstract class SMA extends Observable {
     }
 
     /**
-     * tour de parole aléatoire
+     * tour de parole alï¿½atoire
      */
     private void runOnceRandom() {
         int size = environment.getAgents().size();
@@ -180,7 +180,7 @@ public abstract class SMA extends Observable {
     }
 
     /**
-     * tour de parole séquentiel
+     * tour de parole sï¿½quentiel
      */
     private void runOnceSequencial() {
         for (Agent agent : environment.getAgents()) {

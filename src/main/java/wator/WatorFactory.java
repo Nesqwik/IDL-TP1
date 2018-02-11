@@ -21,7 +21,7 @@ public class WatorFactory {
     static private Queue<SharkAgent> diedShark = new LinkedList<>();
 
     /**
-     * Création ou récupération d'un poisson
+     * Crï¿½ation ou rï¿½cupï¿½ration d'un poisson
      * 
      * @param env
      * @param x
@@ -41,7 +41,7 @@ public class WatorFactory {
     }
 
     /**
-     * Récupération ou création d'un nouveau requin
+     * Rï¿½cupï¿½ration ou crï¿½ation d'un nouveau requin
      * 
      * @param env
      * @param x
@@ -61,7 +61,7 @@ public class WatorFactory {
     }
 
     /**
-     * Création d'un nouveau poisson
+     * Crï¿½ation d'un nouveau poisson
      * 
      * @param env
      * @param x
@@ -78,7 +78,7 @@ public class WatorFactory {
     }
 
     /**
-     * Création d'un nouveau requin
+     * Crï¿½ation d'un nouveau requin
      * 
      * @param env
      * @param x

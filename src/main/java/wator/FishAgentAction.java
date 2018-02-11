@@ -3,7 +3,7 @@ package wator;
 import core.misc.Environment;
 
 /**
- * Agent poisson qui réalise une seule action a chaque tour : reproduire ou bouger
+ * Agent poisson qui rï¿½alise une seule action a chaque tour : reproduire ou bouger
  */
 public class FishAgentAction extends FishAgent {
 

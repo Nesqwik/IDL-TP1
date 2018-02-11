@@ -3,12 +3,12 @@ package core.agents;
 import core.misc.Environment;
 
 /**
- * Agent frontière qui permet de délimiter le périmètre
+ * Agent frontiï¿½re qui permet de dï¿½limiter le pï¿½rimï¿½tre
  */
 public class FrontierAgent extends Agent {
 
     /**
-     * Constructeur de l'agent frontière
+     * Constructeur de l'agent frontiï¿½re
      * 
      * @param environment l'environnement
      */

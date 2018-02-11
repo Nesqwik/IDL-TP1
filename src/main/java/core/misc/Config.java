@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Récupère les configurations
+ * Rï¿½cupï¿½re les configurations
  */
 public class Config {
     /**
@@ -23,11 +23,11 @@ public class Config {
      */
     static private int gridSizeY;
     /**
-     * largeur de l'écran
+     * largeur de l'ï¿½cran
      */
     static private int canvasSizeX;
     /**
-     * hauteur de l'écran
+     * hauteur de l'ï¿½cran
      */
     static private int canvasSizeY;
     /**
@@ -35,11 +35,11 @@ public class Config {
      */
     static private int boxSize;
     /**
-     * délais
+     * dï¿½lais
      */
     static private int delay;
     /**
-     * méthode de séquencement
+     * mï¿½thode de sï¿½quencement
      */
     static private String scheduling;
     /**
@@ -122,11 +122,11 @@ public class Config {
     static public Color pink = new Color(255, 107, 237);
 
     /**
-     * rapidité des chasseurs
+     * rapiditï¿½ des chasseurs
      */
     static private int speedHunter;
     /**
-     * rapidité de l'avatar
+     * rapiditï¿½ de l'avatar
      */
     static private int speedAvatar;
     /**
@@ -138,11 +138,11 @@ public class Config {
      */
     static private int timeAppearDefender;
     /**
-     * temps d'invisibilité du defender
+     * temps d'invisibilitï¿½ du defender
      */
     static private int invinsibleTime;
     /**
-     * génération du labyrinthe
+     * gï¿½nï¿½ration du labyrinthe
      */
     static private boolean generateLabyrinthe;
     /**
@@ -151,7 +151,7 @@ public class Config {
     static private boolean printDijkstra;
 
     /**
-     * récupère toutes les propriétés
+     * rï¿½cupï¿½re toutes les propriï¿½tï¿½s
      */
     static public void load() {
         Properties prop = new Properties();
@@ -294,7 +294,7 @@ public class Config {
     /**
      * setter de canvasSizeY
      * 
-     * @param csy la hauteur de la fenêtre y
+     * @param csy la hauteur de la fenï¿½tre y
      */
     static public void setCanvasSizeY(int csy) {
         canvasSizeY = csy;
@@ -330,7 +330,7 @@ public class Config {
     /**
      * setter du delay
      * 
-     * @param d le délais
+     * @param d le dï¿½lais
      */
     static public void setDelay(int d) {
         delay = d;

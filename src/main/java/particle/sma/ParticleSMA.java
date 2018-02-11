@@ -49,7 +49,7 @@ public class ParticleSMA extends SMA {
     }
 
     /**
-     * Crée un agent particule
+     * Crï¿½e un agent particule
      * 
      * @param env
      * @param coord

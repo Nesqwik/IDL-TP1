@@ -7,7 +7,7 @@ import core.misc.SMA;
 import java.awt.*;
 
 /**
- * Acteur pierre-papier-ciseau distingué par une constante
+ * Acteur pierre-papier-ciseau distinguï¿½ par une constante
  */
 public class SymbolAgent extends Agent {
     /**
@@ -28,7 +28,7 @@ public class SymbolAgent extends Agent {
      */
     private int symbol;
     /**
-     * voisins qui peuvent être mangés
+     * voisins qui peuvent ï¿½tre mangï¿½s
      */
     private SymbolAgent[] possibleEatable = {null, null, null, null, null, null, null, null};
 
@@ -58,7 +58,7 @@ public class SymbolAgent extends Agent {
      * Extension de la couleur
      * 
      * @param moore les voisins de moore
-     * @return vrai s'il a mangé
+     * @return vrai s'il a mangï¿½
      */
     protected boolean eatIfCan(Agent[][] moore) {
         int cpt = getPossibleFishesNumber(moore);
@@ -73,7 +73,7 @@ public class SymbolAgent extends Agent {
     }
 
     /**
-     * Vérifie si le symbole peut manger 
+     * Vï¿½rifie si le symbole peut manger 
      * 
      * @param symbolAgent cible
      * @return vrai si le symbole peut manger
@@ -92,7 +92,7 @@ public class SymbolAgent extends Agent {
     }
 
     /**
-     * récupère le nombre de voisins possible à manger
+     * rï¿½cupï¿½re le nombre de voisins possible ï¿½ manger
      * 
      * @param moore les voisins
      * @return le nombre de voisins que l'agent peut manger

@@ -4,13 +4,13 @@ import core.agents.Agent;
 import core.misc.Environment;
 
 /**
- * Particule qui échange les pas lors de collision
+ * Particule qui ï¿½change les pas lors de collision
  */
 public class ExchangeParticleAgent extends ParticleAgent {
 
 
     /**
-     * Constructeur de l'agent qui échange les pas
+     * Constructeur de l'agent qui ï¿½change les pas
      * 
      * @param environment
      * @param posX
@@ -28,7 +28,7 @@ public class ExchangeParticleAgent extends ParticleAgent {
     }
 
     /**
-     * Envoie les pas à l'autre agents
+     * Envoie les pas ï¿½ l'autre agents
      * 
      * @param other
      */

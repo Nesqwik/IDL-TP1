@@ -32,7 +32,7 @@ public class Labyrinthe {
 	 */
 	private Random random;
 	/**
-	 * toricité
+	 * toricitï¿½
 	 */
 	private boolean torus;
 
@@ -111,7 +111,7 @@ public class Labyrinthe {
 	}
 
 	/**
-	 * générer le labyrinthe avec la méthode de fusion
+	 * gï¿½nï¿½rer le labyrinthe avec la mï¿½thode de fusion
 	 */
 	public void genererLabyFusion() {
 		this.labyrinthe = new Element[this.labyX][this.labyY];
@@ -138,7 +138,7 @@ public class Labyrinthe {
 		Point pt = null;
 		int colision_ajoutee = 0;
 		int[] directions = new int[4];
-		// ajouter une cloisin tant que le nombre maximum de cloison n'a pas été atteint
+		// ajouter une cloisin tant que le nombre maximum de cloison n'a pas ï¿½tï¿½ atteint
 		while(colision_ajoutee < nb_cloison) {
 			
 			int nb_dir = 0;
@@ -186,7 +186,7 @@ public class Labyrinthe {
 			int dir = directions[rand];
 			Element elmt; 
 			
-			//mettre à jour les éléments
+			//mettre ï¿½ jour les ï¿½lï¿½ments
 			switch (dir) {
 			case 0:
 				elmt = updateElement(xMoinsUn, pt.y, current_elmt.idx, map);
@@ -211,13 +211,13 @@ public class Labyrinthe {
 	}
 
 	/**
-	 * Met à jour l'élément
+	 * Met ï¿½ jour l'ï¿½lï¿½ment
 	 * 
 	 * @param x position
 	 * @param y position
 	 * @param idx indice
 	 * @param map map
-	 * @return l'élément modifié
+	 * @return l'ï¿½lï¿½ment modifiï¿½
 	 */
 	private Element updateElement(int x, int y, int idx, Map<Integer, List<Point>> map) {
 		Element elmt = this.labyrinthe[x][y];
