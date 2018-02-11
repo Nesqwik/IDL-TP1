@@ -26,7 +26,7 @@ public class AvatarAgent extends Agent implements KeyListener {
      */
     final static int LEFT = 2;
     /**
-     * constante pour aller à droite
+     * constante pour aller ï¿½ droite
      */
     final static int RIGHT = 3;
 
@@ -36,7 +36,7 @@ public class AvatarAgent extends Agent implements KeyListener {
     private int tickNumber = 0;
     
     /**
-     * temps de visibilité
+     * temps de visibilitï¿½
      */
     private int invinsibleTime;
     /**
@@ -111,7 +111,7 @@ public class AvatarAgent extends Agent implements KeyListener {
         Agent agent = moore[pasX + 1][pasY + 1];
         
         if (agent instanceof DefenderAgent) {
-        	DefenderAgent defender = (DefenderAgent)moore[pasX + 1][pasY + 1];
+        	DefenderAgent defender = (DefenderAgent) agent;
         	invinsible(defender);
         }
         
@@ -125,13 +125,13 @@ public class AvatarAgent extends Agent implements KeyListener {
     }
 
 	/**
-	 * Verifie si l'avatar a gagné
+	 * Verifie si l'avatar a gagnï¿½
 	 * 
-	 * @return vrai si l'avatar a gagné
+	 * @return vrai si l'avatar a gagnï¿½
 	 */
 	private boolean verifyWin() {
-		int nextX = environment.isToric() ? (this.getPosX() + environment.getCols() + pasX) % environment.getCols() : this.getPosX() + pasX;
-        int nextY = environment.isToric() ? (this.getPosY() + environment.getRows() + pasY) % environment.getRows() : this.getPosY() + pasY;
+		int nextX = environment.getRealPosX(this.getPosX() + pasX);
+        int nextY = environment.getRealPosY(this.getPosY() + pasY);
         if (nextX >= 0 && nextX < this.environment.getCols() && nextY >= 0 && nextY < this.environment.getRows() && this.environment.canWin(nextX, nextY)) {
         	this.environment.endGame();
         	return true;
@@ -140,7 +140,7 @@ public class AvatarAgent extends Agent implements KeyListener {
 	}
 
 	/**
-	 * Déplace l'avatar
+	 * Dï¿½place l'avatar
 	 */
 	private void moveAvatar() {
 		environment.moveAgent(this, pasX, pasY);
@@ -172,7 +172,7 @@ public class AvatarAgent extends Agent implements KeyListener {
     }
 
 	/**
-	 * Vérifie si l'agent gagnant a été activé
+	 * Vï¿½rifie si l'agent gagnant a ï¿½tï¿½ activï¿½
 	 * 
 	 * @return vrai si oui sinon faux
 	 */

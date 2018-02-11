@@ -12,7 +12,7 @@ import core.agents.FrontierAgent;
 public class Environment {
 
 	/**
-	 * toricité
+	 * toricitï¿½
 	 */
 	protected boolean isToric;
 
@@ -21,16 +21,16 @@ public class Environment {
      */
     protected List<Agent> agents = new LinkedList<>();
     /**
-     * liste des agents à ajouter
+     * liste des agents ï¿½ ajouter
      */
     protected List<Agent> agentsToAdd = new LinkedList<>();
     /**
-     * liste des agents à retirer
+     * liste des agents ï¿½ retirer
      */
     protected List<Agent> agentsToRemove = new LinkedList<>();
 
     /**
-     * un agent frontière
+     * un agent frontiï¿½re
      */
     protected FrontierAgent frontier = new FrontierAgent(this);
 
@@ -92,7 +92,7 @@ public class Environment {
     }
 
     /**
-     * actualise la liste des agents supprimés
+     * actualise la liste des agents supprimï¿½s
      */
     public void actuallyRemoveAgents() {
         for (Agent a : agentsToRemove) {
@@ -103,7 +103,7 @@ public class Environment {
     }
 
     /**
-     * Récupère un agent dans la grille
+     * Rï¿½cupï¿½re un agent dans la grille
      * 
      * @param gridX position X
      * @param gridY position Y
@@ -117,7 +117,7 @@ public class Environment {
     }
 
     /**
-     * Récupère la liste de tous les agents
+     * Rï¿½cupï¿½re la liste de tous les agents
      * 
      * @return liste de tous les agents
      */
@@ -126,7 +126,7 @@ public class Environment {
     }
 
     /**
-     * Récupère tous les voisins de Moore
+     * Rï¿½cupï¿½re tous les voisins de Moore
      * 
      * @param agent l'agent cible
      * @return la liste des voisins
@@ -140,7 +140,7 @@ public class Environment {
     }
 
     /**
-     * Vérifie si la position est valide
+     * Vï¿½rifie si la position est valide
      * 
      * @param pos position 
      * @param size taille maximum
@@ -151,7 +151,7 @@ public class Environment {
     }
 
     /**
-     * récupère les voisins de moore sans la toricité
+     * rï¿½cupï¿½re les voisins de moore sans la toricitï¿½
      * 
      * @param agent l'agent cible
      * @return les 8 voisins possibles
@@ -176,7 +176,7 @@ public class Environment {
     }
 
     /**
-     * Récupère la liste des voisins de moore dans un environement torique
+     * Rï¿½cupï¿½re la liste des voisins de moore dans un environement torique
      * 
      * @param agent l'agent cible
      * @return les voisins
@@ -262,7 +262,7 @@ public class Environment {
     }
 
     /**
-     * Créée la position torique
+     * Crï¿½ï¿½e la position torique
      * 
      * @param pos la position
      * @param dir la direction
@@ -291,6 +291,14 @@ public class Environment {
      */
     public int getToricPosY(int posY) {
         return (rows + posY) % rows;
+    }
+
+    public int getRealPosX(int posX) {
+        return isToric ? getToricPosX(posX) : posX;
+    }
+
+    public int getRealPosY(int posY) {
+        return isToric ? getToricPosY(posY) : posY;
     }
 
     /**

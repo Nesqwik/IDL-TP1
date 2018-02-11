@@ -11,7 +11,7 @@ import core.misc.Logger;
  */
 public abstract class Agent {
     /**
-     * forme carrée
+     * forme carrï¿½e
      */
     public static int SQUARE = 1;
     /**
@@ -43,7 +43,7 @@ public abstract class Agent {
      */
     private boolean hasChanged;
     /**
-     * l'agent est sélectionné
+     * l'agent est sï¿½lectionnï¿½
      */
     private boolean isSelected = false;
     /**
@@ -89,7 +89,7 @@ public abstract class Agent {
     public abstract int getShape();
 
     /**
-     * Méthode decide de l'agent
+     * Mï¿½thode decide de l'agent
      */
     public void decide() {
         hasChanged = false;
@@ -148,19 +148,38 @@ public abstract class Agent {
     }
 
     /**
+     * Ajoute une coloration
+     *
+     * @param c1
+     * @param c2
+     * @return la couleur
+     */
+    public Color getGradientColor(int age, int MAX_AGE, Color c1, Color c2) {
+        int red = (int) ((age/(float) MAX_AGE) * c1.getRed() + (1-(age/(float) MAX_AGE)) * c2.getRed());
+        int green = (int) ((age/(float) MAX_AGE) * c1.getGreen() + (1-(age/(float) MAX_AGE)) * c2.getGreen());
+        int blue = (int) ((age/(float) MAX_AGE) * c1.getBlue() + (1-(age/(float) MAX_AGE)) * c2.getBlue());
+        return new Color(red, green, blue);
+    }
+
+    /**
      * getter de la couleur
      * 
      * @return la couleur
      */
     public Color getColor() {
-        if (isSelected) {
-            return Color.BLUE;
-        }
         if (color == null) {
             return Color.GRAY;
         }
 
         return color;
+    }
+
+    public Color getRealColor() {
+        if (isSelected) {
+            return Color.BLUE;
+        }
+
+        return this.getColor();
     }
 
     /**
@@ -198,7 +217,7 @@ public abstract class Agent {
     /**
      * setter de isSelected
      * 
-     * @param selected vrai si c'est selectionné sinon faux
+     * @param selected vrai si c'est selectionnï¿½ sinon faux
      */
     public void setSelected(boolean selected) {
         isSelected = selected;
@@ -223,7 +242,7 @@ public abstract class Agent {
     }
 
     /**
-     * action a réaliser lors de la destruction de l'agent
+     * action a rï¿½aliser lors de la destruction de l'agent
      */
     public abstract void onDestroyed();
 }

@@ -25,7 +25,7 @@ public abstract class SeaAgent extends Agent {
     /**
      * age maximal 
      */
-    private final int MAX_AGE = 20;
+    public final int MAX_AGE = 20;
 
     /**
      * dernier x
@@ -113,20 +113,6 @@ public abstract class SeaAgent extends Agent {
     }
 
     /**
-     * Ajoute une coloration
-     * 
-     * @param c1
-     * @param c2
-     * @return la couleur
-     */
-    public Color getGradientColor(Color c1, Color c2) {
-        int red = (int) ((age/(float) MAX_AGE) * c1.getRed() + (1-(age/(float) MAX_AGE)) * c2.getRed());
-        int green = (int) ((age/(float) MAX_AGE) * c1.getGreen() + (1-(age/(float) MAX_AGE)) * c2.getGreen());
-        int blue = (int) ((age/(float) MAX_AGE) * c1.getBlue() + (1-(age/(float) MAX_AGE)) * c2.getBlue());
-        return new Color(red, green, blue);
-    }
-
-    /**
      * initialize le compteur de position
      */
     protected void initCpt() {
@@ -151,7 +137,7 @@ public abstract class SeaAgent extends Agent {
 	/**
 	 * Bouge l'agent s'il peut
 	 * 
-	 * @return vrai s'il a bougé
+	 * @return vrai s'il a bougï¿½
 	 */
 	protected boolean moveIfCan() {
        if (cptPos != 0) {
@@ -164,7 +150,7 @@ public abstract class SeaAgent extends Agent {
     }
 
     /**
-     * Vérifie s'il peut se reproduire
+     * Vï¿½rifie s'il peut se reproduire
      * 
      * @return vrai s'il peut se reproduire
      */
@@ -184,7 +170,7 @@ public abstract class SeaAgent extends Agent {
     }
 
     /**
-     * Crée un nouvel agent
+     * Crï¿½e un nouvel agent
      * 
      * @param x
      * @param y

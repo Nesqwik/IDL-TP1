@@ -65,11 +65,6 @@ public class HunterAgent extends Agent {
 		if (!environment.isStartedGame()) {
 			return;
 		}
-		
-		int xMoinsUn = environment.isToric() ? (getPosX() - 1 + environment.getCols()) % environment.getCols() : getPosX() - 1;
-		int xPlusUn = environment.isToric() ? (getPosX() + 1) % environment.getCols() : getPosX() + 1;
-		int yMoinsUn = environment.isToric() ? (getPosY() - 1 + environment.getRows()) % environment.getRows() : getPosY() - 1;
-		int yPlusUn = environment.isToric() ? (getPosY() + 1) % environment.getRows() : getPosY() + 1;
 
 		int lastValue;
 
@@ -79,42 +74,25 @@ public class HunterAgent extends Agent {
 			lastValue = 0;
 		}
 
-		int val = environment.getDijkstraPos(xMoinsUn, getPosY());
-		if (val != -1 && ((val < lastValue && !environment.isPacmanInvinsible())
-				|| val > lastValue && environment.isPacmanInvinsible())) {
-			this.pasX = -1;
-			this.pasY = 0;
-			lastValue = val;
-		}
-
-		val = environment.getDijkstraPos(xPlusUn, getPosY());
-		if (val != -1 && ((val < lastValue && !environment.isPacmanInvinsible())
-				|| val > lastValue && environment.isPacmanInvinsible())) {
-			this.pasX = 1;
-			this.pasY = 0;
-			lastValue = val;
-		}
-
-		val = environment.getDijkstraPos(getPosX(), yMoinsUn);
-		if (val != -1 && ((val < lastValue && !environment.isPacmanInvinsible())
-				|| val > lastValue && environment.isPacmanInvinsible())) {
-			this.pasX = 0;
-			this.pasY = -1;
-			lastValue = val;
-		}
-
-		val = environment.getDijkstraPos(getPosX(), yPlusUn);
-		if (val != -1 && ((val < lastValue && !environment.isPacmanInvinsible())
-				|| val > lastValue && environment.isPacmanInvinsible())) {
-			this.pasX = 0;
-			this.pasY = 1;
+		for(int x = 0 ; x < 3 ; x++) {
+			for (int y = 0; y < 3; y++) {
+				if ((x + y) % 2 == 1) {
+					int val = environment.getDijkstraPos(environment.getRealPosX(getPosX() + x - 1), environment.getRealPosY(getPosY() + y - 1));
+					if (val != -1 && ((val < lastValue && !environment.isPacmanInvinsible())
+							|| val > lastValue && environment.isPacmanInvinsible())) {
+						this.pasX = x - 1;
+						this.pasY = y - 1;
+						lastValue = val;
+					}
+				}
+			}
 		}
 
 		environment.moveAgent(this, pasX, pasY);
 	}
 
 	/**
-	 * Récupération de l'avatar
+	 * Rï¿½cupï¿½ration de l'avatar
 	 * 
 	 * @param moore les voisins
 	 * @param x
@@ -130,30 +108,22 @@ public class HunterAgent extends Agent {
 	}
 
 	/**
-	 * Retourne l'avatar qui se trouve à côté
+	 * Retourne l'avatar qui se trouve ï¿½ cï¿½tï¿½
 	 * 
 	 * @param moore les voisins
 	 * @return l'avatar
 	 */
 	private AvatarAgent getAvatarAround(Agent[][] moore) {
-		AvatarAgent avatar = getAvatarHere(moore, 0, 1);
-		if (avatar != null) {
-			return avatar;
-		}
 
-		avatar = getAvatarHere(moore, 2, 1);
-		if (avatar != null) {
-			return avatar;
-		}
-
-		avatar = getAvatarHere(moore, 1, 0);
-		if (avatar != null) {
-			return avatar;
-		}
-
-		avatar = getAvatarHere(moore, 1, 2);
-		if (avatar != null) {
-			return avatar;
+		for(int x = 0 ; x < 3 ; x++) {
+			for(int y = 0 ; y < 3 ; y++) {
+				if((x + y) % 2 == 1) {
+					AvatarAgent avatar = getAvatarHere(moore, x, y);
+					if (avatar != null) {
+						return avatar;
+					}
+				}
+			}
 		}
 
 		return null;

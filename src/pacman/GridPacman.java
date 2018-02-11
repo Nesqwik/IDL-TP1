@@ -60,12 +60,12 @@ public class GridPacman extends Grid{
     
     
     /**
-     * Vérifie si on imprime l'agent
+     * Vï¿½rifie si on imprime l'agent
      * 
      * @param agent cible
-     * @return vrai si on l'arrête sinon faux
+     * @return vrai si on l'arrï¿½te sinon faux
      */
-    protected boolean conditionToStop(Agent agent) {
+    protected boolean hideAgent(Agent agent) {
     	if (agent instanceof DefenderAgent) {
     		DefenderAgent defender = ((DefenderAgent)agent);
     		if (! defender.isActive()){

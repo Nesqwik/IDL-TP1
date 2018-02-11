@@ -186,12 +186,9 @@ public class Grid extends JPanel {
      */
     protected void printAgents(Graphics g, Environment environment, int wdOfRow, int htOfRow) {
         for (Agent agent : environment.getAgents()) {
-
-        	if (conditionToStop(agent)) {
-        		continue;
-        	}
-        	
-            printAgent(agent, g, wdOfRow, htOfRow);
+            if (!hideAgent(agent)) {
+                printAgent(agent, g, wdOfRow, htOfRow);
+            }
         }
     }
     
@@ -206,7 +203,7 @@ public class Grid extends JPanel {
     protected void printAgent(Agent agent, Graphics g, int wdOfRow, int htOfRow) {
     	int x = agent.getPosX();
         int y = agent.getPosY();
-        Color color = agent.getColor();
+        Color color = agent.getRealColor();
         g.setColor(color);
 
         if (agent.getShape() == Agent.ROUND) {
@@ -223,12 +220,12 @@ public class Grid extends JPanel {
     }
     
     /**
-     * Condition d'arrêt de la boucle d'affichage d'un agent
+     * affiche ou non l'agent
      * 
      * @param agent
-     * @return vrai si on arrête sinon faux
+     * @return vrai si on arrï¿½te sinon faux
      */
-    protected boolean conditionToStop(Agent agent) {
+    protected boolean hideAgent(Agent agent) {
     	return false;
     }
 

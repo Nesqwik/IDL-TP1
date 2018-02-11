@@ -12,7 +12,7 @@ import core.misc.Environment;
 public class EnvironmentPacman extends Environment {
 
     /**
-     * début du jeu
+     * dï¿½but du jeu
      */
     protected boolean startGame;
     /**
@@ -25,7 +25,7 @@ public class EnvironmentPacman extends Environment {
     protected boolean pacmanInvinsible;
 
     /**
-     * résultat du dijkstra
+     * rï¿½sultat du dijkstra
      */
     private int[][] dijkstraResult;
     
@@ -46,7 +46,7 @@ public class EnvironmentPacman extends Environment {
     }
 
     /**
-     * Voisin Dijkstra à traiter
+     * Voisin Dijkstra ï¿½ traiter
      */
     private class DijkstraVoisin {
         /**
@@ -90,10 +90,27 @@ public class EnvironmentPacman extends Environment {
             }
         }
 
-        Queue<DijkstraVoisin> queue = new LinkedList<>();
-        markValue(gridX, gridY, 0, queue);
+        Queue<DijkstraVoisin> voisins = new LinkedList<>();
+        markValue(gridX, gridY, 0, voisins);
 
-        dijkstraRecursive(queue);
+        while(voisins.size() != 0) {
+            DijkstraVoisin p = voisins.poll();
+
+            for(int x = 0 ; x < 3 ; x++) {
+                for (int y = 0; y < 3; y++) {
+                    if ((x + y) % 2 == 1) {
+                        int posX = this.getRealPosX(p.x + (x - 1));
+                        int posY = this.getRealPosY(p.y + (y - 1));
+
+                        if (posX >= 0 && posX < dijkstraResult.length
+                                && posY >= 0 && posY < dijkstraResult[posX].length
+                                && dijkstraResult[posX][posY] == -2) {
+                            markValue(posX, posY, p.val, voisins);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -117,41 +134,9 @@ public class EnvironmentPacman extends Environment {
     }
 
     /**
-     * traitement du dijkstra
+     * rï¿½cupï¿½re les rï¿½sultats du Dijkstra
      * 
-     * @param voisins la file des voisins à traiter
-     */
-    public void dijkstraRecursive(Queue<DijkstraVoisin> voisins) {
-        while(voisins.size() != 0) {
-            DijkstraVoisin p = voisins.poll();
-            
-            int xMoinsUn = isToric ? (p.x - 1 + this.cols) % this.cols : p.x - 1;
-			int xPlusUn = isToric ? (p.x + 1) % this.cols : p.x + 1;
-			int yMoinsUn = isToric ? (p.y - 1 + this.rows) % this.rows : p.y - 1;
-			int yPlusUn = isToric ? (p.y + 1) %this.rows : p.y + 1;
-
-            if (xMoinsUn >= 0 && dijkstraResult[xMoinsUn][p.y] == -2) {
-                markValue(xMoinsUn, p.y, p.val, voisins);
-            }
-
-            if (xPlusUn < dijkstraResult.length  && dijkstraResult[xPlusUn][p.y] == -2) {
-                markValue(xPlusUn, p.y, p.val, voisins);
-            }
-
-            if (yMoinsUn >= 0 && dijkstraResult[p.x][yMoinsUn] == -2) {
-                markValue(p.x, yMoinsUn, p.val, voisins);
-            }
-
-            if (yPlusUn < dijkstraResult[p.x].length && dijkstraResult[p.x][yPlusUn] == -2) {
-                markValue(p.x, yPlusUn, p.val, voisins);
-            }
-        }
-    }
-
-    /**
-     * récupère les résultats du Dijkstra
-     * 
-     * @return les résultat du Dijkstra
+     * @return les rï¿½sultat du Dijkstra
      */
     public int[][] getDijkstraResult() {
         return dijkstraResult;
@@ -172,7 +157,7 @@ public class EnvironmentPacman extends Environment {
     }
     
     /**
-     * démarrer le jeu
+     * dï¿½marrer le jeu
      */
     public void startGame() {
     	this.startGame = true;
@@ -188,7 +173,7 @@ public class EnvironmentPacman extends Environment {
     /**
      * getter de startGame
      * 
-     * @return vrai si le jeu a commencé
+     * @return vrai si le jeu a commencï¿½
      */
     public boolean isStartedGame() {
     	return this.startGame;
@@ -197,7 +182,7 @@ public class EnvironmentPacman extends Environment {
     /**
      * getter de endGame
      * 
-     * @return vrai si le jeu est terminé
+     * @return vrai si le jeu est terminï¿½
      */
     public boolean isEndedGame() {
     	return this.endGame;

@@ -23,7 +23,7 @@ public class SharkAgent extends SeaAgent {
     private int initialFeedTime;
 
     /**
-     * poisson possible à manger
+     * poisson possible ï¿½ manger
      */
     private FishAgent[] possibleFish = {null, null, null, null, null, null, null, null};
     /**
@@ -64,7 +64,7 @@ public class SharkAgent extends SeaAgent {
 
     @Override
     public Color getColor() {
-        return super.getGradientColor(Config.red, Config.pink);
+        return super.getGradientColor(this.age, this.MAX_AGE, Config.red, Config.pink);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class SharkAgent extends SeaAgent {
     /**
      * mange et bouge s'il peut
      * 
-     * @return vrai s'il a bougé
+     * @return vrai s'il a bougï¿½
      */
     protected boolean eatAndMoveIfCan() {
        

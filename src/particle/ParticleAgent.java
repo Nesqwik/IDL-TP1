@@ -20,6 +20,10 @@ public class ParticleAgent extends Agent {
      */
     protected int pasY;
 
+    private final int MAX_TIME = 1000;
+
+    private int timeFromCollision = MAX_TIME;
+
     /**
      * Constructeur de l'agent particule
      * 
@@ -31,7 +35,6 @@ public class ParticleAgent extends Agent {
      */
     public ParticleAgent(Environment environment, int posX, int posY, int pasX, int pasY) {
         super(environment, posX, posY);
-        this.setColor(Color.GRAY);
         this.setPasX(pasX);
         this.setPasY(pasY);
     }
@@ -51,13 +54,13 @@ public class ParticleAgent extends Agent {
      */
     public void init(int posX, int posY, int pasX, int pasY) {
         super.init(posX, posY);
-        this.setColor(Color.GRAY);
         this.setPasX(pasX);
         this.setPasY(pasY);
+        timeFromCollision = MAX_TIME;
     }
 
     /**
-     * Vérifie s'il y a une collision avec l'agent Frontière x + 1
+     * Vï¿½rifie s'il y a une collision avec l'agent Frontiï¿½re x + 1
      * 
      * @param moore les voisins
      * @return vrai si il y a collision avec un voisin
@@ -67,15 +70,19 @@ public class ParticleAgent extends Agent {
     }
 
     /**
-     * Vérifie s'il y a une collision avec l'agent Frontière y + 0
+     * Vï¿½rifie s'il y a une collision avec l'agent Frontiï¿½re y + 0
      * 
      * @param moore les voisins
-     * @return vrai si il y a une collision avec la frontière
+     * @return vrai si il y a une collision avec la frontiï¿½re
      */
     private boolean isCollideY(Agent[][] moore) {
         return moore[1][pasY + 1] instanceof FrontierAgent;
     }
 
+    @Override
+    public Color getColor() {
+        return this.getGradientColor(this.timeFromCollision, this.MAX_TIME, Color.GRAY, Color.RED);
+    }
     
     /**
      * traitement lors d'une collision
@@ -84,8 +91,8 @@ public class ParticleAgent extends Agent {
      * @param moore voisins
      */
     protected void onCollide(ParticleAgent otherAgent, Agent[][] moore) {
-        this.setColor(Color.RED);
-        otherAgent.setColor(Color.RED);
+        otherAgent.timeFromCollision = 0;
+        timeFromCollision = 0;
         this.hasChanged();
     }
 
@@ -93,8 +100,8 @@ public class ParticleAgent extends Agent {
     public void decide() {
         super.decide();
         Agent[][] moore = environment.getMoore(this);
-
         if (pasX == 0 && pasY == 0) {
+            timeFromCollision = Math.min(timeFromCollision + 1, MAX_TIME);
             return;
         }
 
@@ -120,6 +127,7 @@ public class ParticleAgent extends Agent {
             }
         }
 
+        timeFromCollision = Math.min(timeFromCollision + 1, MAX_TIME);
         logAgent();
     }
 

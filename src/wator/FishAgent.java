@@ -34,7 +34,7 @@ public class FishAgent extends SeaAgent {
 
     @Override
     public Color getColor() {
-        return super.getGradientColor(Config.green, Config.yellow);
+        return super.getGradientColor(this.age, this.MAX_AGE, Config.green, Config.yellow);
     }
 
     @Override
