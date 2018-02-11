@@ -52,7 +52,10 @@ public class PacmanSMA extends SMA {
 
     @Override
     protected void addAgents(List<Point> availableCoord) {
-    	Point c;
+    	Point c = availableCoord.get(0);
+        WinnerAgent winner = new WinnerAgent(environment, c.x, c.y);
+        this.environment.setWinner(winner);
+        
     	int cpt_next=0;
     	if (Config.isGenerateLabyrinthe()) {
     		generateLabyrinthe(availableCoord);
@@ -65,10 +68,6 @@ public class PacmanSMA extends SMA {
 			cpt_next = availableCoord.size() / 5;
     	}
     	
-    	c = availableCoord.get(0);
-        WinnerAgent winner = new WinnerAgent(environment, c.x, c.y);
-        this.environment.setWinner(winner);
-        
         c = availableCoord.get(1);
         AvatarAgent avatarAgent = new AvatarAgent(environment, c.x, c.y);
         view.getGrid().addKeyListener(avatarAgent);
